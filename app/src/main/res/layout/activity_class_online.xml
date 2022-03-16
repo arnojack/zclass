@@ -5,16 +5,23 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/btn_offline"
+        android:id="@+id/btn_signin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="offline"
+        android:text="登录"
         android:layout_marginBottom="20dp"/>
 
     <Button
-        android:id="@+id/btn_online"
+        android:id="@+id/btn_submit_job"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="online"/>
+        android:text="提交作业"
+        android:layout_marginBottom="20dp"/>
+
+    <Button
+        android:id="@+id/btn_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="签到"/>
 
 </LinearLayout>
