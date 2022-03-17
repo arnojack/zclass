@@ -4,24 +4,32 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btn_signin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="登录"
-        android:layout_marginBottom="20dp"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:orientation="horizontal">
 
     <Button
-        android:id="@+id/btn_submit_job"
+        android:id="@+id/btn_CreatedClass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="提交作业"
-        android:layout_marginBottom="20dp"/>
+        android:text="我教的课"
+        android:layout_marginLeft="10dp"/>
 
     <Button
-        android:id="@+id/btn_register"
+        android:id="@+id/btn_JoinedClass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="签到"/>
+        android:layout_marginLeft="10dp"
+        android:text="我听的课"/>
+
+        <Button
+            android:id="@+id/btn_pop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="pop" />
+    </LinearLayout>
+
 
 </LinearLayout>

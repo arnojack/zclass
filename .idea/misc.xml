@@ -3,10 +3,21 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Android/zclass/app/src/main/res/layout/activity_class_online.xml" value="0.25" />
+        <entry key="..\:/Android/zclass/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.266" />
+        <entry key="..\:/Android/zclass/app/src/main/res/drawable/ic_launcher_background.xml" value="0.266" />
+        <entry key="..\:/Android/zclass/app/src/main/res/drawable/mdialog.xml" value="0.266" />
+        <entry key="..\:/Android/zclass/app/src/main/res/drawable/mydialog.xml" value="0.266" />
+        <entry key="..\:/Android/zclass/app/src/main/res/layout/activity_class_online.xml" value="0.33" />
         <entry key="..\:/Android/zclass/app/src/main/res/layout/activity_dialog_sign.xml" value="0.3572916666666667" />
+        <entry key="..\:/Android/zclass/app/src/main/res/layout/activity_dialog_signup.xml" value="0.34270833333333334" />
         <entry key="..\:/Android/zclass/app/src/main/res/layout/activity_main.xml" value="0.25" />
-        <entry key="..\:/Android/zclass/app/src/main/res/layout/dialog_sign.xml" value="0.3572916666666667" />
+        <entry key="..\:/Android/zclass/app/src/main/res/layout/activity_my_created_class.xml" value="0.3572916666666667" />
+        <entry key="..\:/Android/zclass/app/src/main/res/layout/activity_my_joined_class.xml" value="0.3572916666666667" />
+        <entry key="..\:/Android/zclass/app/src/main/res/layout/activity_pop_window.xml" value="0.1" />
+        <entry key="..\:/Android/zclass/app/src/main/res/layout/dialog_sign.xml" value="0.25" />
+        <entry key="..\:/Android/zclass/app/src/main/res/layout/dialog_signup.xml" value="0.1" />
+        <entry key="..\:/Android/zclass/app/src/main/res/layout/user_icon.xml" value="0.3390625" />
+        <entry key="..\:/Android/zclass/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2495" />
       </map>
     </option>
   </component>
@@ -15,5 +26,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.33" />
+      </ProjectState>
+    </option>
   </component>
 </project>

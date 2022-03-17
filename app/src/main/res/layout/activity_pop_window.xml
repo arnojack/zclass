@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/mtv_jion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="加入课程"
+            android:textColor="@color/cardview_dark_background"
+            android:textSize="15sp"
+            android:background="@drawable/bg_dropdown"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.8dp"
+            android:background="@color/light_gray"/>
+
+        <TextView
+            android:id="@+id/mtv_create"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textColor="@color/cardview_dark_background"
+            android:gravity="center"
+            android:text="创建课程"
+            android:padding="8dp"
+            android:background="@drawable/bg_dropdown"/>
+
+</LinearLayout>

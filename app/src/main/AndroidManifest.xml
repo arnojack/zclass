@@ -10,7 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Zclass">
         <activity
-            android:name=".Class_online_studentActivity"
+            android:name=".online.My_CreatedClassActivity"
+            android:exported="false" />
+        <activity
+            android:name=".online.My_JoinedClassActivity"
+            android:exported="false" />
+        <activity
+            android:name=".online.Class_OnlineActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
