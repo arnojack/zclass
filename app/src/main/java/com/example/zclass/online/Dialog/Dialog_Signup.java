@@ -89,7 +89,7 @@ public class Dialog_Signup extends Dialog implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.signin:
+            case R.id.submit:
                 if(submitListener!=null){
                     submitListener.onsubmit(this);
                 }

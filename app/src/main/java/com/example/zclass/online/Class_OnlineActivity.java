@@ -15,6 +15,8 @@ import com.example.zclass.R;
 public class Class_OnlineActivity extends AppCompatActivity implements View.OnClickListener {
     private Button mBt_createdclass,mBt_joinedclass,mBt_pop;
     private PopupWindow mpop;
+    private My_CreatedClassActivity teachFrament;
+    private My_JoinedClassActivity listenFrament;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +27,10 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
         mBt_createdclass.setOnClickListener(this);
         mBt_joinedclass.setOnClickListener(this);
         mBt_pop.setOnClickListener(this);
+
+        teachFrament =new My_CreatedClassActivity();
+        listenFrament =new My_JoinedClassActivity();
+        getFragmentManager().beginTransaction().replace(R.id.mFL_container, listenFrament).commitAllowingStateLoss();
     }
 
     @Override
@@ -32,13 +38,11 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
         switch (view.getId()){
             case R.id.btn_CreatedClass:
                 //跳转到我教的课
-                Intent intent1 =new Intent(Class_OnlineActivity.this, My_CreatedClassActivity.class);
-                startActivity(intent1);
+                getFragmentManager().beginTransaction().replace(R.id.mFL_container, teachFrament).commitAllowingStateLoss();
                 break;
             case R.id.btn_JoinedClass:
                 //跳转到我听的课
-                Intent intent2 =new Intent(Class_OnlineActivity.this, My_JoinedClassActivity.class);
-                startActivity(intent2);
+                getFragmentManager().beginTransaction().replace(R.id.mFL_container, listenFrament).commitAllowingStateLoss();
                 break;
             case R.id.btn_pop:
                 //下拉框
