@@ -1,16 +1,22 @@
-package com.example.zclass.online;
+package com.example.zclass.online.Dao;
 
 import java.io.Serializable;
 
 public class Info_User implements Serializable {
-    private String password;
-    private String truename;
+
+    //用于URL传参和取参时的key
+    public static String USERID = "user_id";
+    public static String PASSWORD = "user_password";
+
+
+    private String user_password;
+    private String user_name;
     private String Stu_profess;
     private String Stu_school;
     private String Stu_grade;
     private String Stu_class;
-    private int Stu_id;
-    private int tea_id;
+    private String Stu_id;
+    private String tea_id;
     private String user_id;
     private int flag_login;
 
@@ -30,19 +36,19 @@ public class Info_User implements Serializable {
         this.user_id = user_id;
     }
 
-    public int getTea_id() {
+    public String getTea_id() {
         return tea_id;
     }
 
-    public void setTea_id(int tea_id) {
+    public void setTea_id(String tea_id) {
         this.tea_id = tea_id;
     }
 
-    public int getStu_id() {
+    public String getStu_id() {
         return Stu_id;
     }
 
-    public void setStu_id(int stu_id) {
+    public void setStu_id(String stu_id) {
         Stu_id = stu_id;
     }
 
@@ -78,19 +84,19 @@ public class Info_User implements Serializable {
         Stu_profess = stu_profess;
     }
 
-    public String getTruename() {
-        return truename;
+    public String getuser_name() {
+        return user_name;
     }
 
-    public void setTruename(String truename) {
-        this.truename = truename;
+    public void setTuser_name(String user_name) {
+        this.user_name = user_name;
     }
 
-    public String getPassword() {
-        return password;
+    public String getuser_Password() {
+        return user_password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPassword(String user_password) {
+        this.user_password = user_password;
     }
 }

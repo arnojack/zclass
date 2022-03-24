@@ -22,11 +22,14 @@ public class Dialog_Signin extends Dialog implements View.OnClickListener{
     private String password;
     private String signup;
     private String signin;
+    EditText mETusername ;
+    EditText mETpassword ;
     private IonsigninListener signinListener;
     private IonsignupListener signupListener;
 
     public String getPassword() {
-        return password;
+        mETpassword = findViewById(R.id.password);
+        return mETpassword.getText().toString();
     }
 
     public Dialog_Signin setPassword(String password) {
@@ -35,7 +38,8 @@ public class Dialog_Signin extends Dialog implements View.OnClickListener{
     }
 
     public String getUsername() {
-        return username;
+        mETusername = findViewById(R.id.username);
+        return mETusername.getText().toString();
     }
 
     public Dialog_Signin setUsername(String username) {
@@ -82,8 +86,8 @@ public class Dialog_Signin extends Dialog implements View.OnClickListener{
         TextView mTvsignin = findViewById(R.id.signin);
         TextView mTvsignup = findViewById(R.id.signup);
         TextView mTvtitle = findViewById(R.id.title_dialog);
-        EditText mETusername = findViewById(R.id.username);
-        EditText mETpassword = findViewById(R.id.password);
+        mETusername = findViewById(R.id.username);
+        mETpassword = findViewById(R.id.password);
         if(!TextUtils.isEmpty(title)){
             mTvtitle.setText(title);
         }
@@ -94,6 +98,7 @@ public class Dialog_Signin extends Dialog implements View.OnClickListener{
         if(!TextUtils.isEmpty(signup)){
             mTvsignup.setText(signup);
         }
+
         mTvsignup.setOnClickListener(this);
         mTvsignin.setOnClickListener(this);
     }

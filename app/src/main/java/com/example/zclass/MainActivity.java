@@ -3,19 +3,29 @@ package com.example.zclass;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.View;
+import android.view.inputmethod.InlineSuggestionsRequest;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.zclass.online.Dialog.Dialog_Signin;
 import com.example.zclass.online.Dialog.Dialog_Signup;
 import com.example.zclass.online.Class_OnlineActivity;
-import com.example.zclass.online.Info_User;
+import com.example.zclass.online.Dao.Info_User;
+import com.example.zclass.online.service.HttpClientUtils;
+import com.example.zclass.online.service.Http_Login;
+
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private Button mBtn_offline,mBtn_online;
-    public Info_User user_info;
+    private String BaseUrl="http://192.168.0.106:80/";
+    public static Info_User user_info;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,15 +56,75 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             .setsignin("登录", new Dialog_Signin.IonsigninListener() {
                                 @Override
                                 public void onsignin(Dialog dialog) {
-                                    user_info.setUser_id(sign_Dialog.getUsername());
-                                    user_info.setPassword(sign_Dialog.getPassword());
+                                    Http_Login login=new Http_Login();
 
-                                    sign_Dialog.hide();
-                                    //跳转到线上课堂
-                                    user_info.setFlag_login(1);
-                                    Intent intent=new Intent(MainActivity.this, Class_OnlineActivity.class);
-                                    intent.putExtra("user",user_info);
-                                    startActivity(intent);
+                                    String url_login=BaseUrl+"LoginServlet";
+                                    String user_id =sign_Dialog.getUsername();
+                                    String user_password =sign_Dialog.getPassword();
+
+
+                                    if(user_id==null||user_password==null){
+                                        Toast.makeText(getApplicationContext(), "用户名或密码为空!",
+                                                Toast.LENGTH_SHORT).show();
+                                    }else {
+
+                                        if(user_info.getFlag_login()==1){
+
+                                            //System.out.println(num);
+
+                                            user_info.setUser_id(user_id);
+                                            user_info.setPassword(user_password);
+                                            sign_Dialog.hide();
+                                            //跳转到线上课堂
+                                            user_info.setFlag_login(1);
+                                            Intent intent=new Intent(MainActivity.this, Class_OnlineActivity.class);
+                                            intent.putExtra("user",user_info);
+                                            startActivity(intent);
+                                        }else{
+                                            HashMap<String, String> stringHashMap=new HashMap<String,String>();
+                                            stringHashMap.put(Info_User.USERID, user_id);
+                                            stringHashMap.put(Info_User.PASSWORD, user_password);
+                                            HttpClientUtils.post(url_login, HttpClientUtils.maptostr(stringHashMap), new HttpClientUtils.OnRequestCallBack() {
+                                                @Override
+                                                public void onSuccess(String json) {
+                                                    //跳转到线上课堂
+                                                    if("Ok".equals(json)){
+                                                        runOnUiThread(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                Toast.makeText(getApplicationContext(), "登录成功!",
+                                                                        Toast.LENGTH_SHORT).show();
+                                                                sign_Dialog.hide();
+                                                                user_info.setFlag_login(1);
+                                                                Intent intent=new Intent(MainActivity.this, Class_OnlineActivity.class);
+                                                                intent.putExtra("user",user_info);
+                                                                startActivity(intent);
+                                                            }
+                                                        });
+                                                    }else{
+                                                        runOnUiThread(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                Toast.makeText(getApplicationContext(), "用户名或密码错误!",
+                                                                        Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        });
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onError(String errorMsg) {
+                                                    runOnUiThread(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            Toast.makeText(getApplicationContext(), "网络崩溃了!",
+                                                                    Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+                                    }
                                 }
                             }).setsignup("注册", new Dialog_Signin.IonsignupListener(){
                         @Override
