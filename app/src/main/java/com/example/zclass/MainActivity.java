@@ -22,7 +22,7 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private Button mBtn_offline,mBtn_online;
-    private String BaseUrl="http://192.168.0.106:80/";
+    private String BaseUrl="http://192.168.0.106:8080/";
     public static Info_User user_info;
 
     @Override
