@@ -62,9 +62,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 public void onsignin(Dialog dialog) {
 
                                     //正在加载 图片
-                                    sign_Dialog.hide();
-
-                                    Dialog dialog_lod =LoadingDialog.createLoadingDialog(MainActivity.this,"正在加载");
+                                    //sign_Dialog.hide();
+                                    Dialog dialog_lod =LoadingDialog.createLoadingDialog(MainActivity.this);
                                     dialog_lod.show();
 
 
@@ -157,20 +156,76 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         public void onsignup(Dialog dialog) {
                             sign_Dialog.hide();
                             //跳转到注册页面
+
+
                             Dialog_Signup signup_Dialog =new Dialog_Signup(MainActivity.this,R.style.MyDialog);
                             signup_Dialog.setTitle("注册").setUsername("userid").setPassword("password")
                                     .setsubmit("提交", new Dialog_Signup.IonsubmitListener() {
                                         @Override
                                         public void onsubmit(Dialog dialog) {
+
+                                            //加载
+                                            //signup_Dialog.hide();
+                                            Dialog dialog_lod =LoadingDialog.createLoadingDialog(MainActivity.this);
+                                            dialog_lod.show();
+
                                             user_info.setUser_id(sign_Dialog.getUsername());
                                             user_info.setPassword(sign_Dialog.getPassword());
 
-                                            signup_Dialog.hide();
-                                            //跳转到线上课堂
-                                            user_info.setFlag_login(1);
-                                            Intent intent=new Intent(MainActivity.this, Class_OnlineActivity.class);
-                                            intent.putExtra("user",user_info);
-                                            startActivity(intent);
+                                            String url_signup=BaseUrl+"SignupServlet";
+
+                                            HashMap<String, String> stringHashMap=new HashMap<String,String>();
+                                            stringHashMap.put(Info_User.USERID, user_info.getUser_id());
+                                            stringHashMap.put(Info_User.PASSWORD, user_info.getuser_Password());
+
+                                            HttpClientUtils.post(url_signup, HttpClientUtils.maptostr(stringHashMap), new HttpClientUtils.OnRequestCallBack() {
+                                                @Override
+                                                public void onSuccess(String json) {
+                                                    if("Ok".equals(json)){
+                                                        runOnUiThread(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                dialog_lod.cancel();
+
+                                                                Toast.makeText(getApplicationContext(), "注册成功!",
+                                                                        Toast.LENGTH_SHORT).show();
+                                                                //跳转到线上课堂
+                                                                signup_Dialog.hide();
+                                                                user_info.setFlag_login(1);
+                                                                Intent intent=new Intent(MainActivity.this, Class_OnlineActivity.class);
+                                                                intent.putExtra("user",user_info);
+                                                                startActivity(intent);
+                                                            }
+                                                        });
+                                                    }else {
+                                                        runOnUiThread(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                dialog_lod.cancel();
+
+                                                                Toast.makeText(getApplicationContext(), "用户id重复!",
+                                                                        Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        });
+                                                    }
+
+                                                }
+
+                                                @Override
+                                                public void onError(String errorMsg) {
+                                                    runOnUiThread(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            //pd.cancel();
+                                                            dialog_lod.cancel();
+
+                                                            Toast.makeText(getApplicationContext(), "网络崩溃了!",
+                                                                    Toast.LENGTH_SHORT).show();
+                                                            signup_Dialog.show();
+                                                        }
+                                                    });
+                                                }
+                                            });
                                         }
                                     }).show();
                         }

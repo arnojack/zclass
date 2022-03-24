@@ -18,10 +18,9 @@ public class LoadingDialog {
      * 得到自定义的progressDialog
      *
      * @param context
-     * @param msg
      * @return
      */
-    public static Dialog createLoadingDialog(Context context, String msg) {
+    public static Dialog createLoadingDialog(Context context) {
 
         LayoutInflater inflater = LayoutInflater.from(context);
         View v = inflater.inflate(R.layout.lodaingdialog, null);// 得到加载view

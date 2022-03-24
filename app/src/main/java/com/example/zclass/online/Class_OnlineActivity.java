@@ -2,7 +2,6 @@ package com.example.zclass.online;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,8 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.example.zclass.R;
+import com.example.zclass.online.fragment.My_CreatedClassActivity;
+import com.example.zclass.online.fragment.My_JoinedClassActivity;
 
 public class Class_OnlineActivity extends AppCompatActivity implements View.OnClickListener {
     private Button mBt_createdclass,mBt_joinedclass,mBt_pop;

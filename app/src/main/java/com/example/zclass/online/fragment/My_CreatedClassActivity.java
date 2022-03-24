@@ -1,4 +1,4 @@
-package com.example.zclass.online;
+package com.example.zclass.online.fragment;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

@@ -143,8 +143,8 @@ public class HttpClientUtils {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             // 设定请求的方法为"POST"，默认是GET
             connection.setRequestMethod("POST");
-            connection.setConnectTimeout(1000);
-            connection.setReadTimeout(1000);
+            connection.setConnectTimeout(5000);
+            connection.setReadTimeout(5000);
             // User-Agent  IE9的标识
             connection.setRequestProperty("User-Agent", "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0;");
             connection.setRequestProperty("Accept-Language", "zh-CN");
