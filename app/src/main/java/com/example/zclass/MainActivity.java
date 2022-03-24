@@ -3,12 +3,11 @@ package com.example.zclass;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
-import android.content.Context;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Looper;
+import android.os.Handler;
 import android.view.View;
-import android.view.inputmethod.InlineSuggestionsRequest;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -16,8 +15,8 @@ import com.example.zclass.online.Dialog.Dialog_Signin;
 import com.example.zclass.online.Dialog.Dialog_Signup;
 import com.example.zclass.online.Class_OnlineActivity;
 import com.example.zclass.online.Dao.Info_User;
+import com.example.zclass.online.Dialog.LoadingDialog;
 import com.example.zclass.online.service.HttpClientUtils;
-import com.example.zclass.online.service.Http_Login;
 
 import java.util.HashMap;
 
@@ -51,12 +50,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     intent.putExtra("user",user_info);
                     startActivity(intent);
                 }else{
+                    /*ProgressDialog pd =new ProgressDialog(this);
+                    //pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                    pd.setIcon(R.drawable.icon_progress);
+                    pd.setCancelable(true);
+*/
                     Dialog_Signin sign_Dialog =new Dialog_Signin(MainActivity.this,R.style.MyDialog);
                     sign_Dialog.setTitle("登录").setUsername("userid").setPassword("password")
                             .setsignin("登录", new Dialog_Signin.IonsigninListener() {
                                 @Override
                                 public void onsignin(Dialog dialog) {
-                                    Http_Login login=new Http_Login();
+
+                                    //正在加载 图片
+                                    sign_Dialog.hide();
+
+                                    Dialog dialog_lod =LoadingDialog.createLoadingDialog(MainActivity.this,"正在加载");
+                                    dialog_lod.show();
+
+
 
                                     String url_login=BaseUrl+"LoginServlet";
                                     String user_id =sign_Dialog.getUsername();
@@ -66,11 +77,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     if(user_id==null||user_password==null){
                                         Toast.makeText(getApplicationContext(), "用户名或密码为空!",
                                                 Toast.LENGTH_SHORT).show();
+                                        sign_Dialog.show();
+                                        //pd.cancel();
+                                        dialog_lod.cancel();
                                     }else {
 
                                         if(user_info.getFlag_login()==1){
 
-                                            //System.out.println(num);
+                                            //pd.cancel();
+                                            dialog_lod.cancel();
 
                                             user_info.setUser_id(user_id);
                                             user_info.setPassword(user_password);
@@ -92,6 +107,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                         runOnUiThread(new Runnable() {
                                                             @Override
                                                             public void run() {
+                                                                //pd.cancel();
+                                                                dialog_lod.cancel();
+
                                                                 Toast.makeText(getApplicationContext(), "登录成功!",
                                                                         Toast.LENGTH_SHORT).show();
                                                                 sign_Dialog.hide();
@@ -105,8 +123,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                         runOnUiThread(new Runnable() {
                                                             @Override
                                                             public void run() {
+                                                                //pd.cancel();
+                                                                dialog_lod.cancel();
+
                                                                 Toast.makeText(getApplicationContext(), "用户名或密码错误!",
                                                                         Toast.LENGTH_SHORT).show();
+                                                                sign_Dialog.show();
                                                             }
                                                         });
                                                     }
@@ -117,8 +139,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                     runOnUiThread(new Runnable() {
                                                         @Override
                                                         public void run() {
+                                                            //pd.cancel();
+                                                            dialog_lod.cancel();
+
                                                             Toast.makeText(getApplicationContext(), "网络崩溃了!",
                                                                     Toast.LENGTH_SHORT).show();
+                                                            sign_Dialog.show();
                                                         }
                                                     });
                                                 }
