@@ -3,18 +3,16 @@ package com.example.zclass;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.zclass.online.Dao.User;
 import com.example.zclass.online.Dialog.Dialog_Signin;
 import com.example.zclass.online.Dialog.Dialog_Signup;
 import com.example.zclass.online.Class_OnlineActivity;
-import com.example.zclass.online.Dao.Info_User;
 import com.example.zclass.online.Dialog.LoadingDialog;
 import com.example.zclass.online.service.HttpClientUtils;
 
@@ -22,8 +20,8 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private Button mBtn_offline,mBtn_online;
-    private String BaseUrl="http://192.168.0.106:8080/";
-    public static Info_User user_info;
+    private String BaseUrl="http://192.168.0.106:8080/demo_war/";
+    public static User user_info;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mBtn_online=findViewById(R.id.btn_online);
         mBtn_online.setOnClickListener(this);
         mBtn_offline.setOnClickListener(this);
-        user_info =new Info_User();
+        user_info =new User();
     }
 
     @Override
@@ -50,11 +48,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     intent.putExtra("user",user_info);
                     startActivity(intent);
                 }else{
-                    /*ProgressDialog pd =new ProgressDialog(this);
-                    //pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                    pd.setIcon(R.drawable.icon_progress);
-                    pd.setCancelable(true);
-*/
+                    String url_login=BaseUrl+"LoginServlet";
+
                     Dialog_Signin sign_Dialog =new Dialog_Signin(MainActivity.this,R.style.MyDialog);
                     sign_Dialog.setTitle("登录").setUsername("userid").setPassword("password")
                             .setsignin("登录", new Dialog_Signin.IonsigninListener() {
@@ -68,7 +63,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-                                    String url_login=BaseUrl+"LoginServlet";
                                     String user_id =sign_Dialog.getUsername();
                                     String user_password =sign_Dialog.getPassword();
 
@@ -86,8 +80,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                             //pd.cancel();
                                             dialog_lod.cancel();
 
-                                            user_info.setUser_id(user_id);
+                                            user_info.setUserid(user_id);
                                             user_info.setPassword(user_password);
+
                                             sign_Dialog.hide();
                                             //跳转到线上课堂
                                             user_info.setFlag_login(1);
@@ -95,9 +90,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                             intent.putExtra("user",user_info);
                                             startActivity(intent);
                                         }else{
+
                                             HashMap<String, String> stringHashMap=new HashMap<String,String>();
-                                            stringHashMap.put(Info_User.USERID, user_id);
-                                            stringHashMap.put(Info_User.PASSWORD, user_password);
+                                            stringHashMap.put(User.USERID, user_id);
+                                            stringHashMap.put(User.PASSWORD, user_password);
+                                            stringHashMap.put(User.WAY,"signin");
+
                                             HttpClientUtils.post(url_login, HttpClientUtils.maptostr(stringHashMap), new HttpClientUtils.OnRequestCallBack() {
                                                 @Override
                                                 public void onSuccess(String json) {
@@ -169,16 +167,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                             Dialog dialog_lod =LoadingDialog.createLoadingDialog(MainActivity.this);
                                             dialog_lod.show();
 
-                                            user_info.setUser_id(sign_Dialog.getUsername());
+                                            user_info.setUserid(sign_Dialog.getUsername());
                                             user_info.setPassword(sign_Dialog.getPassword());
 
-                                            String url_signup=BaseUrl+"SignupServlet";
 
                                             HashMap<String, String> stringHashMap=new HashMap<String,String>();
-                                            stringHashMap.put(Info_User.USERID, user_info.getUser_id());
-                                            stringHashMap.put(Info_User.PASSWORD, user_info.getuser_Password());
+                                            stringHashMap.put(User.USERID, user_info.getUserid());
+                                            stringHashMap.put(User.PASSWORD, user_info.getPassword());
+                                            stringHashMap.put(User.WAY,"signup");
 
-                                            HttpClientUtils.post(url_signup, HttpClientUtils.maptostr(stringHashMap), new HttpClientUtils.OnRequestCallBack() {
+                                            HttpClientUtils.post(url_login, HttpClientUtils.maptostr(stringHashMap), new HttpClientUtils.OnRequestCallBack() {
                                                 @Override
                                                 public void onSuccess(String json) {
                                                     if("Ok".equals(json)){
