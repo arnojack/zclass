@@ -12,8 +12,14 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.zclass.MainActivity;
 import com.example.zclass.R;
+import com.example.zclass.online.Dao.Cou_Stu;
+import com.example.zclass.online.Dao.User;
 import com.example.zclass.online.fragment.ListviewAdapter;
+import com.example.zclass.online.service.HttpClientUtils;
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +28,7 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
     private Button mBt_createdclass,mBt_joinedclass,mBt_pop;
     private PopupWindow mpop;
     public ListView lv;
+    private String BaseUrl="http://192.168.0.106:8080/demo_war/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,15 +53,38 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
 
     public void Mylisten_class(){
         /*定义一个以HashMap为内容的动态数组*/
-        ArrayList<HashMap<String, Object>> listItem = new ArrayList<HashMap<String, Object>>();/*在数组中存放数据*/
-        for (int i = 0; i < 4; i++) {
-            HashMap<String, Object> map = new HashMap<String, Object>();
-            map.put("ItemImage", R.drawable.icon_password);//加入图片
-            map.put("ItemTitle", "第" + i + "行");
-            map.put("ItemText", "这是第" + i + "行");
-            listItem.add(map);
-        }
-        lv.setAdapter(new ListviewAdapter(this, listItem));//为ListView绑定适配器
+        //User user_info =(User) getIntent().getSerializableExtra("user");
+        HashMap<String, String> stringHashMap=new HashMap<String,String>();
+        stringHashMap.put(Cou_Stu.STUID, MainActivity.user_info.getUserid());
+        stringHashMap.put(User.WAY,"stuget");
+        String url=BaseUrl+"CourseServlet";
+
+        HttpClientUtils.post(url, HttpClientUtils.maptostr(stringHashMap), new HttpClientUtils.OnRequestCallBack() {
+            @Override
+            public void onSuccess(String json) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            ArrayList temp=HttpClientUtils.jtol_cou(json);
+                            lv.setAdapter(new ListviewAdapter(Class_OnlineActivity.this,temp ));//为ListView绑定适配器
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+            @Override
+            public void onError(String errorMsg) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "错误" + errorMsg,
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
     }
     public void Myteach_class(){
         /*定义一个以HashMap为内容的动态数组*/

@@ -42,11 +42,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_online:
                 //跳转到登录页面
-                if(user_info.getFlag_login()==1){
+
                     //跳转到线上课堂
+                user_info.setUserid("1");
                     intent=new Intent(MainActivity.this, Class_OnlineActivity.class);
                     intent.putExtra("user",user_info);
-                    startActivity(intent);
+                    startActivity(intent); /*if(user_info.getFlag_login()==1){
                 }else{
                     String url_login=BaseUrl+"LoginServlet";
 
@@ -61,10 +62,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     Dialog dialog_lod =LoadingDialog.createLoadingDialog(MainActivity.this);
                                     dialog_lod.show();
 
-
-
                                     String user_id =sign_Dialog.getUsername();
                                     String user_password =sign_Dialog.getPassword();
+
+                                    user_info.setUserid(user_id);
+                                    user_info.setPassword(user_password);
 
 
                                     if(user_id==null||user_password==null){
@@ -79,9 +81,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                                             //pd.cancel();
                                             dialog_lod.cancel();
-
-                                            user_info.setUserid(user_id);
-                                            user_info.setPassword(user_password);
 
                                             sign_Dialog.hide();
                                             //跳转到线上课堂
@@ -228,7 +227,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     }).show();
                         }
                     }).show();
-                }
+                }*/
                 break;
         }
     }

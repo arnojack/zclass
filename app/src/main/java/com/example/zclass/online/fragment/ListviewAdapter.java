@@ -10,9 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.zclass.R;
+import com.example.zclass.online.service.HttpClientUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class ListviewAdapter extends BaseAdapter {
     private LayoutInflater mInflater;//得到一个LayoutInfalter对象用来导入布局
@@ -63,9 +65,10 @@ public class ListviewAdapter extends BaseAdapter {
             holder = (ViewHolder)convertView.getTag();
 
         }
-        holder.img.setImageResource((Integer) listItem.get(position).get("ItemImage"));
-        holder.title.setText((String) listItem.get(position).get("ItemTitle"));
-        holder.text.setText((String) listItem.get(position).get("ItemText"));
+        //holder.img.setImageResource((Integer) listItem.get(position).get("ItemImage"));
+        holder.title.setText((String) listItem.get(position).get("stu_userid"));
+        holder.text.setText((String) listItem.get(position).get("cou_on_id"));
+        holder.btn.setText((String) listItem.get(position).get("cou_on_name"));
         holder.btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

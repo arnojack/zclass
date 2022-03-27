@@ -16,6 +16,9 @@ public class Course implements Serializable {
     public static String COUONID = "cou_on_id";
     public static String TEAID = "tea_userid";
 
+    public Course(String cou_on_id, String cou_on_name, String tea_userid, String cou_grade, String cou_class) {
+    }
+
     public String getCou_on_id() {
         return cou_on_id;
     }

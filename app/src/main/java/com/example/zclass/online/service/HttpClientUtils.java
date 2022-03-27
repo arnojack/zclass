@@ -2,6 +2,12 @@ package com.example.zclass.online.service;
 
 import android.util.Log;
 
+import com.example.zclass.online.Dao.Course;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,7 +17,12 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 public class HttpClientUtils {
 
@@ -48,6 +59,27 @@ public class HttpClientUtils {
         }
         String params = tempParams.toString();
         return params;
+    }
+
+    public static ArrayList jtol_cou(String data) throws JSONException {
+
+        Map<String,String> map=new HashMap<>();
+        ArrayList<Map> mlists = new ArrayList<Map>();
+        JSONArray array = new JSONArray(new String(data));
+        for (int i = 0; i < array.length(); i++) {
+            Map<String,String> m=new HashMap<>();
+            JSONObject item = array.getJSONObject(i);
+
+            m.put("cou_on_id",item.getString("cou_on_id")) ;
+            m.put("cou_on_name",item.getString("cou_on_name")) ;
+            m.put("tea_userid",item.getString("tea_userid")) ;
+            m.put("cou_grade",item.getString("cou_grade")) ;
+            m.put("cou_class",item.getString("cou_class")) ;
+
+            mlists.add(m);
+        }
+
+        return mlists;
     }
 
     private static void getRequest(String requestUrl, HttpClientUtils.OnRequestCallBack callBack) {
@@ -89,9 +121,9 @@ public class HttpClientUtils {
             //connection.setDoOutput(true);//Android  4.0 GET时候 用这句会变成POST  报错java.io.FileNotFoundException
             connection.setUseCaches(false);
             connection.connect();//
+            inputStream = connection.getInputStream();//会隐式调用connect()
             int contentLength = connection.getContentLength();
             if (connection.getResponseCode() == 200) {
-                inputStream = connection.getInputStream();//会隐式调用connect()
                 baos = new ByteArrayOutputStream();
                 int readLen;
                 byte[] bytes = new byte[1024];
@@ -173,6 +205,7 @@ public class HttpClientUtils {
             if (connection.getResponseCode() == 200) {
                 // 会隐式调用connect()
                 inputStream = connection.getInputStream();
+
                 baos = new ByteArrayOutputStream();
                 int readLen;
                 byte[] bytes = new byte[1024];
