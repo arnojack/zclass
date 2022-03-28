@@ -16,12 +16,17 @@ public class User implements Serializable{
     private String school;
     private String way;
     private int    flag_login;
+    private String method;
 
     //用于URL传参和取参时的key
     public static String WAY = "way";
+    public static String METHOD = "method";
     public static String PHONENUMBER = "phonenumber";
     public static String PASSWORD = "password";
     public static String USERID = "userid";
+    public static String USERNAME = "username";
+    public static String PROFESS="profess";
+    public static String SCHOOL ="school";
     //构造函数
 
     public int getFlag_login() {
@@ -30,6 +35,14 @@ public class User implements Serializable{
 
     public void setFlag_login(int flag_login) {
         this.flag_login = flag_login;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
     }
 
     public String getUserid() {

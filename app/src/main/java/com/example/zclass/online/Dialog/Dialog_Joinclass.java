@@ -1,7 +1,5 @@
 package com.example.zclass.online.Dialog;
 
-import androidx.annotation.NonNull;
-
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
@@ -11,66 +9,71 @@ import android.text.TextUtils;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.EditText;
+import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import com.example.zclass.R;
 
-public class Dialog_Signup extends Dialog implements View.OnClickListener {
-
+public class Dialog_Joinclass extends Dialog implements View.OnClickListener{
     private String title;
-    private String userid;
-    private String username;
-    private String password;
+    private String text;
     private String submit;
-    private TextView mETuserid;
-    private TextView mETusername;
-    private TextView mETpassword;
-    private Dialog_Signup.IonsubmitListener submitListener;
+    private TextView msubmit;
+    private TextView mTvtext;
+    private IonsubmitListener submitListener;
 
-    public String getPassword() {
-        mETpassword = findViewById(R.id.password);
-        return mETpassword.getText().toString();
+    public String getTitle() {
+        return title;
     }
 
-    public Dialog_Signup setPassword(String password) {
-        this.password = password;
+    public String getSubmit() {
+        return submit;
+    }
+
+    public void setSubmit(String submit) {
+        this.submit = submit;
+    }
+
+    public String getText() {
+        mTvtext=findViewById(R.id.join_class);
+        return mTvtext.getText().toString();
+    }
+
+    public Dialog_Joinclass setText(String text) {
+        this.text = text;
         return this;
     }
 
-    public String getUserid() {
-        mETuserid = findViewById(R.id.userid);
-        return mETuserid.getText().toString();
-    }
-    public String getUsername() {
-        mETusername = findViewById(R.id.username);
-        return mETusername.getText().toString();
+    public TextView getMsubmit() {
+        return msubmit;
     }
 
-    public Dialog_Signup setUserid(String userid) {
-        this.userid = userid;
-        return this;
+    public void setMsubmit(TextView msubmit) {
+        this.msubmit = msubmit;
     }
 
-    public Dialog_Signup(@NonNull Context context, int themeResId) {
+    public Dialog_Joinclass(@NonNull Context context, int themeResId) {
         super(context,themeResId);
     }
 
-    public Dialog_Signup setTitle(String title) {
+    public Dialog_Joinclass setTitle(String title) {
         this.title = title;
         return this;
     }
 
-    public Dialog_Signup setsubmit(String submit, Dialog_Signup.IonsubmitListener Listener) {
+    public Dialog_Joinclass setsubmit(String submit, Dialog_Joinclass.IonsubmitListener Listener) {
         this.submit = submit;
         this.submitListener=Listener;
         return this;
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_signup);
+        setContentView(R.layout.dialog_joinclass);
         /*
          * 将对话框的大小按屏幕大小的百分比设置
          */
@@ -82,25 +85,26 @@ public class Dialog_Signup extends Dialog implements View.OnClickListener {
         p.width =(int)(size.x *0.8);//设置dialog的宽度为当前手机屏幕的宽度*0.8
         getWindow().setAttributes(p);
 
-        TextView mTvsubmit = findViewById(R.id.submit);
-        TextView mTvtitle = findViewById(R.id.title_dialog);
-        mETuserid = findViewById(R.id.userid);
-        mETusername=findViewById(R.id.username);
-        mETpassword = findViewById(R.id.password);
+        TextView mTvtitle = findViewById(R.id.join_title);
+        mTvtext =findViewById(R.id.join_class);
+        msubmit =findViewById(R.id.join_submit);
+
         if(!TextUtils.isEmpty(title)){
             mTvtitle.setText(title);
         }
+
         if(!TextUtils.isEmpty(submit)){
-            mTvsubmit.setText(submit);
+            msubmit.setText(submit);
         }
-        mTvsubmit.setOnClickListener(this);
+
+        msubmit.setOnClickListener(this);
     }
 
     @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.submit:
+            case R.id.join_submit:
                 if(submitListener!=null){
                     submitListener.onsubmit(this);
                 }

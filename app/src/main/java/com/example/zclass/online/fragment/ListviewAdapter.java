@@ -1,6 +1,7 @@
 package com.example.zclass.online.fragment;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,9 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
 
 import com.example.zclass.R;
 import com.example.zclass.online.service.HttpClientUtils;
@@ -15,10 +19,12 @@ import com.example.zclass.online.service.HttpClientUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 public class ListviewAdapter extends BaseAdapter {
     private LayoutInflater mInflater;//得到一个LayoutInfalter对象用来导入布局
-    ArrayList<HashMap<String, Object>> listItem;
+    public ArrayList<HashMap<String, Object>> listItem;
+    //public int[] color={R.color.dark_blue,R.color.dark_green,R.color.dark_purple,R.color.light_blue,R.color.light_gray,R.color.light_green,R.color.light_purple,R.color.light_yellow};
 
     public ListviewAdapter(Context context, ArrayList<HashMap<String, Object>> listItem) {
         this.mInflater = LayoutInflater.from(context);
@@ -43,11 +49,14 @@ public class ListviewAdapter extends BaseAdapter {
     //利用convertView+ViewHolder来重写getView()
     static class ViewHolder
     {
-        public ImageView img;
+        public ImageView img_bottom;
         public TextView title;
-        public TextView text;
-        public Button btn;
+        public TextView text_left;
+        public TextView text_right;
+        public ImageView img_up;
+        public View  item;
     }//声明一个外部静态类
+    @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
     public View getView(final int position, View convertView, final ViewGroup parent) {
         ViewHolder holder ;
@@ -55,10 +64,12 @@ public class ListviewAdapter extends BaseAdapter {
         {
             holder = new ViewHolder();
             convertView = mInflater.inflate(R.layout.item, null);
-            holder.img = (ImageView)convertView.findViewById(R.id.ItemImage);
-            holder.title = (TextView)convertView.findViewById(R.id.ItemTitle);
-            holder.text = (TextView)convertView.findViewById(R.id.ItemText);
-            holder.btn = (Button) convertView.findViewById(R.id.ItemBottom);
+            holder.img_bottom = (ImageView)convertView.findViewById(R.id.item_icon);
+            holder.title = (TextView)convertView.findViewById(R.id.item_title);
+            holder.text_left = (TextView)convertView.findViewById(R.id.item_bottom_left);
+            holder.text_right = (TextView)convertView.findViewById(R.id.item_bottom_right);
+            holder.img_up = (ImageView)convertView.findViewById(R.id.item_up_right);
+            holder.item=convertView.findViewById(R.id.item);
             convertView.setTag(holder);
         }
         else {
@@ -66,15 +77,11 @@ public class ListviewAdapter extends BaseAdapter {
 
         }
         //holder.img.setImageResource((Integer) listItem.get(position).get("ItemImage"));
-        holder.title.setText((String) listItem.get(position).get("stu_userid"));
-        holder.text.setText((String) listItem.get(position).get("cou_on_id"));
-        holder.btn.setText((String) listItem.get(position).get("cou_on_name"));
-        holder.btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("你点击了选项"+position);//bottom会覆盖item的焦点，所以要在xml里面配置android:focusable="false"
-            }
-        });
+        holder.title.setText((String) listItem.get(position).get("cou_on_name"));
+        holder.text_left.setText((String) listItem.get(position).get("tea_name"));
+        holder.text_right.setText((String) listItem.get(position).get("cou_grade")+"-"+listItem.get(position).get("cou_class"));
+
+        //holder.item.setBackgroundColor(color[position]);
 
         return convertView;
     }//这个方法返回了指定索引对应的数据项的视图
