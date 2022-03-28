@@ -35,6 +35,8 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
     private Button mBt_createdclass,mBt_joinedclass,mBt_pop;
     private PopupWindow mpop;
     public ListView lv;
+    private Dialog dialog_lod;
+
     private String BaseUrl="http://192.168.0.106:8080/demo_war/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,7 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
         mBt_pop.setOnClickListener(this);
 
         lv = (ListView) findViewById(R.id.listView1);
+        dialog_lod = LoadingDialog.createLoadingDialog(Class_OnlineActivity.this);
         Mylisten_class();
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -86,20 +89,23 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
                         joinclass.setTitle("加入课程").setText("请输入课程编码").setsubmit("提交", new Dialog_Joinclass.IonsubmitListener() {
                             @Override
                             public void onsubmit(Dialog dialog) {
-                                //正在加载 图片
-                                //sign_Dialog.hide();
-                                Dialog dialog_lod = LoadingDialog.createLoadingDialog(Class_OnlineActivity.this);
-                                dialog_lod.show();
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Dialog dialog1 =LoadingDialog.createLoadingDialog(Class_OnlineActivity.this);
+                                        dialog1.show();
 
-                                if("".equals(joinclass.getText())){
-                                    dialog_lod.hide();
-                                    Toast.makeText(getApplicationContext(), "请不要输入空消息!",
-                                            Toast.LENGTH_SHORT).show();
-                                }else {
-                                    Myjoin_class(joinclass.getText());
-                                    dialog_lod.hide();
-                                    joinclass.cancel();
-                                }
+                                        if("".equals(joinclass.getText())){
+                                            dialog1.hide();
+                                            Toast.makeText(getApplicationContext(), "请不要输入空消息!",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }else {
+                                            Myjoin_class(joinclass.getText());
+                                            dialog1.hide();
+                                            joinclass.cancel();
+                                        }
+                                    }
+                                });
                             }
                         }).show();
                     }
@@ -114,30 +120,34 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
                         creatclass.setTitle("创建班级").setsubmit("提交", new Dialog_Creatclass.IonsubmitListener() {
                             @Override
                             public void onsubmit(Dialog dialog) {
-                                String cou_on_name=creatclass.getCouname();
-                                String cou_class =creatclass.getClassname();
-                                String cou_grade =creatclass.getGrade();
-                                //正在加载 图片
-                                //sign_Dialog.hide();
-                                Dialog dialog_lod = LoadingDialog.createLoadingDialog(Class_OnlineActivity.this);
-                                dialog_lod.show();
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        String cou_on_name=creatclass.getCouname();
+                                        String cou_class =creatclass.getClassname();
+                                        String cou_grade =creatclass.getGrade();
+                                        //正在加载 图片
+                                        Dialog dialog1 =LoadingDialog.createLoadingDialog(Class_OnlineActivity.this);
+                                        dialog1.show();
 
-                                if("".equals(cou_on_name)||"".equals(cou_class)||"".equals(cou_grade)){
-                                    dialog_lod.hide();
-                                    Toast.makeText(getApplicationContext(), "请不要输入空消息!",
-                                            Toast.LENGTH_SHORT).show();
-                                }else {
-                                    Course course =new Course();
-                                    course.setCou_on_name(cou_on_name);
-                                    course.setCou_class(cou_class);
-                                    course.setCou_grade(cou_grade);
+                                        if("".equals(cou_on_name)||"".equals(cou_class)||"".equals(cou_grade)){
+                                            dialog1.hide();
+                                            Toast.makeText(getApplicationContext(), "请不要输入空消息!",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }else {
+                                            Course course =new Course();
+                                            course.setCou_on_name(cou_on_name);
+                                            course.setCou_class(cou_class);
+                                            course.setCou_grade(cou_grade);
 
-                                    course.setTea_userid(MainActivity.user_info.getUserid());
-                                    course.setTea_name(MainActivity.user_info.getUsername());
-                                    Mycreat_class(course);
-                                    dialog_lod.hide();
-                                    creatclass.cancel();
-                                }
+                                            course.setTea_userid(MainActivity.user_info.getUserid());
+                                            course.setTea_name(MainActivity.user_info.getUsername());
+                                            Mycreat_class(course);
+                                            dialog1.hide();
+                                            creatclass.cancel();
+                                        }
+                                    }
+                                });
                             }
                         }).show();
                     }
@@ -154,6 +164,7 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
         stringHashMap.put(Course.METHOD,"Update");
         stringHashMap.put(User.WAY,"join");
         String url=BaseUrl+"CourseServlet";
+        dialog_lod.show();
 
         HttpClientUtils.post(url, HttpClientUtils.maptostr(stringHashMap), new HttpClientUtils.OnRequestCallBack() {
             @Override
@@ -161,6 +172,7 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        dialog_lod.hide();
                         if("Ok".equals(json)){
                             Toast.makeText(getApplicationContext(), "加入成功!",
                                     Toast.LENGTH_SHORT).show();
@@ -176,6 +188,7 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        dialog_lod.hide();
                         Toast.makeText(getApplicationContext(), "错误!" + errorMsg,
                                 Toast.LENGTH_SHORT).show();
                     }
@@ -198,6 +211,7 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
         stringHashMap.put(Course.METHOD,"Update");
         stringHashMap.put(User.WAY,"create");
         String url=BaseUrl+"CourseServlet";
+        dialog_lod.show();
 
         HttpClientUtils.post(url, HttpClientUtils.maptostr(stringHashMap), new HttpClientUtils.OnRequestCallBack() {
             @Override
@@ -205,6 +219,7 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        dialog_lod.hide();
                         if("Ok".equals(json)){
                             Toast.makeText(getApplicationContext(), "创建成功!",
                                     Toast.LENGTH_SHORT).show();
@@ -220,6 +235,7 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        dialog_lod.hide();
                         Toast.makeText(getApplicationContext(), "错误!" + errorMsg,
                                 Toast.LENGTH_SHORT).show();
                     }
@@ -235,6 +251,7 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
         stringHashMap.put(Course.METHOD,"Queue");
         stringHashMap.put(User.WAY,"stuget");
         String url=BaseUrl+"CourseServlet";
+        dialog_lod.show();
 
         HttpClientUtils.post(url, HttpClientUtils.maptostr(stringHashMap), new HttpClientUtils.OnRequestCallBack() {
             @Override
@@ -242,6 +259,7 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        dialog_lod.hide();
                         try {
                             ArrayList temp= BaseActivity.jtol_cou(json);
                             lv.setAdapter(new ListviewAdapter(Class_OnlineActivity.this, temp));//为ListView绑定适配器
@@ -256,6 +274,7 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        dialog_lod.hide();
                         Toast.makeText(getApplicationContext(), "错误" + errorMsg,
                                 Toast.LENGTH_SHORT).show();
                     }
@@ -271,6 +290,7 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
         stringHashMap.put(Course.METHOD,"Queue");
         stringHashMap.put(User.WAY,"teaget");
         String url=BaseUrl+"CourseServlet";
+        dialog_lod.show();
 
         HttpClientUtils.post(url, HttpClientUtils.maptostr(stringHashMap), new HttpClientUtils.OnRequestCallBack() {
             @Override
@@ -278,6 +298,7 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        dialog_lod.hide();
                         try {
                             ArrayList temp=BaseActivity.jtol_cou(json);
                             lv.setAdapter(new ListviewAdapter(Class_OnlineActivity.this,temp ));//为ListView绑定适配器
@@ -292,6 +313,7 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        dialog_lod.hide();
                         Toast.makeText(getApplicationContext(), "错误" + errorMsg,
                                 Toast.LENGTH_SHORT).show();
                     }

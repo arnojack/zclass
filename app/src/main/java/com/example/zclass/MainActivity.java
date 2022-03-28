@@ -50,10 +50,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //跳转到登录页面
 
                     //跳转到线上课堂
-                if(user_info.getFlag_login()==1){
+                    user_info.setUserid("1");
                     intent=new Intent(MainActivity.this, Class_OnlineActivity.class);
                     intent.putExtra("user",user_info);
-                    startActivity(intent);
+                    startActivity(intent);/*if(user_info.getFlag_login()==1){
                 }else{
                     String url_login=BaseUrl+"LoginServlet";
 
@@ -250,7 +250,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     }).show();
                         }
                     }).show();
-                }
+                }*/
                 break;
         }
     }
