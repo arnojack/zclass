@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:gravity="center_horizontal">
 
@@ -14,22 +15,22 @@
         android:text="注册"
         android:textStyle="bold"
         android:layout_marginTop="20dp"/>
-
     <EditText
         android:id="@+id/userid"
-        android:drawableLeft="@drawable/icon_user"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:textSize="16sp"
-        android:drawablePadding="5dp"
-        android:layout_marginTop="15dp"
         android:layout_marginLeft="4dp"
+        android:layout_marginTop="15dp"
         android:layout_marginRight="4dp"
-        android:maxLines="1"
         android:layout_marginBottom="4dp"
         android:digits="0123456789abcdefABCDEF"
+        android:drawableLeft="@drawable/phone"
+        android:drawablePadding="5dp"
+        android:hint="userid"
         android:inputType="number"
-        android:hint="userid" />
+        android:maxLines="1"
+        android:textSize="16sp" />
+
     <EditText
         android:id="@+id/username"
         android:drawableLeft="@drawable/icon_user"

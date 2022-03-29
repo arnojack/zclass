@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Display;
@@ -82,11 +83,36 @@ public class Dialog_Signup extends Dialog implements View.OnClickListener {
         p.width =(int)(size.x *0.8);//设置dialog的宽度为当前手机屏幕的宽度*0.8
         getWindow().setAttributes(p);
 
+
         TextView mTvsubmit = findViewById(R.id.submit);
         TextView mTvtitle = findViewById(R.id.title_dialog);
+
+
         mETuserid = findViewById(R.id.userid);
+
+        Drawable leftDrawable = mETuserid.getCompoundDrawables()[0];
+        if(leftDrawable!=null){
+            leftDrawable.setBounds(0, 0, 80, 80);
+            mETuserid.setCompoundDrawables(leftDrawable, mETuserid.getCompoundDrawables()[1]
+                    , mETuserid.getCompoundDrawables()[2], mETuserid.getCompoundDrawables()[3]);
+        }
+
         mETusername=findViewById(R.id.username);
+
+        Drawable leftDrawable1 = mETusername.getCompoundDrawables()[0];
+        if(leftDrawable1!=null){
+            leftDrawable1.setBounds(0, 0, 80, 80);
+            mETusername.setCompoundDrawables(leftDrawable1, mETusername.getCompoundDrawables()[1]
+                    , mETusername.getCompoundDrawables()[2], mETusername.getCompoundDrawables()[3]);
+        }
         mETpassword = findViewById(R.id.password);
+
+        Drawable leftDrawable2 = mETpassword.getCompoundDrawables()[0];
+        if(leftDrawable2!=null){
+            leftDrawable2.setBounds(0, 0, 80, 80);
+            mETpassword.setCompoundDrawables(leftDrawable2, mETpassword.getCompoundDrawables()[1]
+                    , mETpassword.getCompoundDrawables()[2], mETpassword.getCompoundDrawables()[3]);
+        }
         if(!TextUtils.isEmpty(title)){
             mTvtitle.setText(title);
         }

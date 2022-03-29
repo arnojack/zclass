@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Display;
@@ -86,8 +87,22 @@ public class Dialog_Signin extends Dialog implements View.OnClickListener{
         TextView mTvsignin = findViewById(R.id.signin);
         TextView mTvsignup = findViewById(R.id.signup);
         TextView mTvtitle = findViewById(R.id.title_dialog);
-        mETusername = findViewById(R.id.username);
+        mETusername=findViewById(R.id.username);
+
+        Drawable leftDrawable1 = mETusername.getCompoundDrawables()[0];
+        if(leftDrawable1!=null){
+            leftDrawable1.setBounds(0, 0, 80, 80);
+            mETusername.setCompoundDrawables(leftDrawable1, mETusername.getCompoundDrawables()[1]
+                    , mETusername.getCompoundDrawables()[2], mETusername.getCompoundDrawables()[3]);
+        }
         mETpassword = findViewById(R.id.password);
+
+        Drawable leftDrawable2 = mETpassword.getCompoundDrawables()[0];
+        if(leftDrawable2!=null){
+            leftDrawable2.setBounds(0, 0, 80, 80);
+            mETpassword.setCompoundDrawables(leftDrawable2, mETpassword.getCompoundDrawables()[1]
+                    , mETpassword.getCompoundDrawables()[2], mETpassword.getCompoundDrawables()[3]);
+        }
         if(!TextUtils.isEmpty(title)){
             mTvtitle.setText(title);
         }

@@ -1,10 +1,13 @@
 package com.example.zclass.online;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -25,6 +28,8 @@ import com.example.zclass.online.Dialog.LoadingDialog;
 import com.example.zclass.online.fragment.ListviewAdapter;
 import com.example.zclass.online.service.HttpClientUtils;
 import com.example.zclass.online.tool.BaseActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
 import org.json.JSONException;
 
@@ -48,10 +53,32 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
         mBt_createdclass.setOnClickListener(this);
         mBt_joinedclass.setOnClickListener(this);
         mBt_pop.setOnClickListener(this);
+        BottomNavigationView mNaviView=findViewById(R.id.bottom_navigation);
+        mNaviView.setSelectedItemId(R.id.page_2);
+
+        mNaviView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.page_1:
+                        Intent intent1=new Intent(Class_OnlineActivity.this,MainActivity.class);
+                        intent1.putExtra("user",MainActivity.user_info);
+                        startActivity(intent1);
+                        Class_OnlineActivity.this.finish();
+                        return true;
+                    case R.id.page_2:
+                        return true;
+                    case R.id.page_3:
+                        return true;
+                }
+                return false;
+            }
+        });
 
         lv = (ListView) findViewById(R.id.listView1);
         dialog_lod = LoadingDialog.createLoadingDialog(Class_OnlineActivity.this);
         Mylisten_class();
+        //test();
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
@@ -242,6 +269,15 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
                 });
             }
         });
+    }
+    public void test(){
+        ArrayList<HashMap<String,Object>> temp=new ArrayList<>();
+        for(int i=0;i<100;i++){
+            HashMap<String, Object> stringHashMap=new HashMap<String,Object>();
+            stringHashMap.put("第", i+"条消息");
+            temp.add(stringHashMap);
+        }
+        lv.setAdapter(new ListviewAdapter(Class_OnlineActivity.this, temp));//为ListView绑定适配器
     }
     public void Mylisten_class(){
         /*定义一个以HashMap为内容的动态数组*/

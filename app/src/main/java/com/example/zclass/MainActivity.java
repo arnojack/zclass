@@ -1,11 +1,14 @@
 package com.example.zclass;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -18,14 +21,15 @@ import com.example.zclass.online.Dialog.LoadingDialog;
 import com.example.zclass.online.service.HttpClientUtils;
 import com.example.zclass.online.service.UpdateUser;
 import com.example.zclass.online.tool.BaseActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
 import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-    private Button mBtn_offline,mBtn_online;
+public class MainActivity extends AppCompatActivity {
     private String BaseUrl="http://192.168.0.106:8080/demo_war/";
     public static User user_info;
 
@@ -33,27 +37,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mBtn_offline=findViewById(R.id.btn_offline);
-        mBtn_online=findViewById(R.id.btn_online);
-        mBtn_online.setOnClickListener(this);
-        mBtn_offline.setOnClickListener(this);
         user_info =new User();
-    }
+        update_dl();
+        BottomNavigationView mNaviView=findViewById(R.id.bottom_navigation);
+        //mNaviView.getMenu().setGroupCheckable(1, false, false);
 
-    @Override
-    public void onClick(View view) {
-        Intent intent=null;
-        switch (view.getId()){
-            case R.id.btn_offline:
-                break;
-            case R.id.btn_online:
-                //跳转到登录页面
-
-                    //跳转到线上课堂
-                    user_info.setUserid("1");
-                    intent=new Intent(MainActivity.this, Class_OnlineActivity.class);
-                    intent.putExtra("user",user_info);
-                    startActivity(intent);/*if(user_info.getFlag_login()==1){
+        //mNaviView.getMenu().getItem(1).setEnabled(false);
+        mNaviView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Intent intent=null;
+                switch (item.getItemId()){
+                    case R.id.page_1:
+                        return true;
+                    case R.id.page_2:
+                        //跳转到线上课堂
+                        if(user_info.getFlag_login()==1){
+                        intent=new Intent(MainActivity.this, Class_OnlineActivity.class);
+                        intent.putExtra("user",user_info);
+                        startActivity(intent);
+                        MainActivity.this.finish();
                 }else{
                     String url_login=BaseUrl+"LoginServlet";
 
@@ -93,8 +96,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                             Intent intent=new Intent(MainActivity.this, Class_OnlineActivity.class);
                                             intent.putExtra("user",user_info);
                                             startActivity(intent);
+                                            MainActivity.this.finish();
                                         }else{
-                                            update();
+                                            update_onl();
                                             HashMap<String, String> stringHashMap=new HashMap<String,String>();
                                             stringHashMap.put(User.USERID, user_id);
                                             stringHashMap.put(User.PASSWORD, user_password);
@@ -119,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                                 Intent intent=new Intent(MainActivity.this, Class_OnlineActivity.class);
                                                                 intent.putExtra("user",user_info);
                                                                 startActivity(intent);
+                                                                MainActivity.this.finish();
                                                             }
                                                         });
                                                     }else{
@@ -187,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                 //pd.cancel();
                                                 dialog_lod.cancel();
                                             }else {
-                                                update();
+                                                update_onl();
                                                 HashMap<String, String> stringHashMap=new HashMap<String,String>();
                                                 stringHashMap.put(User.USERID, user_info.getUserid());
                                                 stringHashMap.put(User.USERNAME,user_info.getUsername());
@@ -212,6 +217,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                                     Intent intent=new Intent(MainActivity.this, Class_OnlineActivity.class);
                                                                     intent.putExtra("user",user_info);
                                                                     startActivity(intent);
+                                                                    MainActivity.this.finish();
                                                                 }
                                                             });
                                                         }else {
@@ -250,11 +256,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     }).show();
                         }
                     }).show();
-                }*/
-                break;
-        }
+                }
+                        return true;
+                    case R.id.page_3:
+                        return true;
+                }
+                return false;
+            }
+        });
     }
-    public void update(){
+    public void update_onl(){
         UpdateUser.Update(new UpdateUser.Updatelistener() {
             @Override
             public void onSuccess(String json) {
@@ -282,5 +293,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 });
             }
         });
+    }
+    public void update_dl(){
+        User m=(User) getIntent().getSerializableExtra("user");
+        if(m!=null)
+        user_info= m;
+        //user_info.setUserid((String) t.get(User.USERID));
+        //user_info.setUsername((String) t.get(User.USERNAME));
+        //user_info.setPhonenumber((String) t.get(User.PHONENUMBER));
+        //user_info.setProfess((String) t.get(User.PROFESS));
+        //user_info.setSchool((String) t.get(User.SCHOOL));
     }
 }
