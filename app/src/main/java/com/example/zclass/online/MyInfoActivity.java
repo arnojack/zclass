@@ -1,8 +1,12 @@
 package com.example.zclass.online;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,7 +17,15 @@ import com.example.zclass.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
-public class MyInfoActivity extends AppCompatActivity {
+public class MyInfoActivity extends AppCompatActivity implements View.OnClickListener {
+    private ImageView mTVuic;
+    private TextView mTVuichang;
+    private TextView mTVuid;
+    private TextView mTVusex;
+    private TextView mTVupassw;
+    private TextView mTVuname;
+    private TextView mTVuprofess;
+    private TextView mTVuschool;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.myinfo);
@@ -42,6 +54,56 @@ public class MyInfoActivity extends AppCompatActivity {
                 return false;
             }
         });
+        mTVuic=findViewById(R.id.info_icon);
+        mTVuichang=findViewById(R.id.info_iconchange);
+        setpic(mTVuichang);
+        mTVuid=findViewById(R.id.info_userid);
+        setpic(mTVuid);
+        mTVuid.setText(MainActivity.user_info.getUserid());
+        mTVusex=findViewById(R.id.info_sex);
+        setpic(mTVusex);
+        mTVusex.setText(MainActivity.user_info.getSex());
+        mTVupassw=findViewById(R.id.info_passw);
+        setpic(mTVupassw);
+        mTVupassw.setText(MainActivity.user_info.getPassword());
+        mTVuname=findViewById(R.id.info_username);
+        setpic(mTVuname);
+        mTVuname.setText(MainActivity.user_info.getUsername());
+        mTVuprofess=findViewById(R.id.info_profess);
+        setpic(mTVuprofess);
+        mTVuprofess.setText(MainActivity.user_info.getProfess());
+        mTVuschool=findViewById(R.id.info_school);
+        mTVuschool.setText(MainActivity.user_info.getSchool());
+        setpic(mTVuschool);
         super.onCreate(savedInstanceState);
+    }
+    public void setpic(TextView mETpassword){
+        Drawable rightDrawable = mETpassword.getCompoundDrawables()[2];
+        if(rightDrawable!=null){
+            rightDrawable.setBounds(0, 0,50 , 50);
+            mETpassword.setCompoundDrawables(mETpassword.getCompoundDrawables()[0], mETpassword.getCompoundDrawables()[1]
+                    ,rightDrawable ,mETpassword.getCompoundDrawables()[3]);
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.info_icon:
+                break;
+            case R.id.info_iconchange:
+                break;
+            case R.id.info_userid:
+                break;
+            case R.id.info_sex:
+                break;
+            case R.id.info_passw:
+                break;
+            case R.id.info_username:
+                break;
+            case R.id.info_school:
+                break;
+
+        }
     }
 }

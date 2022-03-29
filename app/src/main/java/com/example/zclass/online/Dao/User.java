@@ -9,6 +9,7 @@ import java.util.Date;
 public class User implements Serializable{
     private String userid;
     private String phonenumber;
+    private String sex;
     private String password;
     private String username;
     private String code;
@@ -27,6 +28,8 @@ public class User implements Serializable{
     public static String USERNAME = "username";
     public static String PROFESS="profess";
     public static String SCHOOL ="school";
+    public static String CODE ="code";
+    public static String SEX ="sex";
     //构造函数
 
     public int getFlag_login() {
@@ -35,6 +38,14 @@ public class User implements Serializable{
 
     public void setFlag_login(int flag_login) {
         this.flag_login = flag_login;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
     }
 
     public String getMethod() {
