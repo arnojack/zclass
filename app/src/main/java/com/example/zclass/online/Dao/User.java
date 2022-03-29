@@ -1,5 +1,7 @@
 package com.example.zclass.online.Dao;
 
+import android.graphics.Picture;
+
 import java.io.Serializable;
 import java.util.Date;
 

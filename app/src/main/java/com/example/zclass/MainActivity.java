@@ -287,7 +287,8 @@ public class MainActivity extends AppCompatActivity {
                     HashMap t=temp.get(0);
                     user_info.setUserid((String) t.get(User.USERID));
                     user_info.setUsername((String) t.get(User.USERNAME));
-
+                    user_info.setSex((String) t.get(User.SEX));
+                    user_info.setCode((String) t.get(User.CODE));
                     user_info.setPhonenumber((String) t.get(User.PHONENUMBER));
                     user_info.setProfess((String) t.get(User.PROFESS));
                     user_info.setSchool((String) t.get(User.SCHOOL));

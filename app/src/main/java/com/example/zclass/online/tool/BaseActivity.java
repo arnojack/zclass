@@ -45,6 +45,9 @@ public class BaseActivity {
 
             if(item.has(User.USERID)) m.put(User.USERID,item.getString(User.USERID)) ;
             if(item.has(User.USERNAME)) m.put(User.USERNAME,item.getString(User.USERNAME)) ;
+            if(item.has(User.SEX)) m.put(User.SEX,item.getString(User.SEX)) ;
+            if(item.has(User.CODE)) m.put(User.CODE,item.getString(User.CODE)) ;
+            if(item.has(User.USERID)) m.put(User.USERID,item.getString(User.USERID)) ;
             if(item.has(User.PASSWORD)) m.put(User.PASSWORD,item.getString(User.PASSWORD)) ;
             if(item.has(User.PHONENUMBER)) m.put(User.PHONENUMBER,item.getString(User.PHONENUMBER)) ;
             if(item.has(User.PROFESS)) m.put(User.PROFESS,item.getString(User.PROFESS)) ;
