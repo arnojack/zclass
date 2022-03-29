@@ -11,5 +11,5 @@
         android:id="@+id/loading_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/icon_progress" />
+        android:background="@drawable/loading" />
 </LinearLayout>
