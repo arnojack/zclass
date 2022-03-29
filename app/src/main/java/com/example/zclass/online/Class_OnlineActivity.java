@@ -208,7 +208,7 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
                             Toast.makeText(getApplicationContext(), "加入成功!",
                                     Toast.LENGTH_SHORT).show();
                         }else {
-                            Toast.makeText(getApplicationContext(), "班级不存在!" + json,
+                            Toast.makeText(getApplicationContext(), "班级不存在\n或已加入该班级!" + json,
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
