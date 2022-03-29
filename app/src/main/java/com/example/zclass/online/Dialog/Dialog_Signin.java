@@ -136,7 +136,7 @@ public class Dialog_Signin extends Dialog implements View.OnClickListener{
     }
 
     public interface IonsigninListener{
-        void onsignin(Dialog dialog);
+        boolean onsignin(Dialog dialog);
     }
     public interface IonsignupListener{
         void onsignup(Dialog dialog);

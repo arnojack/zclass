@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Display;
@@ -96,8 +97,27 @@ public class Dialog_Creatclass extends Dialog implements View.OnClickListener{
         TextView mTvtitle = findViewById(R.id.creat_title);
         msubmit =findViewById(R.id.creat_submit);
         mgrade =findViewById(R.id.creat_grade);
+
+        Drawable leftDrawable2 = mgrade.getCompoundDrawables()[0];
+        if(leftDrawable2!=null){
+            leftDrawable2.setBounds(0, 0, 80, 80);
+            mgrade.setCompoundDrawables(leftDrawable2, mgrade.getCompoundDrawables()[1]
+                    , mgrade.getCompoundDrawables()[2], mgrade.getCompoundDrawables()[3]);
+        }
         mclassname=findViewById(R.id.creat_class);
+        Drawable leftDrawable3 = mclassname.getCompoundDrawables()[0];
+        if(leftDrawable3!=null){
+            leftDrawable3.setBounds(0, 0, 80, 80);
+            mclassname.setCompoundDrawables(leftDrawable3, mclassname.getCompoundDrawables()[1]
+                    , mclassname.getCompoundDrawables()[2], mclassname.getCompoundDrawables()[3]);
+        }
         mcouname =findViewById(R.id.creat_couname);
+        Drawable leftDrawable4 = mcouname.getCompoundDrawables()[0];
+        if(leftDrawable4!=null){
+            leftDrawable4.setBounds(0, 0, 80, 80);
+            mcouname.setCompoundDrawables(leftDrawable4, mcouname.getCompoundDrawables()[1]
+                    , mcouname.getCompoundDrawables()[2], mcouname.getCompoundDrawables()[3]);
+        }
 
         if(!TextUtils.isEmpty(title)){
             mTvtitle.setText(title);

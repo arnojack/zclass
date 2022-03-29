@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Display;
@@ -87,6 +88,12 @@ public class Dialog_Joinclass extends Dialog implements View.OnClickListener{
 
         TextView mTvtitle = findViewById(R.id.join_title);
         mTvtext =findViewById(R.id.join_class);
+        Drawable leftDrawable2 = mTvtext.getCompoundDrawables()[0];
+        if(leftDrawable2!=null){
+            leftDrawable2.setBounds(0, 0, 80, 80);
+            mTvtext.setCompoundDrawables(leftDrawable2, mTvtext.getCompoundDrawables()[1]
+                    , mTvtext.getCompoundDrawables()[2], mTvtext.getCompoundDrawables()[3]);
+        }
         msubmit =findViewById(R.id.join_submit);
 
         if(!TextUtils.isEmpty(title)){

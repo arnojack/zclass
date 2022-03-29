@@ -69,6 +69,10 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
                     case R.id.page_2:
                         return true;
                     case R.id.page_3:
+                        Intent intent=new Intent(Class_OnlineActivity.this,MyInfoActivity.class);
+                        intent.putExtra("user",MainActivity.user_info);
+                        startActivity(intent);
+                        Class_OnlineActivity.this.finish();
                         return true;
                 }
                 return false;

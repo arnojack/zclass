@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    style="@style/MyDialog"
     android:gravity="center_horizontal">
 
     <TextView
@@ -16,7 +17,7 @@
         android:layout_marginTop="20dp"/>
     <EditText
         android:id="@+id/creat_couname"
-        android:drawableLeft="@drawable/icon_user"
+        android:drawableLeft="@drawable/classname"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:textSize="16sp"
@@ -29,7 +30,7 @@
         android:hint="请输入课程名称" />
     <EditText
         android:id="@+id/creat_grade"
-        android:drawableLeft="@drawable/icon_user"
+        android:drawableLeft="@drawable/grade"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:textSize="16sp"
@@ -42,7 +43,7 @@
         android:hint="请输入课程所在年级" />
     <EditText
         android:id="@+id/creat_class"
-        android:drawableLeft="@drawable/icon_user"
+        android:drawableLeft="@drawable/class_onl"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:textSize="16sp"

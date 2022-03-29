@@ -2,22 +2,19 @@ package com.example.zclass;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.zclass.online.Dao.User;
+import com.example.zclass.online.Class_OnlineActivity;
 import com.example.zclass.online.Dialog.Dialog_Signin;
 import com.example.zclass.online.Dialog.Dialog_Signup;
-import com.example.zclass.online.Class_OnlineActivity;
 import com.example.zclass.online.Dialog.LoadingDialog;
+import com.example.zclass.online.MyInfoActivity;
 import com.example.zclass.online.service.HttpClientUtils;
 import com.example.zclass.online.service.UpdateUser;
 import com.example.zclass.online.tool.BaseActivity;
@@ -32,7 +29,7 @@ import java.util.HashMap;
 public class MainActivity extends AppCompatActivity {
     private String BaseUrl="http://192.168.0.106:8080/demo_war/";
     public static User user_info;
-
+    public static Boolean result=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,12 +48,27 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.page_1:
                         return true;
                     case R.id.page_2:
-                        //跳转到线上课堂
+
                         if(user_info.getFlag_login()==1){
-                        intent=new Intent(MainActivity.this, Class_OnlineActivity.class);
+                            intent=new Intent(MainActivity.this, Class_OnlineActivity.class);
+                            intent.putExtra("user",user_info);
+                            startActivity(intent);
+                            MainActivity.this.finish();
+                            return true;
+                        }else {
+                            Toast.makeText(getApplicationContext(), "请登录! 请点击个人信息!",
+                                    Toast.LENGTH_SHORT).show();
+                            return false;
+                        }
+                    case R.id.page_3:
+                        //跳转到线上课堂
+                        result=false;
+                        if(user_info.getFlag_login()==1){
+                        intent=new Intent(MainActivity.this, MyInfoActivity.class);
                         intent.putExtra("user",user_info);
                         startActivity(intent);
                         MainActivity.this.finish();
+                        result =true;
                 }else{
                     String url_login=BaseUrl+"LoginServlet";
 
@@ -64,11 +76,11 @@ public class MainActivity extends AppCompatActivity {
                     sign_Dialog.setTitle("登录").setUsername("userid").setPassword("password")
                             .setsignin("登录", new Dialog_Signin.IonsigninListener() {
                                 @Override
-                                public void onsignin(Dialog dialog) {
+                                public boolean onsignin(Dialog dialog) {
 
                                     //正在加载 图片
                                     //sign_Dialog.hide();
-                                    Dialog dialog_lod =LoadingDialog.createLoadingDialog(MainActivity.this);
+                                    Dialog dialog_lod = LoadingDialog.createLoadingDialog(MainActivity.this);
                                     dialog_lod.show();
 
                                     String user_id =sign_Dialog.getUsername();
@@ -93,10 +105,11 @@ public class MainActivity extends AppCompatActivity {
                                             sign_Dialog.hide();
                                             //跳转到线上课堂
                                             user_info.setFlag_login(1);
-                                            Intent intent=new Intent(MainActivity.this, Class_OnlineActivity.class);
+                                            Intent intent=new Intent(MainActivity.this, MyInfoActivity.class);
                                             intent.putExtra("user",user_info);
                                             startActivity(intent);
                                             MainActivity.this.finish();
+                                            result=true;
                                         }else{
                                             update_onl();
                                             HashMap<String, String> stringHashMap=new HashMap<String,String>();
@@ -120,10 +133,11 @@ public class MainActivity extends AppCompatActivity {
                                                                         Toast.LENGTH_SHORT).show();
                                                                 sign_Dialog.hide();
                                                                 user_info.setFlag_login(1);
-                                                                Intent intent=new Intent(MainActivity.this, Class_OnlineActivity.class);
+                                                                Intent intent=new Intent(MainActivity.this, MyInfoActivity.class);
                                                                 intent.putExtra("user",user_info);
                                                                 startActivity(intent);
                                                                 MainActivity.this.finish();
+                                                                result =true;
                                                             }
                                                         });
                                                     }else{
@@ -158,6 +172,7 @@ public class MainActivity extends AppCompatActivity {
                                             });
                                         }
                                     }
+                                    return result;
                                 }
                             }).setsignup("注册", new Dialog_Signin.IonsignupListener(){
                         @Override
@@ -214,10 +229,11 @@ public class MainActivity extends AppCompatActivity {
                                                                     //跳转到线上课堂
                                                                     signup_Dialog.hide();
                                                                     user_info.setFlag_login(1);
-                                                                    Intent intent=new Intent(MainActivity.this, Class_OnlineActivity.class);
+                                                                    Intent intent=new Intent(MainActivity.this, MyInfoActivity.class);
                                                                     intent.putExtra("user",user_info);
                                                                     startActivity(intent);
                                                                     MainActivity.this.finish();
+                                                                    result =true;
                                                                 }
                                                             });
                                                         }else {
@@ -257,11 +273,8 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }).show();
                 }
-                        return true;
-                    case R.id.page_3:
-                        return true;
                 }
-                return false;
+                return result;
             }
         });
     }
