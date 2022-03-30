@@ -11,13 +11,24 @@
         android:layout_weight="10"
         android:layout_margin="10dp"
         android:orientation="vertical">
-        <TextView
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="此处为课表"
-            android:textSize="30dp"
-            android:layout_gravity="center"
-            android:layout_margin="70dp"/>
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.example.zclass.offline.view.TimeTableView
+                    android:id="@+id/timeTable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:orientation="vertical"/>
+
+            </LinearLayout>
+        </ScrollView>
     </LinearLayout>
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"

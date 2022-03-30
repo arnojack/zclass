@@ -16,6 +16,12 @@
             android:name=".online.Class_OnlineActivity"
             android:exported="false" />
         <activity
+            android:name=".offline.OptionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".offline.UpdateCourseActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

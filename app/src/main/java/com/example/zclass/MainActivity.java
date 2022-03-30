@@ -5,10 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
+import com.example.zclass.offline.dao.CourseDao;
+import com.example.zclass.offline.OptionActivity;
 import com.example.zclass.online.Dao.User;
 import com.example.zclass.online.Class_OnlineActivity;
 import com.example.zclass.online.Dialog.Dialog_Signin;
@@ -18,22 +23,38 @@ import com.example.zclass.online.MyInfoActivity;
 import com.example.zclass.online.service.HttpClientUtils;
 import com.example.zclass.online.service.UpdateUser;
 import com.example.zclass.online.tool.BaseActivity;
+import com.example.zclass.offline.pojo.Course;
+import com.example.zclass.offline.view.TimeTableView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private String BaseUrl="http://192.168.0.106:8080/demo_war/";
     public static User user_info;
     public static Boolean result=false;
+    private CourseDao courseDao = new CourseDao(this);
+    private TimeTableView timeTable;
+    private SharedPreferences sp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        sp = getSharedPreferences("config", MODE_PRIVATE);
+        timeTable = findViewById(R.id.timeTable);
+        timeTable.addListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                categoryListener();
+            }
+        });
         user_info =new User();
         update_dl();
         BottomNavigationView mNaviView=findViewById(R.id.bottom_navigation);
@@ -317,5 +338,31 @@ public class MainActivity extends AppCompatActivity {
         //user_info.setPhonenumber((String) t.get(User.PHONENUMBER));
         //user_info.setProfess((String) t.get(User.PROFESS));
         //user_info.setSchool((String) t.get(User.SCHOOL));
+    }
+    protected void onStart() {
+        super.onStart();
+        //获取开学时间
+        long date = sp.getLong("date", new Date().getTime());
+        timeTable.loadData(acquireData(), new Date(date));
+        Log.i("test", new Date(date).toString());
+    }
+
+    private List<Course> acquireData() {
+        List<Course> courses = new ArrayList<>();
+        sp = getSharedPreferences("config", MODE_PRIVATE);
+        if (sp.getBoolean("isFirstUse", true)) {//首次使用
+            sp.edit().putBoolean("isFirstUse", false).apply();
+        }else {
+            courses = courseDao.listAll();
+        }
+        return courses;
+    }
+
+    /**
+     * 菜单
+     */
+    public void categoryListener() {
+        Intent intent = new Intent(this, OptionActivity.class);
+        startActivity(intent);
     }
 }
