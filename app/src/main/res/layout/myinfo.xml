@@ -64,7 +64,6 @@
                     android:background="@color/white"
                     android:gravity="center"
                     android:text="账号"
-                    android:drawableRight="@drawable/rightp"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
             </LinearLayout>
@@ -122,6 +121,35 @@
                     android:background="@color/white"
                     android:gravity="center"
                     android:text="性别"
+                    android:drawableRight="@drawable/rightp"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#D9D8D3" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="50dp"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:text="手机号 :"
+                    android:textColor="@color/light_gray"
+                    android:textSize="18sp" />
+                <TextView
+                    android:id="@+id/info_phone"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="50dp"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:text="手机号"
                     android:drawableRight="@drawable/rightp"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
