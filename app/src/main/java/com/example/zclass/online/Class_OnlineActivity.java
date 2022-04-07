@@ -26,6 +26,7 @@ import com.example.zclass.online.Dialog.Dialog_Creatclass;
 import com.example.zclass.online.Dialog.Dialog_Joinclass;
 import com.example.zclass.online.Dialog.LoadingDialog;
 import com.example.zclass.online.fragment.ListviewAdapter;
+import com.example.zclass.online.fragment.MyChatroomDemo;
 import com.example.zclass.online.service.HttpClientUtils;
 import com.example.zclass.online.tool.BaseActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -88,6 +89,8 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 Toast.makeText(getApplicationContext(), "你点击了第" + arg2 + "行",
                         Toast.LENGTH_SHORT).show();
+                Intent intent =new Intent(Class_OnlineActivity.this, MyChatroomDemo.class);
+                startActivity(intent);
             }
         });
     }
