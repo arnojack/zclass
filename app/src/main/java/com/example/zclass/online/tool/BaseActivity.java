@@ -1,5 +1,10 @@
 package com.example.zclass.online.tool;
 
+import android.graphics.drawable.Drawable;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
 import com.example.zclass.online.Dao.Course;
 import com.example.zclass.online.Dao.User;
 
@@ -12,6 +17,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BaseActivity {
+    public static void setbackground(View view,double num) {
+        Drawable drawable = view.getBackground();
+        view.setBackground(null);
+
+        view.post(() -> {
+            int width = view.getWidth();
+            int height = view.getHeight();
+
+            view.setBackground(drawable);
+            ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+            layoutParams.width = (int) (num*width);
+            layoutParams.height =(int) (num*height);
+        });
+    }
     public static ArrayList jtol_cou(String data) throws JSONException {
 
         Map<String,String> map=new HashMap<>();

@@ -2,34 +2,101 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="20dp"
     android:layout_height="wrap_content">
     <LinearLayout
         android:id="@+id/left_layout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
+        android:orientation="vertical"
         >
+        <TextView
+            android:id="@+id/left_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="2019-12-04-19:21"
+            android:gravity="center"
+            android:layout_gravity="center"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/left_ic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/icon_user"/>
+
+            <TextView
+                android:id="@+id/left_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="名字" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
         <TextView
             android:id="@+id/left_msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:background="@drawable/msg_left"
+            android:layout_gravity="left"
             android:gravity="center"
+            android:textSize="15sp"
             android:text="1111"
             android:layout_margin="10dp"/>
     </LinearLayout>
     <LinearLayout
         android:id="@+id/right_layout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
+        android:orientation="vertical"
         >
+        <TextView
+            android:id="@+id/right_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="2019-12-04-19:21"
+            android:gravity="center"
+            android:layout_gravity="center"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/right_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:layout_gravity="right"
+                android:gravity="center"
+                android:text="名字" />
+            <ImageView
+                android:id="@+id/right_ic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:background="@drawable/icon_user"/>
+        </LinearLayout>
         <TextView
             android:id="@+id/right_msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="right"
+            android:textSize="15sp"
             android:gravity="center"
+            android:background="@drawable/msg_right"
             android:text="111"
             android:layout_margin="10dp"/>
 

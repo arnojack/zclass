@@ -12,6 +12,7 @@ import java.util.Date;
  */
 public class Msg {
     private String content;
+    private String name;
     private int type;
     private String time;
     public final static int TYPE_RECEIVED=0;
@@ -25,6 +26,27 @@ public class Msg {
     public String getContent() {
         return content;
     }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
     public int getType() {
         return type;
     }

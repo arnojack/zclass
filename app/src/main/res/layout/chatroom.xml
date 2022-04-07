@@ -3,30 +3,82 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/room_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:text="名称"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            android:gravity="center"/>
+        <Button
+            android:id="@+id/chat_pop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/pop_more"
+            android:text="pop" />
+    </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chatroomRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        />
+        android:layout_weight="1"/>
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <EditText
-            android:id="@+id/enter"
-            android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="122"
-            android:layout_weight="1"
-            android:maxLines="2"
-            />
-        <Button
-            android:id="@+id/send"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="send"
-            />
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/room_mem"
+                android:drawableLeft="@drawable/member"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_margin="5dp"
+                android:text="成员"/>
+            <TextView
+                android:id="@+id/room_work"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/work"
+                android:gravity="center"
+                android:layout_margin="5dp"
+                android:text="作业"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="10"/>
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:background="@color/light_yellow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/room_text"
+                android:layout_width="0dp"
+                android:background="@color/white"
+                android:layout_height="wrap_content"
+                android:hint="请输入内容"
+                android:layout_weight="1"
+                android:maxLines="2"
+                />
+
+            <Button
+                android:id="@+id/room_send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="发送" />
+        </LinearLayout>
     </LinearLayout>
 
 

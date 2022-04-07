@@ -3,6 +3,7 @@ package com.example.zclass.online.fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -11,13 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.zclass.R;
 import com.example.zclass.online.Dao.Msg;
+import com.example.zclass.online.tool.BaseActivity;
 
 import java.util.List;
-
-
-/**
- * Created by lenovo on 2018/5/4.
- */
 
 /*
 适配器类，注意适配器类中的泛型不是List集合而是Viewholder缓存内部类
@@ -34,6 +31,14 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder> {
         LinearLayout right_layout;
         TextView left_msg;
         TextView right_msg;
+        TextView left_time;
+        TextView right_time;
+
+        TextView left_name;
+        TextView right_name;
+
+        ImageView left_ic;
+        ImageView right_ic;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -41,7 +46,18 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder> {
             left_layout = (LinearLayout)itemView.findViewById(R.id.left_layout);
             right_layout = (LinearLayout)itemView.findViewById(R.id.right_layout);
             left_msg = (TextView)itemView.findViewById(R.id.left_msg);
+            BaseActivity.setbackground(left_msg,1.5);
             right_msg = (TextView)itemView.findViewById(R.id.right_msg);
+            BaseActivity.setbackground(right_msg,1.5);
+
+            left_ic=itemView.findViewById(R.id.left_ic);
+            right_ic=itemView.findViewById(R.id.right_ic);
+
+            left_time=itemView.findViewById(R.id.left_time);
+            right_time=itemView.findViewById(R.id.right_time);
+
+            left_name=itemView.findViewById(R.id.left_name);
+            right_name=itemView.findViewById(R.id.right_name);
         }
     }
     /*
@@ -83,11 +99,16 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder> {
             holder.left_layout.setVisibility(View.VISIBLE);
             holder.right_layout.setVisibility(View.GONE);
             holder.left_msg.setText(msg.getContent());
-        }
-        if (msg.getType() == Msg.TYPE_SENT){
+            holder.left_name.setText(msg.getName());
+            holder.left_time.setText(msg.getTime());
+            //holder.left_ic.setImageDrawable();
+        } else if (msg.getType() == Msg.TYPE_SENT){
             holder.right_layout.setVisibility(View.VISIBLE);
             holder.left_layout.setVisibility(View.GONE);
             holder.right_msg.setText(msg.getContent());
+            holder.right_name.setText(msg.getName());
+            holder.right_time.setText(msg.getTime());
+            //holder.right_ic.setImageDrawable();
         }
     }
     //  必须要重写的方法，返回list的长度

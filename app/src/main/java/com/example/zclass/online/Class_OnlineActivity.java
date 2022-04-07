@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,9 +86,11 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                TextView classNa=arg1.findViewById(R.id.item_title);
                 Toast.makeText(getApplicationContext(), "你点击了第" + arg2 + "行",
                         Toast.LENGTH_SHORT).show();
                 Intent intent =new Intent(Class_OnlineActivity.this, MyChatroomDemo.class);
+                intent.putExtra("roomNa",classNa.getText().toString());
                 startActivity(intent);
             }
         });
@@ -108,8 +109,8 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
                 break;
             case R.id.btn_pop:
                 //下拉框
-                View popview =getLayoutInflater().inflate(R.layout.activity_pop_window,null);
-                mpop =new PopupWindow(popview,mBt_pop.getWidth(), ViewGroup.LayoutParams.WRAP_CONTENT);
+                View popview =getLayoutInflater().inflate(R.layout.class_pop,null);
+                mpop =new PopupWindow(popview,250, ViewGroup.LayoutParams.WRAP_CONTENT);
                 mpop.setOutsideTouchable(true);
                 mpop.setFocusable(true);
                 mpop.showAsDropDown(mBt_pop);
