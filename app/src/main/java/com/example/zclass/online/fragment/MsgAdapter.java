@@ -14,6 +14,8 @@ import com.example.zclass.R;
 import com.example.zclass.online.Dao.Msg;
 import com.example.zclass.online.tool.BaseActivity;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /*
@@ -93,6 +95,7 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(MsgAdapter.ViewHolder holder, int position) {
         Msg msg = msgList.get(position);
+        String time = formatTime(msg.getTime());
         //判断是信息是接收还是发送的，并且分别判断需要隐藏的布局和显示的布局
         if (msg.getType() == Msg.TYPE_RECEIVED){
             //判断到信息是接收的，将左边的布局显示，右边的布局隐藏
@@ -100,14 +103,14 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder> {
             holder.right_layout.setVisibility(View.GONE);
             holder.left_msg.setText(msg.getContent());
             holder.left_name.setText(msg.getName());
-            holder.left_time.setText(msg.getTime());
+            holder.left_time.setText(time);
             //holder.left_ic.setImageDrawable();
         } else if (msg.getType() == Msg.TYPE_SENT){
             holder.right_layout.setVisibility(View.VISIBLE);
             holder.left_layout.setVisibility(View.GONE);
             holder.right_msg.setText(msg.getContent());
             holder.right_name.setText(msg.getName());
-            holder.right_time.setText(msg.getTime());
+            holder.right_time.setText(time);
             //holder.right_ic.setImageDrawable();
         }
     }
@@ -115,5 +118,17 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder> {
     @Override
     public int getItemCount() {
         return msgList.size();
+    }
+    /**
+     * 将毫秒数转为日期格式
+     *
+     * @param timeMillis
+     * @return
+     */
+    private String formatTime(String timeMillis) {
+        long timeMillisl=Long.parseLong(timeMillis);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date(timeMillisl);
+        return simpleDateFormat.format(date);
     }
 }

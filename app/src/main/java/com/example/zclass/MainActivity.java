@@ -12,8 +12,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.zclass.offline.dao.CourseDao;
 import com.example.zclass.offline.OptionActivity;
+import com.example.zclass.offline.dao.CourseDao;
+import com.example.zclass.offline.pojo.Course;
+import com.example.zclass.offline.view.TimeTableView;
 import com.example.zclass.online.Dao.User;
 import com.example.zclass.online.Class_OnlineActivity;
 import com.example.zclass.online.Dialog.Dialog_Signin;
@@ -23,8 +25,6 @@ import com.example.zclass.online.MyInfoActivity;
 import com.example.zclass.online.service.HttpClientUtils;
 import com.example.zclass.online.service.UpdateUser;
 import com.example.zclass.online.tool.BaseActivity;
-import com.example.zclass.offline.pojo.Course;
-import com.example.zclass.offline.view.TimeTableView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
@@ -36,12 +36,14 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private String BaseUrl="http://192.168.0.106:8080/demo_war/";
     public static User user_info;
     public static Boolean result=false;
     private CourseDao courseDao = new CourseDao(this);
     private TimeTableView timeTable;
     private SharedPreferences sp;
+
+    Dialog_Signin sign_Dialog;
+    Dialog_Signup signup_Dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 case R.id.page_2:
                     //跳转到线上课堂
-                    if(user_info.getFlag_login()==1){
+                   if(user_info.getFlag_login()==1){
                         intent=new Intent(MainActivity.this, Class_OnlineActivity.class);
                         intent.putExtra("user",user_info);
                         startActivity(intent);
@@ -78,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     }else {
                         login(Class_OnlineActivity.class);
+                        Log.e("MainActivity","login结束");
                         return false;
                     }
                 case R.id.page_3:
@@ -91,15 +94,24 @@ public class MainActivity extends AppCompatActivity {
                         result =true;
                     }else{
                         login(MyInfoActivity.class);
+                        Log.e("MainActivity","login结束");
                     }
             }
             return result;
         }
     }
-    public void login(Class cl){
-        String url_login=BaseUrl+"LoginServlet";
 
-        Dialog_Signin sign_Dialog =new Dialog_Signin(MainActivity.this,R.style.MyDialog);
+    @Override
+    protected void onStop() {
+        if (sign_Dialog != null) { sign_Dialog.dismiss();}
+        if (signup_Dialog != null) { signup_Dialog.dismiss();}
+        super.onStop();
+    }
+
+    public void login(Class cl){
+        String url_login=BaseActivity.BaseUrl+"LoginServlet";
+
+        sign_Dialog =new Dialog_Signin(MainActivity.this,R.style.MyDialog);
         sign_Dialog.setTitle("登录").setUsername("userid").setPassword("password")
                 .setsignin("登录", new Dialog_Signin.IonsigninListener() {
                     @Override
@@ -159,14 +171,15 @@ public class MainActivity extends AppCompatActivity {
                                                     Toast.makeText(getApplicationContext(), "登录成功!",
                                                             Toast.LENGTH_SHORT).show();
                                                     sign_Dialog.hide();
-                                                    user_info.setFlag_login(1);
-                                                    Intent intent=new Intent(MainActivity.this, cl);
-                                                    intent.putExtra("user",user_info);
-                                                    startActivity(intent);
-                                                    MainActivity.this.finish();
-                                                    result =true;
                                                 }
                                             });
+                                            user_info.setFlag_login(1);
+                                            Intent intent=new Intent(MainActivity.this, cl);
+                                            intent.putExtra("user",user_info);
+                                            startActivity(intent);
+                                            MainActivity.this.finish();
+                                            result =true;
+                                            Log.e("MainActivity","跳转");
                                         }else{
                                             runOnUiThread(new Runnable() {
                                                 @Override
@@ -208,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
                 //跳转到注册页面
 
 
-                Dialog_Signup signup_Dialog =new Dialog_Signup(MainActivity.this,R.style.MyDialog);
+                signup_Dialog =new Dialog_Signup(MainActivity.this,R.style.MyDialog);
                 signup_Dialog.setTitle("注册").setUserid("userid").setPassword("password")
                         .setsubmit("提交", new Dialog_Signup.IonsubmitListener() {
                             @Override
@@ -253,16 +266,17 @@ public class MainActivity extends AppCompatActivity {
 
                                                         Toast.makeText(getApplicationContext(), "注册成功!",
                                                                 Toast.LENGTH_SHORT).show();
-                                                        //跳转到cl
+
                                                         signup_Dialog.hide();
-                                                        user_info.setFlag_login(1);
-                                                        Intent intent=new Intent(MainActivity.this, cl);
-                                                        intent.putExtra("user",user_info);
-                                                        startActivity(intent);
-                                                        MainActivity.this.finish();
-                                                        result =true;
                                                     }
-                                                });
+                                                });//跳转到cl
+                                                user_info.setFlag_login(1);
+                                                Intent intent=new Intent(MainActivity.this, cl);
+                                                intent.putExtra("user",user_info);
+                                                startActivity(intent);
+                                                MainActivity.this.finish();
+                                                result =true;
+                                                Log.e("MainActivity","跳转");
                                             }else {
                                                 runOnUiThread(new Runnable() {
                                                     @Override

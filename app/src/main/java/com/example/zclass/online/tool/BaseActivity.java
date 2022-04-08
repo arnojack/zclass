@@ -1,9 +1,11 @@
 package com.example.zclass.online.tool;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.zclass.online.Dao.Course;
 import com.example.zclass.online.Dao.User;
@@ -17,6 +19,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BaseActivity {
+    public static final String roomName ="jj";
+    public static final String ws = "ws://192.168.0.106:8080/demo_war/chat/" + roomName;
+    public static final String BaseUrl="http://192.168.0.106:8080/demo_war/";
+
+    public static void showToast(Context ctx, String msg) {
+        Toast.makeText(ctx, msg, Toast.LENGTH_LONG).show();
+    }
+
     public static void setbackground(View view,double num) {
         Drawable drawable = view.getBackground();
         view.setBackground(null);

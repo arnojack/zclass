@@ -1,9 +1,6 @@
 package com.example.zclass.online.Dao;
 import java.util.Date;
 
-/**
- * Created by lenovo on 2018/5/4.
- */
 /*
  我们需要单例保存的数据为：
  1.消息的内容；
@@ -21,6 +18,10 @@ public class Msg {
         this.content =content;
         this.type = type;
         this.time = timeData();
+    }
+
+    public Msg() {
+
     }
 
     public String getContent() {

@@ -1,10 +1,14 @@
 package com.example.zclass.online;
 
+import static com.example.zclass.online.tool.BaseActivity.BaseUrl;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +27,8 @@ import com.example.zclass.online.Dao.Course;
 import com.example.zclass.online.Dao.User;
 import com.example.zclass.online.Dialog.Dialog_Creatclass;
 import com.example.zclass.online.Dialog.Dialog_Joinclass;
+import com.example.zclass.online.Dialog.Dialog_Signin;
+import com.example.zclass.online.Dialog.Dialog_Signup;
 import com.example.zclass.online.Dialog.LoadingDialog;
 import com.example.zclass.online.fragment.ListviewAdapter;
 import com.example.zclass.online.fragment.MyChatroomDemo;
@@ -42,7 +48,8 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
     public ListView lv;
     private Dialog dialog_lod;
 
-    private String BaseUrl="http://192.168.0.106:8080/demo_war/";
+    Dialog_Joinclass joinclass;
+    Dialog_Creatclass creatclass;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,11 +91,11 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
         Mylisten_class();
         //test();
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 TextView classNa=arg1.findViewById(R.id.item_title);
-                Toast.makeText(getApplicationContext(), "你点击了第" + arg2 + "行",
-                        Toast.LENGTH_SHORT).show();
+
                 Intent intent =new Intent(Class_OnlineActivity.this, MyChatroomDemo.class);
                 intent.putExtra("roomNa",classNa.getText().toString());
                 startActivity(intent);
@@ -120,7 +127,7 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
                     public void onClick(View view) {
                         mpop.dismiss();
                         //加入班级
-                        Dialog_Joinclass joinclass = new Dialog_Joinclass(Class_OnlineActivity.this, R.style.MyDialog);
+                        joinclass = new Dialog_Joinclass(Class_OnlineActivity.this, R.style.MyDialog);
                         joinclass.setTitle("加入课程").setText("请输入课程编码").setsubmit("提交", new Dialog_Joinclass.IonsubmitListener() {
                             @Override
                             public void onsubmit(Dialog dialog) {
@@ -151,7 +158,7 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
                     public void onClick(View view) {
                         mpop.dismiss();
                         //创建班级
-                        Dialog_Creatclass creatclass = new Dialog_Creatclass(Class_OnlineActivity.this,R.style.MyDialog);
+                        creatclass = new Dialog_Creatclass(Class_OnlineActivity.this,R.style.MyDialog);
                         creatclass.setTitle("创建班级").setsubmit("提交", new Dialog_Creatclass.IonsubmitListener() {
                             @Override
                             public void onsubmit(Dialog dialog) {
@@ -190,6 +197,14 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
                 break;
         }
     }
+
+    @Override
+    protected void onStop() {
+        if(joinclass!=null)joinclass.dismiss();
+        if(creatclass!=null)creatclass.dismiss();
+        super.onStop();
+    }
+
     public void Myjoin_class(String cou_on_id){
         /*定义一个以HashMap为内容的动态数组*/
         //User user_info =(User) getIntent().getSerializableExtra("user");
@@ -304,14 +319,14 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
                     @Override
                     public void run() {
                         dialog_lod.hide();
-                        try {
-                            ArrayList temp= BaseActivity.jtol_cou(json);
-                            lv.setAdapter(new ListviewAdapter(Class_OnlineActivity.this, temp));//为ListView绑定适配器
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
                     }
                 });
+                try {
+                    ArrayList temp= BaseActivity.jtol_cou(json);
+                    lv.setAdapter(new ListviewAdapter(Class_OnlineActivity.this, temp));//为ListView绑定适配器
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
             @Override
             public void onError(String errorMsg) {
@@ -343,14 +358,15 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
                     @Override
                     public void run() {
                         dialog_lod.hide();
-                        try {
-                            ArrayList temp=BaseActivity.jtol_cou(json);
-                            lv.setAdapter(new ListviewAdapter(Class_OnlineActivity.this,temp ));//为ListView绑定适配器
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+
                     }
                 });
+                try {
+                    ArrayList temp=BaseActivity.jtol_cou(json);
+                    lv.setAdapter(new ListviewAdapter(Class_OnlineActivity.this,temp ));//为ListView绑定适配器
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
             @Override
             public void onError(String errorMsg) {
