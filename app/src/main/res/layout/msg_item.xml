@@ -45,7 +45,7 @@
             android:id="@+id/left_msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/msg_left"
+            android:background="@drawable/msg"
             android:layout_gravity="left"
             android:gravity="center"
             android:textSize="15sp"
@@ -96,7 +96,7 @@
             android:layout_gravity="right"
             android:textSize="15sp"
             android:gravity="center"
-            android:background="@drawable/msg_right"
+            android:background="@drawable/msg"
             android:text="111"
             android:layout_margin="10dp"/>
 

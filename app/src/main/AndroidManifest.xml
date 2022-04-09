@@ -42,7 +42,10 @@
         </activity>
         <activity android:name=".online.MyInfoActivity" />
         <activity android:name=".online.fragment.MyChatroomDemo"
-            android:exported="true" />
+
+            android:exported="true" >
+
+        </activity>
         <service
             android:name=".online.service.JWebSocketClientService"
             android:enabled="true"

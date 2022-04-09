@@ -1,4 +1,5 @@
 package com.example.zclass.online.Dao;
+import java.io.Serializable;
 import java.util.Date;
 
 /*
@@ -7,21 +8,53 @@ import java.util.Date;
  2.消息的类型：发送还是接收；
  3.消息创建时间
  */
-public class Msg {
-    private String content;
+public class Msg implements Serializable {
+    private String userid;
     private String name;
+    private String content;
+    private String user_ty;
     private int type;
-    private String time;
+    private Date time;
     public final static int TYPE_RECEIVED=0;
     public final static int TYPE_SENT=1;
-    public Msg(String content,int type){
+
+    public static String STU="student";
+    public static String TEA="teacher";
+    public static String USERTY="user_ty";
+    public static String USERID="userid";
+    public static String NAME="name";
+    public static String CONTENT = "content";
+    public static String TYPE = "type";
+    public static String TIME = "time";
+
+    public Msg(String userid,String name,String user_ty,String content,int type,Date time){
+        this.userid=userid;
+        this.name=name;
+        this.user_ty=user_ty;
         this.content =content;
         this.type = type;
-        this.time = timeData();
+        this.time = time;
+    }
+
+    public String getUser_ty() {
+        return user_ty;
+    }
+
+    public void setUser_ty(String user_ty) {
+        this.user_ty = user_ty;
     }
 
     public Msg() {
 
+    }
+
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
     }
 
     public String getContent() {
@@ -44,7 +77,7 @@ public class Msg {
         this.type = type;
     }
 
-    public void setTime(String time) {
+    public void setTime(Date time) {
         this.time = time;
     }
 
@@ -52,18 +85,8 @@ public class Msg {
         return type;
     }
 
-    public String getTime() {
+    public Date getTime() {
         return time;
     }
-    /*
-    写一个获取时间的方法
-     */
-    public String timeData(){
-        Date date = new Date();
-        String timeData = String.format("%tH",date)
-                +String.format("%tM",date)
-                +String.format("%tS",date);
-        return timeData;
 
-    }
 }

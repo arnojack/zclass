@@ -51,6 +51,7 @@ public class ListviewAdapter extends BaseAdapter {
     {
         public ImageView img_bottom;
         public TextView title;
+        public TextView itemid;
         public TextView text_left;
         public TextView text_right;
         public ImageView img_up;
@@ -64,6 +65,7 @@ public class ListviewAdapter extends BaseAdapter {
         {
             holder = new ViewHolder();
             convertView = mInflater.inflate(R.layout.item, null);
+            holder.itemid=convertView.findViewById(R.id.item_id);
             holder.img_bottom = (ImageView)convertView.findViewById(R.id.item_icon);
             holder.title = (TextView)convertView.findViewById(R.id.item_title);
             holder.text_left = (TextView)convertView.findViewById(R.id.item_bottom_left);
@@ -80,7 +82,7 @@ public class ListviewAdapter extends BaseAdapter {
         holder.title.setText((String) listItem.get(position).get("cou_on_name"));
         holder.text_left.setText((String) listItem.get(position).get("tea_name"));
         holder.text_right.setText((String) listItem.get(position).get("cou_grade")+"-"+listItem.get(position).get("cou_class"));
-
+        holder.itemid.setText(listItem.get(position).get("cou_on_id").toString());
         //holder.item.setBackgroundColor(color[position]);
 
         return convertView;

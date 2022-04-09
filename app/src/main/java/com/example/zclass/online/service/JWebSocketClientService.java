@@ -29,16 +29,21 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
+import com.alibaba.fastjson.JSON;
 import com.example.zclass.APP;
 import com.example.zclass.MainActivity;
 import com.example.zclass.R;
 import com.example.zclass.online.Class_OnlineActivity;
+import com.example.zclass.online.Dao.Msg;
 import com.example.zclass.online.fragment.MyChatroomDemo;
 import com.example.zclass.online.tool.BaseActivity;
 
 import org.java_websocket.handshake.ServerHandshake;
+import org.json.JSONException;
 
+import java.io.Serializable;
 import java.net.URI;
+import java.util.List;
 
 public class JWebSocketClientService extends Service {
     public JWebSocketClient client;
@@ -139,12 +144,15 @@ public class JWebSocketClientService extends Service {
             public void onMessage(String message) {
                 Log.e("JWebSocketClientService", "收到的消息：" + message);
 
+
                 Intent intent = new Intent();
                 intent.setAction("com.xch.servicecallback.content");
-                intent.putExtra("message", message);
+                intent.putExtra("message", new String(message));
                 sendBroadcast(intent);
 
-                checkLockAndShowNotification(message);
+                Msg msg = JSON.parseObject(message,Msg.class);
+                String Nmsg=String.format("%s : %s",msg.getName(),msg.getContent());
+                checkLockAndShowNotification(Nmsg);
             }
 
             @Override
@@ -236,7 +244,7 @@ public class JWebSocketClientService extends Service {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void sendNotification(@NonNull String content) {
-        Intent notificationIntent =  new Intent(this, APP.class);
+        Intent notificationIntent =  new Intent(this, JWebSocketClientService.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
                 0, notificationIntent, 0);
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)

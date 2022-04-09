@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
                                 MainActivity.this.finish();
                                 result=true;
                             }else{
-                                update_onl();
+                                //update_onl();
                                 HashMap<String, String> stringHashMap=new HashMap<String,String>();
                                 stringHashMap.put(User.USERID, user_id);
                                 stringHashMap.put(User.PASSWORD, user_password);
@@ -170,9 +170,11 @@ public class MainActivity extends AppCompatActivity {
 
                                                     Toast.makeText(getApplicationContext(), "登录成功!",
                                                             Toast.LENGTH_SHORT).show();
+
                                                     sign_Dialog.hide();
                                                 }
                                             });
+                                            update_onl();
                                             user_info.setFlag_login(1);
                                             Intent intent=new Intent(MainActivity.this, cl);
                                             intent.putExtra("user",user_info);
@@ -247,7 +249,7 @@ public class MainActivity extends AppCompatActivity {
                                     //pd.cancel();
                                     dialog_lod.cancel();
                                 }else {
-                                    update_onl();
+                                    //update_onl();
                                     HashMap<String, String> stringHashMap=new HashMap<String,String>();
                                     stringHashMap.put(User.USERID, user_info.getUserid());
                                     stringHashMap.put(User.USERNAME,user_info.getUsername());
@@ -270,6 +272,7 @@ public class MainActivity extends AppCompatActivity {
                                                         signup_Dialog.hide();
                                                     }
                                                 });//跳转到cl
+                                                update_onl();
                                                 user_info.setFlag_login(1);
                                                 Intent intent=new Intent(MainActivity.this, cl);
                                                 intent.putExtra("user",user_info);

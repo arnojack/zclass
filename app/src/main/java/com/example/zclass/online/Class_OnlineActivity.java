@@ -95,9 +95,10 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 TextView classNa=arg1.findViewById(R.id.item_title);
-
+                TextView classId=arg1.findViewById(R.id.item_id);
                 Intent intent =new Intent(Class_OnlineActivity.this, MyChatroomDemo.class);
                 intent.putExtra("roomNa",classNa.getText().toString());
+                intent.putExtra("roomId",classId.getText().toString());
                 startActivity(intent);
             }
         });
@@ -109,10 +110,12 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
             case R.id.btn_CreatedClass:
                 //跳转到我教的课
                 Myteach_class();
+                MainActivity.user_info.setType(User.TEA);
                 break;
             case R.id.btn_JoinedClass:
                 //跳转到我听的课
                 Mylisten_class();
+                MainActivity.user_info.setType(User.STU);
                 break;
             case R.id.btn_pop:
                 //下拉框
@@ -319,14 +322,15 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
                     @Override
                     public void run() {
                         dialog_lod.hide();
+                        try {
+                            ArrayList temp= BaseActivity.jtol_cou(json);
+                            lv.setAdapter(new ListviewAdapter(Class_OnlineActivity.this, temp));//为ListView绑定适配器
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
-                try {
-                    ArrayList temp= BaseActivity.jtol_cou(json);
-                    lv.setAdapter(new ListviewAdapter(Class_OnlineActivity.this, temp));//为ListView绑定适配器
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+
             }
             @Override
             public void onError(String errorMsg) {
@@ -358,15 +362,15 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
                     @Override
                     public void run() {
                         dialog_lod.hide();
-
+                        try {
+                            ArrayList temp=BaseActivity.jtol_cou(json);
+                            lv.setAdapter(new ListviewAdapter(Class_OnlineActivity.this,temp ));//为ListView绑定适配器
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
-                try {
-                    ArrayList temp=BaseActivity.jtol_cou(json);
-                    lv.setAdapter(new ListviewAdapter(Class_OnlineActivity.this,temp ));//为ListView绑定适配器
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+
             }
             @Override
             public void onError(String errorMsg) {

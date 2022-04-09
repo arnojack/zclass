@@ -2,9 +2,6 @@ package com.example.zclass.online.fragment;
 
 import android.annotation.TargetApi;
 import android.app.AppOpsManager;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -33,16 +30,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alibaba.fastjson.JSON;
+import com.example.zclass.MainActivity;
 import com.example.zclass.R;
 import com.example.zclass.online.Dao.Msg;
+import com.example.zclass.online.service.HttpClientUtils;
 import com.example.zclass.online.service.JWebSocketClient;
 import com.example.zclass.online.service.JWebSocketClientService;
 import com.example.zclass.online.tool.BaseActivity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
@@ -64,11 +68,14 @@ public class MyChatroomDemo extends AppCompatActivity implements View.OnClickLis
     private TextView workTV;
     private TextView roomNa;
 
+    private String roomid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chatroom);
         mContext=MyChatroomDemo.this;
+        roomid=getIntent().getStringExtra("roomId");
+        BaseActivity.setRoomName(roomid);
         //启动服务
         startJWebSClientService();
         //绑定服务
@@ -79,15 +86,6 @@ public class MyChatroomDemo extends AppCompatActivity implements View.OnClickLis
         checkNotification(mContext);
         findViewById();
         initView();
-    }
-    public void  initMsgs(){
-        Msg msg1 = new Msg("你好！",Msg.TYPE_RECEIVED);
-        msgList.add(msg1);
-        Msg msg2 = new Msg("谢谢！你好。",Msg.TYPE_SENT);
-        msgList.add(msg2);
-        Msg msg3 = new Msg("加班么？",Msg.TYPE_RECEIVED);
-        msgList.add(msg3);
-
     }
 
     @Override
@@ -102,13 +100,13 @@ public class MyChatroomDemo extends AppCompatActivity implements View.OnClickLis
                 }
 
                 if (client != null && client.isOpen()) {
-                    jWebSClientService.sendMsg(content);
-
                     //暂时将发送的消息加入消息列表，实际以发送成功为准（也就是服务器返回你发的消息时）
-                    Msg chatMessage=new Msg();
-                    chatMessage.setContent(content);
-                    chatMessage.setType(1);
-                    chatMessage.setTime(System.currentTimeMillis()+"");
+                    Date date=new Date(System.currentTimeMillis());
+                    Msg chatMessage=new Msg(MainActivity.user_info.getUserid(),MainActivity.user_info.getUsername(),
+                            MainActivity.user_info.getType(),content,Msg.TYPE_SENT,date);
+
+                    jWebSClientService.sendMsg(JSON.toJSONString(chatMessage));
+
                     msgList.add(chatMessage);
                     initChatMsgListView();
                     editText.setText("");
@@ -119,23 +117,7 @@ public class MyChatroomDemo extends AppCompatActivity implements View.OnClickLis
         }
 
     }
-    public void sendMsg(String msg){
-        //判断内容不是空的
-        if(!"".equals(msg)){
-            //将内容添加到单例中
-            StringBuilder stringBuilder=new StringBuilder(msg);
-            int mod= (int) Math.sqrt(stringBuilder.length())+2;
-            for (int i=0;i<stringBuilder.length();i++){
-                if(i%mod==0)stringBuilder.insert(i,"\n");
-            }
-            Msg mssage = new Msg(stringBuilder.toString(),Msg.TYPE_SENT);
-            msgList.add(mssage);
-            //要求适配器重新刷新
-            msgAdapter.notifyItemInserted(msgList.size()-1);
-            //要求recyclerView布局将消息刷新
-            recyclerView.scrollToPosition(msgList.size()-1);
-        }
-    }
+
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
@@ -155,12 +137,14 @@ public class MyChatroomDemo extends AppCompatActivity implements View.OnClickLis
         @Override
         public void onReceive(Context context, Intent intent) {
             String message=intent.getStringExtra("message");
-            Msg chatMessage=new Msg();
-            chatMessage.setContent(message);
-            chatMessage.setType(0);
-            chatMessage.setTime(System.currentTimeMillis()+"");
-            msgList.add(chatMessage);
-            initChatMsgListView();
+
+            Msg msg =JSON.parseObject(message,Msg.class);
+            msg.setType(Msg.TYPE_RECEIVED);
+            if(!MainActivity.user_info.getUserid().equals(msg.getUserid())){
+                msgList.add(msg);
+                initChatMsgListView();
+            }
+
         }
     }
     /**

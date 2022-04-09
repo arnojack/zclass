@@ -17,11 +17,14 @@ public class User implements Serializable{
     private String code;
     private String profess;
     private String school;
+    private String type;
     private String way;
     private int    flag_login;
     private String method;
 
     //用于URL传参和取参时的key
+    public static String STU="student";
+    public static String TEA="teacher";
     public static String WAY = "way";
     public static String METHOD = "method";
     public static String PHONENUMBER = "phonenumber";
@@ -33,6 +36,14 @@ public class User implements Serializable{
     public static String CODE ="code";
     public static String SEX ="sex";
     //构造函数
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public int getFlag_login() {
         return flag_login;

@@ -4,10 +4,10 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.zclass.online.Dao.Course;
+import com.example.zclass.online.Dao.Msg;
 import com.example.zclass.online.Dao.User;
 
 import org.json.JSONArray;
@@ -19,15 +19,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BaseActivity {
-    public static final String roomName ="jj";
+    public static  String roomName ="jj";
     public static final String ws = "ws://192.168.0.106:8080/demo_war/chat/" + roomName;
     public static final String BaseUrl="http://192.168.0.106:8080/demo_war/";
 
     public static void showToast(Context ctx, String msg) {
         Toast.makeText(ctx, msg, Toast.LENGTH_LONG).show();
     }
-
-    public static void setbackground(View view,double num) {
+    public static void setbackground(View view, double num) {
         Drawable drawable = view.getBackground();
         view.setBackground(null);
 
@@ -41,6 +40,7 @@ public class BaseActivity {
             layoutParams.height =(int) (num*height);
         });
     }
+
     public static ArrayList jtol_cou(String data) throws JSONException {
 
         Map<String,String> map=new HashMap<>();
@@ -86,5 +86,13 @@ public class BaseActivity {
         }
 
         return mlists;
+    }
+
+    public static String getRoomName() {
+        return roomName;
+    }
+
+    public static void setRoomName(String roomName) {
+        BaseActivity.roomName = roomName;
     }
 }
