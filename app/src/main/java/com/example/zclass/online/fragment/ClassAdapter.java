@@ -6,27 +6,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
 import com.example.zclass.R;
-import com.example.zclass.online.service.HttpClientUtils;
+import com.example.zclass.online.Dao.Course;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
 
-public class ListviewAdapter extends BaseAdapter {
+public class ClassAdapter extends BaseAdapter {
     private LayoutInflater mInflater;//得到一个LayoutInfalter对象用来导入布局
     public ArrayList<HashMap<String, Object>> listItem;
     //public int[] color={R.color.dark_blue,R.color.dark_green,R.color.dark_purple,R.color.light_blue,R.color.light_gray,R.color.light_green,R.color.light_purple,R.color.light_yellow};
 
-    public ListviewAdapter(Context context, ArrayList<HashMap<String, Object>> listItem) {
+    public ClassAdapter(Context context, ArrayList<HashMap<String, Object>> listItem) {
         this.mInflater = LayoutInflater.from(context);
         this.listItem = listItem;
     }//声明构造函数
@@ -51,7 +47,9 @@ public class ListviewAdapter extends BaseAdapter {
     {
         public ImageView img_bottom;
         public TextView title;
-        public TextView itemid;
+        public TextView item_class_id;
+        public TextView item_tea_id;
+
         public TextView text_left;
         public TextView text_right;
         public ImageView img_up;
@@ -64,8 +62,10 @@ public class ListviewAdapter extends BaseAdapter {
         if(convertView == null)
         {
             holder = new ViewHolder();
-            convertView = mInflater.inflate(R.layout.item, null);
-            holder.itemid=convertView.findViewById(R.id.item_id);
+            convertView = mInflater.inflate(R.layout.class_item, null);
+            holder.item_class_id=convertView.findViewById(R.id.item_class_id);
+            holder.item_tea_id=convertView.findViewById(R.id.item_tea_id);
+
             holder.img_bottom = (ImageView)convertView.findViewById(R.id.item_icon);
             holder.title = (TextView)convertView.findViewById(R.id.item_title);
             holder.text_left = (TextView)convertView.findViewById(R.id.item_bottom_left);
@@ -82,7 +82,8 @@ public class ListviewAdapter extends BaseAdapter {
         holder.title.setText((String) listItem.get(position).get("cou_on_name"));
         holder.text_left.setText((String) listItem.get(position).get("tea_name"));
         holder.text_right.setText((String) listItem.get(position).get("cou_grade")+"-"+listItem.get(position).get("cou_class"));
-        holder.itemid.setText(listItem.get(position).get("cou_on_id").toString());
+        holder.item_class_id.setText(listItem.get(position).get(Course.COUONID).toString());
+        holder.item_tea_id.setText(listItem.get(position).get(Course.TEAID).toString());
         //holder.item.setBackgroundColor(color[position]);
 
         return convertView;

@@ -27,10 +27,8 @@ import com.example.zclass.online.Dao.Course;
 import com.example.zclass.online.Dao.User;
 import com.example.zclass.online.Dialog.Dialog_Creatclass;
 import com.example.zclass.online.Dialog.Dialog_Joinclass;
-import com.example.zclass.online.Dialog.Dialog_Signin;
-import com.example.zclass.online.Dialog.Dialog_Signup;
 import com.example.zclass.online.Dialog.LoadingDialog;
-import com.example.zclass.online.fragment.ListviewAdapter;
+import com.example.zclass.online.fragment.ClassAdapter;
 import com.example.zclass.online.fragment.MyChatroomDemo;
 import com.example.zclass.online.service.HttpClientUtils;
 import com.example.zclass.online.tool.BaseActivity;
@@ -95,10 +93,14 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 TextView classNa=arg1.findViewById(R.id.item_title);
-                TextView classId=arg1.findViewById(R.id.item_id);
+                TextView classId=arg1.findViewById(R.id.item_class_id);
+                TextView teaname=arg1.findViewById(R.id.item_bottom_left);
+                TextView teaid=arg1.findViewById(R.id.item_tea_id);
                 Intent intent =new Intent(Class_OnlineActivity.this, MyChatroomDemo.class);
-                intent.putExtra("roomNa",classNa.getText().toString());
-                intent.putExtra("roomId",classId.getText().toString());
+                intent.putExtra(Course.COUONNAME,classNa.getText().toString());
+                intent.putExtra(Course.COUONID,classId.getText().toString());
+                intent.putExtra(Course.TEANAME,teaname.getText().toString());
+                intent.putExtra(Course.TEAID,teaid.getText().toString());
                 startActivity(intent);
             }
         });
@@ -296,15 +298,6 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
             }
         });
     }
-    public void test(){
-        ArrayList<HashMap<String,Object>> temp=new ArrayList<>();
-        for(int i=0;i<100;i++){
-            HashMap<String, Object> stringHashMap=new HashMap<String,Object>();
-            stringHashMap.put("第", i+"条消息");
-            temp.add(stringHashMap);
-        }
-        lv.setAdapter(new ListviewAdapter(Class_OnlineActivity.this, temp));//为ListView绑定适配器
-    }
     public void Mylisten_class(){
         /*定义一个以HashMap为内容的动态数组*/
         //User user_info =(User) getIntent().getSerializableExtra("user");
@@ -324,7 +317,7 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
                         dialog_lod.hide();
                         try {
                             ArrayList temp= BaseActivity.jtol_cou(json);
-                            lv.setAdapter(new ListviewAdapter(Class_OnlineActivity.this, temp));//为ListView绑定适配器
+                            lv.setAdapter(new ClassAdapter(Class_OnlineActivity.this, temp));//为ListView绑定适配器
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -364,7 +357,7 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
                         dialog_lod.hide();
                         try {
                             ArrayList temp=BaseActivity.jtol_cou(json);
-                            lv.setAdapter(new ListviewAdapter(Class_OnlineActivity.this,temp ));//为ListView绑定适配器
+                            lv.setAdapter(new ClassAdapter(Class_OnlineActivity.this,temp ));//为ListView绑定适配器
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

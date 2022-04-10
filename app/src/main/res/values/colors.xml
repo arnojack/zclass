@@ -16,7 +16,7 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
-
+    <color name="light_pink">#ffcccc</color>
     <color name="titleColor">#76B9ED</color>
     <color name="viewLine">#ffe6e6e6</color>
     <color name="textColor">#333333</color>

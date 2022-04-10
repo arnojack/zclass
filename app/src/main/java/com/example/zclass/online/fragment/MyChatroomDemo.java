@@ -33,6 +33,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.alibaba.fastjson.JSON;
 import com.example.zclass.MainActivity;
 import com.example.zclass.R;
+import com.example.zclass.online.Dao.Cou_Stu;
+import com.example.zclass.online.Dao.Course;
 import com.example.zclass.online.Dao.Msg;
 import com.example.zclass.online.service.HttpClientUtils;
 import com.example.zclass.online.service.JWebSocketClient;
@@ -68,14 +70,20 @@ public class MyChatroomDemo extends AppCompatActivity implements View.OnClickLis
     private TextView workTV;
     private TextView roomNa;
 
+    private String roomname;
     private String roomid;
+    private String teaid;
+    private String teaname;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chatroom);
         mContext=MyChatroomDemo.this;
-        roomid=getIntent().getStringExtra("roomId");
-        BaseActivity.setRoomName(roomid);
+        roomname=getIntent().getStringExtra(Course.COUONNAME);
+        roomid=getIntent().getStringExtra(Course.COUONID);
+        teaid=getIntent().getStringExtra(Course.TEAID);
+        teaname=getIntent().getStringExtra(Course.TEANAME);
+        BaseActivity.setRoomName(roomname);
         //启动服务
         startJWebSClientService();
         //绑定服务
@@ -90,7 +98,19 @@ public class MyChatroomDemo extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View view) {
+        Intent intent;
         switch (view.getId()){
+            case R.id.room_mem:
+                intent=new Intent(MyChatroomDemo.this,Member.class);
+                intent.putExtra(Cou_Stu.COUONID,roomid);
+                intent.putExtra(Course.TEAID,teaid);
+                intent.putExtra(Course.TEANAME,teaname);
+                startActivity(intent);
+                break;
+            case R.id.room_work:
+                break;
+            case R.id.chat_pop:
+                break;
             case R.id.room_send:
                 //得到输入框中的内容
                 String content = editText.getText().toString();
@@ -187,6 +207,7 @@ public class MyChatroomDemo extends AppCompatActivity implements View.OnClickLis
         sendButton.setOnClickListener(this);
         memTV.setOnClickListener(this);
         workTV.setOnClickListener(this);
+        chatPop.setOnClickListener(this);
 
         roomNa.setText(getIntent().getStringExtra("roomNa"));
 
