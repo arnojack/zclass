@@ -1,4 +1,4 @@
-package com.example.zclass.online.fragment;
+package com.example.zclass.online.Activity;
 
 import static com.example.zclass.online.tool.BaseActivity.BaseUrl;
 
@@ -6,7 +6,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -15,13 +14,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.zclass.MainActivity;
 import com.example.zclass.R;
-import com.example.zclass.online.Class_OnlineActivity;
 import com.example.zclass.online.Dao.Cou_Stu;
 import com.example.zclass.online.Dao.Course;
 import com.example.zclass.online.Dao.User;
 import com.example.zclass.online.Dialog.LoadingDialog;
+import com.example.zclass.online.fragment.MemAdapter;
 import com.example.zclass.online.service.HttpClientUtils;
 import com.example.zclass.online.tool.BaseActivity;
 

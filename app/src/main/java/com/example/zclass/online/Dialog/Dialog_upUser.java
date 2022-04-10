@@ -4,19 +4,16 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Point;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.example.zclass.R;
-import com.example.zclass.online.MyInfoActivity;
 import com.example.zclass.online.service.HttpClientUtils;
 
 import java.util.HashMap;

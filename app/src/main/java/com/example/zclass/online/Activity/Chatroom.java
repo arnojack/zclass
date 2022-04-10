@@ -1,4 +1,4 @@
-package com.example.zclass.online.fragment;
+package com.example.zclass.online.Activity;
 
 import android.annotation.TargetApi;
 import android.app.AppOpsManager;
@@ -20,8 +20,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
@@ -36,23 +38,19 @@ import com.example.zclass.R;
 import com.example.zclass.online.Dao.Cou_Stu;
 import com.example.zclass.online.Dao.Course;
 import com.example.zclass.online.Dao.Msg;
-import com.example.zclass.online.service.HttpClientUtils;
+import com.example.zclass.online.fragment.MsgAdapter;
 import com.example.zclass.online.service.JWebSocketClient;
 import com.example.zclass.online.service.JWebSocketClientService;
 import com.example.zclass.online.tool.BaseActivity;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
-public class MyChatroomDemo extends AppCompatActivity implements View.OnClickListener {
+public class Chatroom extends AppCompatActivity implements View.OnClickListener {
     private List<Msg> msgList = new ArrayList<>();
     private EditText editText;
     private Button sendButton;
@@ -60,6 +58,7 @@ public class MyChatroomDemo extends AppCompatActivity implements View.OnClickLis
     private RecyclerView recyclerView;
     private MsgAdapter msgAdapter;
     private Context mContext;
+    private PopupWindow mpop;
 
     private JWebSocketClient client;
     private JWebSocketClientService.JWebSocketClientBinder binder;
@@ -69,31 +68,21 @@ public class MyChatroomDemo extends AppCompatActivity implements View.OnClickLis
     private TextView memTV;
     private TextView workTV;
     private TextView roomNa;
+    private TextView roomset;
 
     private String roomname;
     private String roomid;
+    private String roomgrade;
+    private String roomclass;
     private String teaid;
     private String teaname;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chatroom);
-        mContext=MyChatroomDemo.this;
-        roomname=getIntent().getStringExtra(Course.COUONNAME);
-        roomid=getIntent().getStringExtra(Course.COUONID);
-        teaid=getIntent().getStringExtra(Course.TEAID);
-        teaname=getIntent().getStringExtra(Course.TEANAME);
-        BaseActivity.setRoomName(roomname);
-        //启动服务
-        startJWebSClientService();
-        //绑定服务
-        bindService();
-        //注册广播
-        doRegisterReceiver();
-        //检测通知是否开启
-        checkNotification(mContext);
-        findViewById();
-        initView();
+        mContext= Chatroom.this;
+
     }
 
     @Override
@@ -101,15 +90,30 @@ public class MyChatroomDemo extends AppCompatActivity implements View.OnClickLis
         Intent intent;
         switch (view.getId()){
             case R.id.room_mem:
-                intent=new Intent(MyChatroomDemo.this,Member.class);
+                intent=new Intent(Chatroom.this, Member.class);
                 intent.putExtra(Cou_Stu.COUONID,roomid);
                 intent.putExtra(Course.TEAID,teaid);
                 intent.putExtra(Course.TEANAME,teaname);
                 startActivity(intent);
                 break;
+            case R.id.room_set:
+                break;
             case R.id.room_work:
                 break;
             case R.id.chat_pop:
+                View popview =getLayoutInflater().inflate(R.layout.chatroom_pop,null);
+                mpop =new PopupWindow(popview,ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                mpop.setOutsideTouchable(true);
+                mpop.setFocusable(true);
+                mpop.showAsDropDown(chatPop);
+                TextView ropop_name=popview.findViewById(R.id.ropop_name);
+                ropop_name.setText(roomname);
+                TextView ropop_id=popview.findViewById(R.id.ropop_id);
+                ropop_id.setText(roomid);
+                TextView ropop_class=popview.findViewById(R.id.ropop_class);
+                ropop_class.setText(roomclass);
+                TextView ropop_grade=popview.findViewById(R.id.ropop_grade);
+                ropop_grade.setText(roomgrade);
                 break;
             case R.id.room_send:
                 //得到输入框中的内容
@@ -131,11 +135,31 @@ public class MyChatroomDemo extends AppCompatActivity implements View.OnClickLis
                     initChatMsgListView();
                     editText.setText("");
                 } else {
+                    try {
+                        client.connectBlocking();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     BaseActivity.showToast(mContext, "连接已断开，请稍等或重启App哟");
                 }
                 break;
         }
 
+    }
+
+    @Override
+    protected void onStart() {
+        findViewById();
+        //启动服务
+        startJWebSClientService();
+        //绑定服务
+        bindService();
+        //注册广播
+        doRegisterReceiver();
+        //检测通知是否开启
+        checkNotification(mContext);
+        initView();
+        super.onStart();
     }
 
     private ServiceConnection serviceConnection = new ServiceConnection() {
@@ -196,6 +220,8 @@ public class MyChatroomDemo extends AppCompatActivity implements View.OnClickLis
         editText = (EditText)findViewById(R.id.room_text);
         sendButton = (Button)findViewById(R.id.room_send);
         BaseActivity.setbackground(sendButton,0.75);
+        roomset=findViewById(R.id.room_set);
+        setlTV(roomset);
         memTV=findViewById(R.id.room_mem);
         setlTV(memTV);
         workTV=findViewById(R.id.room_work);
@@ -208,8 +234,18 @@ public class MyChatroomDemo extends AppCompatActivity implements View.OnClickLis
         memTV.setOnClickListener(this);
         workTV.setOnClickListener(this);
         chatPop.setOnClickListener(this);
+        roomset.setOnClickListener(this);
 
-        roomNa.setText(getIntent().getStringExtra("roomNa"));
+        roomname=getIntent().getStringExtra(Course.COUONNAME);
+        roomid=getIntent().getStringExtra(Course.COUONID);
+        teaid=getIntent().getStringExtra(Course.TEAID);
+        teaname=getIntent().getStringExtra(Course.TEANAME);
+        roomgrade=getIntent().getStringExtra(Course.COUGRADE);
+        roomclass=getIntent().getStringExtra(Course.COUCLASS);
+
+        BaseActivity.setWs(roomname,MainActivity.user_info.getUsername());
+
+        roomNa.setText(roomname);
 
         recyclerView =(RecyclerView)findViewById(R.id.chatroomRecyclerView);
         //布局排列方式

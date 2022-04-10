@@ -51,7 +51,8 @@ public class ClassAdapter extends BaseAdapter {
         public TextView item_tea_id;
 
         public TextView text_left;
-        public TextView text_right;
+        public TextView text_grade;
+        public TextView text_class;
         public ImageView img_up;
         public View  item;
     }//声明一个外部静态类
@@ -69,7 +70,8 @@ public class ClassAdapter extends BaseAdapter {
             holder.img_bottom = (ImageView)convertView.findViewById(R.id.item_icon);
             holder.title = (TextView)convertView.findViewById(R.id.item_title);
             holder.text_left = (TextView)convertView.findViewById(R.id.item_bottom_left);
-            holder.text_right = (TextView)convertView.findViewById(R.id.item_bottom_right);
+            holder.text_grade = (TextView)convertView.findViewById(R.id.item_clgrade);
+            holder.text_class=convertView.findViewById(R.id.item_class);
             holder.img_up = (ImageView)convertView.findViewById(R.id.item_up_right);
             holder.item=convertView.findViewById(R.id.item);
             convertView.setTag(holder);
@@ -79,9 +81,10 @@ public class ClassAdapter extends BaseAdapter {
 
         }
         //holder.img.setImageResource((Integer) listItem.get(position).get("ItemImage"));
-        holder.title.setText((String) listItem.get(position).get("cou_on_name"));
-        holder.text_left.setText((String) listItem.get(position).get("tea_name"));
-        holder.text_right.setText((String) listItem.get(position).get("cou_grade")+"-"+listItem.get(position).get("cou_class"));
+        holder.title.setText((String) listItem.get(position).get(Course.COUONNAME));
+        holder.text_left.setText((String) listItem.get(position).get(Course.TEANAME));
+        holder.text_grade.setText((String) listItem.get(position).get(Course.COUGRADE));
+        holder.text_class.setText(listItem.get(position).get(Course.COUCLASS).toString());
         holder.item_class_id.setText(listItem.get(position).get(Course.COUONID).toString());
         holder.item_tea_id.setText(listItem.get(position).get(Course.TEAID).toString());
         //holder.item.setBackgroundColor(color[position]);

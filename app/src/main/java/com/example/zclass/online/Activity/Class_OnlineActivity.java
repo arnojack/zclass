@@ -1,4 +1,4 @@
-package com.example.zclass.online;
+package com.example.zclass.online.Activity;
 
 import static com.example.zclass.online.tool.BaseActivity.BaseUrl;
 
@@ -29,7 +29,6 @@ import com.example.zclass.online.Dialog.Dialog_Creatclass;
 import com.example.zclass.online.Dialog.Dialog_Joinclass;
 import com.example.zclass.online.Dialog.LoadingDialog;
 import com.example.zclass.online.fragment.ClassAdapter;
-import com.example.zclass.online.fragment.MyChatroomDemo;
 import com.example.zclass.online.service.HttpClientUtils;
 import com.example.zclass.online.tool.BaseActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -37,6 +36,7 @@ import com.google.android.material.navigation.NavigationBarView;
 
 import org.json.JSONException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -74,7 +74,7 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
                     case R.id.page_2:
                         return true;
                     case R.id.page_3:
-                        Intent intent=new Intent(Class_OnlineActivity.this,MyInfoActivity.class);
+                        Intent intent=new Intent(Class_OnlineActivity.this, MyInfoActivity.class);
                         intent.putExtra("user",MainActivity.user_info);
                         startActivity(intent);
                         Class_OnlineActivity.this.finish();
@@ -94,13 +94,19 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 TextView classNa=arg1.findViewById(R.id.item_title);
                 TextView classId=arg1.findViewById(R.id.item_class_id);
+                TextView clgrade=arg1.findViewById(R.id.item_clgrade);
+                TextView class1=arg1.findViewById(R.id.item_class);
                 TextView teaname=arg1.findViewById(R.id.item_bottom_left);
                 TextView teaid=arg1.findViewById(R.id.item_tea_id);
-                Intent intent =new Intent(Class_OnlineActivity.this, MyChatroomDemo.class);
+                Intent intent =new Intent(Class_OnlineActivity.this, Chatroom.class);
+
                 intent.putExtra(Course.COUONNAME,classNa.getText().toString());
                 intent.putExtra(Course.COUONID,classId.getText().toString());
+                intent.putExtra(Course.COUGRADE,clgrade.getText().toString());
+                intent.putExtra(Course.COUCLASS,class1.getText().toString());
                 intent.putExtra(Course.TEANAME,teaname.getText().toString());
                 intent.putExtra(Course.TEAID,teaid.getText().toString());
+
                 startActivity(intent);
             }
         });

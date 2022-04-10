@@ -1,4 +1,4 @@
-package com.example.zclass.online;
+package com.example.zclass.online.Activity;
 
 import android.app.Dialog;
 import android.content.Intent;

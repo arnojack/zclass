@@ -22,6 +22,19 @@ public class Course implements Serializable {
     public static String TEAID = "tea_userid";
     public static String TEANAME = "tea_name";
 
+    public Course(String cou_on_id, String cou_on_name, String tea_userid, String tea_name, String cou_grade, String cou_class) {
+        this.cou_on_id = cou_on_id;
+        this.cou_on_name = cou_on_name;
+        this.tea_userid = tea_userid;
+        this.tea_name = tea_name;
+        this.cou_grade = cou_grade;
+        this.cou_class = cou_class;
+    }
+
+    public Course() {
+
+    }
+
     public String getCou_on_id() {
         return cou_on_id;
     }

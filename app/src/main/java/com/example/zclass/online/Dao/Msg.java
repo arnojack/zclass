@@ -9,8 +9,9 @@ import java.util.Date;
  3.消息创建时间
  */
 public class Msg implements Serializable {
+    private String room;
     private String userid;
-    private String name;
+    private String username;
     private String content;
     private String user_ty;
     private int type;
@@ -22,18 +23,32 @@ public class Msg implements Serializable {
     public static String TEA="teacher";
     public static String USERTY="user_ty";
     public static String USERID="userid";
-    public static String NAME="name";
+    public static String NAME="username";
     public static String CONTENT = "content";
     public static String TYPE = "type";
     public static String TIME = "time";
 
+    public Msg(String room,String userid,String name,String user_ty){
+        this.userid=userid;
+        this.username=name;
+        this.user_ty=user_ty;
+        this.room=room;
+    }
     public Msg(String userid,String name,String user_ty,String content,int type,Date time){
         this.userid=userid;
-        this.name=name;
+        this.username=name;
         this.user_ty=user_ty;
         this.content =content;
         this.type = type;
         this.time = time;
+    }
+
+    public String getRoom() {
+        return room;
+    }
+
+    public void setRoom(String room) {
+        this.room = room;
     }
 
     public String getUser_ty() {
@@ -66,11 +81,11 @@ public class Msg implements Serializable {
     }
 
     public String getName() {
-        return name;
+        return username;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.username = name;
     }
 
     public void setType(int type) {

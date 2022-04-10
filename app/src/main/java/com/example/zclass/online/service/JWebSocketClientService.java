@@ -2,20 +2,15 @@ package com.example.zclass.online.service;
 
 
 
-import static androidx.core.app.NotificationCompat.VISIBILITY_PUBLIC;
-
 import static com.example.zclass.APP.CHANNEL_ID;
 
 import android.annotation.SuppressLint;
 import android.app.KeyguardManager;
 import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.os.Binder;
 import android.os.Build;
 import android.os.Handler;
@@ -30,23 +25,17 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
 import com.alibaba.fastjson.JSON;
-import com.example.zclass.APP;
-import com.example.zclass.MainActivity;
 import com.example.zclass.R;
-import com.example.zclass.online.Class_OnlineActivity;
+import com.example.zclass.online.Activity.Chatroom;
 import com.example.zclass.online.Dao.Msg;
-import com.example.zclass.online.fragment.MyChatroomDemo;
 import com.example.zclass.online.tool.BaseActivity;
 
 import org.java_websocket.handshake.ServerHandshake;
-import org.json.JSONException;
 
-import java.io.Serializable;
 import java.net.URI;
-import java.util.List;
 
 public class JWebSocketClientService extends Service {
-    public JWebSocketClient client;
+    public static JWebSocketClient client;
     private JWebSocketClientBinder mBinder = new JWebSocketClientBinder();
     private final static int GRAY_SERVICE_ID = 1001;
     //灰色保活
@@ -95,15 +84,14 @@ public class JWebSocketClientService extends Service {
 
     @Override
     public void onCreate() {
+        initSocketClient();
+        mHandler.postDelayed(heartBeatRunnable, HEART_BEAT_RATE);//开启心跳检测
         super.onCreate();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         //初始化websocket
-        initSocketClient();
-        mHandler.postDelayed(heartBeatRunnable, HEART_BEAT_RATE);//开启心跳检测
-
         //设置service为前台服务，提高优先级
         if (Build.VERSION.SDK_INT < 18) {
             //Android4.3以下 ，隐藏Notification上的图标
@@ -137,7 +125,7 @@ public class JWebSocketClientService extends Service {
      * 初始化websocket连接
      */
     private void initSocketClient() {
-        URI uri = URI.create(BaseActivity.ws);
+        URI uri = URI.create(BaseActivity.toUtf8String(BaseActivity.getWs()));
         client = new JWebSocketClient(uri) {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
@@ -264,36 +252,15 @@ public class JWebSocketClientService extends Service {
     private Runnable heartBeatRunnable = new Runnable() {
         @Override
         public void run() {
-            Log.e("JWebSocketClientService", "心跳包检测websocket连接状态");
-            if (client != null) {
-                if (client.isClosed()) {
-                    reconnectWs();
-                }
-            } else {
-                //如果client已为空，重新初始化连接
-                client = null;
+            Log.e("JWebSocketClientService", "心跳保活");
+            if(client==null){
                 initSocketClient();
+            }
+            if(!client.isOpen()){
+                client.reconnect();
             }
             //每隔一定的时间，对长连接进行一次心跳检测
             mHandler.postDelayed(this, HEART_BEAT_RATE);
         }
     };
-
-    /**
-     * 开启重连
-     */
-    private void reconnectWs() {
-        mHandler.removeCallbacks(heartBeatRunnable);
-        new Thread() {
-            @Override
-            public void run() {
-                try {
-                    Log.e("JWebSocketClientService", "开启重连");
-                    client.reconnectBlocking();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }.start();
-    }
 }
