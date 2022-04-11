@@ -237,6 +237,7 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
                         if("Ok".equals(json)){
                             Toast.makeText(getApplicationContext(), "加入成功!",
                                     Toast.LENGTH_SHORT).show();
+                            Mylisten_class();
                         }else {
                             Toast.makeText(getApplicationContext(), "班级不存在\n或已加入该班级!" + json,
                                     Toast.LENGTH_SHORT).show();
@@ -284,6 +285,7 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
                         if("Ok".equals(json)){
                             Toast.makeText(getApplicationContext(), "创建成功!",
                                     Toast.LENGTH_SHORT).show();
+                            Mylisten_class();
                         }else {
                             Toast.makeText(getApplicationContext(), "错误!" + json,
                                     Toast.LENGTH_SHORT).show();

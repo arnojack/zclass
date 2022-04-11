@@ -1,5 +1,6 @@
 package com.example.zclass.online.Activity;
 
+import static com.example.zclass.online.tool.BaseActivity.BaseUrl;
 import static com.example.zclass.online.tool.BaseActivity.setlTV;
 
 import android.annotation.TargetApi;
@@ -44,9 +45,11 @@ import com.example.zclass.online.Dao.Cou_Stu;
 import com.example.zclass.online.Dao.Course;
 import com.example.zclass.online.Dao.Msg;
 import com.example.zclass.online.Dao.User;
+import com.example.zclass.online.Dialog.Dialog_Confim;
 import com.example.zclass.online.Dialog.Dialog_upUser;
 import com.example.zclass.online.Dialog.LoadingDialog;
 import com.example.zclass.online.fragment.MsgAdapter;
+import com.example.zclass.online.service.HttpClientUtils;
 import com.example.zclass.online.service.JWebSocketClient;
 import com.example.zclass.online.service.JWebSocketClientService;
 import com.example.zclass.online.tool.BaseActivity;
@@ -119,6 +122,21 @@ public class Chatroom extends AppCompatActivity implements View.OnClickListener 
                 toast(Course.COUCLASS,ropop_class.getText().toString(),stringHashMap4);
                 break;
             case R.id.ropop_delete:
+                Dialog_Confim confim = new Dialog_Confim(Chatroom.this,R.style.MyDialog);
+                confim.setsubmit(new Dialog_Confim.IonsaveListener() {
+                    @Override//点击取消按钮
+                    public void submit() {
+                        confim.cancel();
+                    }
+                }, new Dialog_Confim.IonsaveListener() {
+                    @Override//点击确认按钮
+                    public void submit() {
+                        deletcla();
+                        Intent intent =new Intent(Chatroom.this,Class_OnlineActivity.class);
+                        startActivity(intent);
+                        Chatroom.this.finish();
+                    }
+                }).show();
                 break;
             case R.id.room_mem:
                 intent=new Intent(Chatroom.this, Member.class);
@@ -159,6 +177,46 @@ public class Chatroom extends AppCompatActivity implements View.OnClickListener 
                 break;
         }
 
+    }
+    public void deletcla(){
+        HashMap<String, String> stringHashMap=new HashMap<String,String>();
+        stringHashMap.put(Course.COUONID, roomid);
+        stringHashMap.put(Course.METHOD,"Update");
+        stringHashMap.put(Course.WAY,"delall");
+        String url=BaseUrl+"CourseServlet";
+
+        Dialog dialog_lod = LoadingDialog.createLoadingDialog(Chatroom.this);
+        dialog_lod.show();
+
+        HttpClientUtils.post(url, HttpClientUtils.maptostr(stringHashMap), new HttpClientUtils.OnRequestCallBack() {
+            @Override
+            public void onSuccess(String json) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialog_lod.hide();
+                        if("Ok".equals(json)){
+                            Toast.makeText(getApplicationContext(), "删除成功!",
+                                    Toast.LENGTH_SHORT).show();
+                        }else {
+                            Toast.makeText(getApplicationContext(), "错误!" + json,
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+            @Override
+            public void onError(String errorMsg) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialog_lod.hide();
+                        Toast.makeText(getApplicationContext(), "错误!" + errorMsg,
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
     }
     public void toast(String KEY, String text, HashMap<String,String> stringHashMap){
         HashMap<String, String> stringHashMap2=new HashMap<String,String>();
