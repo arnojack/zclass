@@ -56,14 +56,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="10"/>
-            <TextView
-                android:id="@+id/room_set"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:drawableLeft="@drawable/setting"
-                android:layout_margin="5dp"
-                android:text="管理"/>
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"

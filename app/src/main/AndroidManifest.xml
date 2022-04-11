@@ -42,6 +42,8 @@
         <activity
             android:name=".online.Activity.Chatroom"
             android:exported="true" />
+        <activity android:name=".offline.UpdateCourseActivity"/>
+        <activity android:name=".offline.OptionActivity"/>
 
         <service
             android:name=".online.service.JWebSocketClientService"

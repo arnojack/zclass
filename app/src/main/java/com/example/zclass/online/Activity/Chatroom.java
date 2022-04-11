@@ -77,7 +77,6 @@ public class Chatroom extends AppCompatActivity implements View.OnClickListener 
     private TextView memTV;
     private TextView workTV;
     private TextView roomNa;
-    private TextView roomset;
 
     private String roomname;
     private String roomid;
@@ -326,8 +325,6 @@ public class Chatroom extends AppCompatActivity implements View.OnClickListener 
         editText = (EditText)findViewById(R.id.room_text);
         sendButton = (Button)findViewById(R.id.room_send);
         BaseActivity.setbackground(sendButton,0.75);
-        roomset=findViewById(R.id.room_set);
-        setlTV(roomset);
         memTV=findViewById(R.id.room_mem);
         setlTV(memTV);
         workTV=findViewById(R.id.room_work);
@@ -340,7 +337,6 @@ public class Chatroom extends AppCompatActivity implements View.OnClickListener 
         memTV.setOnClickListener(this);
         workTV.setOnClickListener(this);
         chatPop.setOnClickListener(this);
-        roomset.setOnClickListener(this);
 
         roomname=getIntent().getStringExtra(Course.COUONNAME);
         roomid=getIntent().getStringExtra(Course.COUONID);
