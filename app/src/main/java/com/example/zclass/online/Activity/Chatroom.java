@@ -1,7 +1,10 @@
 package com.example.zclass.online.Activity;
 
+import static com.example.zclass.online.tool.BaseActivity.setlTV;
+
 import android.annotation.TargetApi;
 import android.app.AppOpsManager;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -23,8 +26,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
@@ -38,6 +43,9 @@ import com.example.zclass.R;
 import com.example.zclass.online.Dao.Cou_Stu;
 import com.example.zclass.online.Dao.Course;
 import com.example.zclass.online.Dao.Msg;
+import com.example.zclass.online.Dao.User;
+import com.example.zclass.online.Dialog.Dialog_upUser;
+import com.example.zclass.online.Dialog.LoadingDialog;
 import com.example.zclass.online.fragment.MsgAdapter;
 import com.example.zclass.online.service.JWebSocketClient;
 import com.example.zclass.online.service.JWebSocketClientService;
@@ -47,6 +55,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
@@ -76,19 +85,42 @@ public class Chatroom extends AppCompatActivity implements View.OnClickListener 
     private String roomclass;
     private String teaid;
     private String teaname;
+    private Boolean mana =false;
 
+    TextView ropop_name;
+    TextView ropop_class;
+    TextView ropop_grade;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chatroom);
         mContext= Chatroom.this;
-
     }
 
     @Override
     public void onClick(View view) {
         Intent intent;
         switch (view.getId()){
+            case R.id.chat_pop:
+                findpop();
+                break;
+            case R.id.ropop_name:
+                HashMap<String, String> stringHashMap2=new HashMap<String,String>();
+                stringHashMap2.put(Course.WAY,"upclname");
+                toast(Course.COUONNAME,ropop_name.getText().toString(),stringHashMap2);
+                break;
+            case R.id.ropop_grade:
+                HashMap<String, String> stringHashMap3=new HashMap<String,String>();
+                stringHashMap3.put(Course.WAY,"upclgrade");
+                toast(Course.COUGRADE,ropop_grade.getText().toString(),stringHashMap3);
+                break;
+            case R.id.ropop_class:
+                HashMap<String, String> stringHashMap4=new HashMap<String,String>();
+                stringHashMap4.put(Course.WAY,"upclc");
+                toast(Course.COUCLASS,ropop_class.getText().toString(),stringHashMap4);
+                break;
+            case R.id.ropop_delete:
+                break;
             case R.id.room_mem:
                 intent=new Intent(Chatroom.this, Member.class);
                 intent.putExtra(Cou_Stu.COUONID,roomid);
@@ -96,24 +128,7 @@ public class Chatroom extends AppCompatActivity implements View.OnClickListener 
                 intent.putExtra(Course.TEANAME,teaname);
                 startActivity(intent);
                 break;
-            case R.id.room_set:
-                break;
             case R.id.room_work:
-                break;
-            case R.id.chat_pop:
-                View popview =getLayoutInflater().inflate(R.layout.chatroom_pop,null);
-                mpop =new PopupWindow(popview,ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                mpop.setOutsideTouchable(true);
-                mpop.setFocusable(true);
-                mpop.showAsDropDown(chatPop);
-                TextView ropop_name=popview.findViewById(R.id.ropop_name);
-                ropop_name.setText(roomname);
-                TextView ropop_id=popview.findViewById(R.id.ropop_id);
-                ropop_id.setText(roomid);
-                TextView ropop_class=popview.findViewById(R.id.ropop_class);
-                ropop_class.setText(roomclass);
-                TextView ropop_grade=popview.findViewById(R.id.ropop_grade);
-                ropop_grade.setText(roomgrade);
                 break;
             case R.id.room_send:
                 //得到输入框中的内容
@@ -146,7 +161,98 @@ public class Chatroom extends AppCompatActivity implements View.OnClickListener 
         }
 
     }
+    public void toast(String KEY, String text, HashMap<String,String> stringHashMap){
+        HashMap<String, String> stringHashMap2=new HashMap<String,String>();
+        stringHashMap2.put(Course.COUONID, roomid);
+        stringHashMap2.put(Course.METHOD,"Update");
+        stringHashMap2.putAll(stringHashMap);
+        String url ="courseServlet";
+        Dialog dialog = LoadingDialog.createLoadingDialog(Chatroom.this);
 
+        Dialog_upUser Dialod_upsex = new Dialog_upUser(Chatroom.this,R.style.MyDialog);
+        Dialod_upsex.setKEY(KEY);
+        Dialod_upsex.setText(text).setsubmit(url,stringHashMap2, new Dialog_upUser.IonsaveListener() {
+            @Override
+            public void submit() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialog.show();
+                    }
+                });
+            }
+            @Override
+            public void success(String json) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialog.hide();
+                        if("Ok".equals(json)){
+                            Toast.makeText(getApplicationContext(), "更新成功!",
+                                    Toast.LENGTH_SHORT).show();
+                            switch (stringHashMap.get("way")){
+                                case "upclname":
+                                    ropop_name.setText(Dialod_upsex.getText());
+                                    break;
+                                case "upclgrade":
+                                    ropop_grade.setText(Dialod_upsex.getText());
+                                    break;
+                                case "upclc":
+                                    ropop_class.setText(Dialod_upsex.getText());
+                                    break;
+                            }
+                            Dialod_upsex.cancel();
+                        }else {
+                            Toast.makeText(getApplicationContext(), "更新失败!",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+            @Override
+            public void error(String error) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialog.hide();
+                        Toast.makeText(getApplicationContext(), "网络崩溃!/n"+error,
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }).show();
+    }
+    public void findpop(){
+        View popview =getLayoutInflater().inflate(R.layout.chatroom_pop,null);
+        mpop =new PopupWindow(popview,ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        mpop.setOutsideTouchable(true);
+        mpop.setFocusable(true);
+        mpop.showAsDropDown(chatPop);
+        ropop_name=popview.findViewById(R.id.ropop_name);
+        ropop_name.setText(roomname);
+        TextView ropop_id=popview.findViewById(R.id.ropop_id);
+        ropop_id.setText(roomid);
+        ropop_class=popview.findViewById(R.id.ropop_class);
+        ropop_class.setText(roomclass);
+        ropop_grade=popview.findViewById(R.id.ropop_grade);
+        ropop_grade.setText(roomgrade);
+        TextView delete =popview.findViewById(R.id.ropop_delete);
+        setlTV(delete);
+        ImageView imageView1 =popview.findViewById(R.id.rightp1);
+        ImageView imageView2 =popview.findViewById(R.id.rightp2);
+        ImageView imageView3 =popview.findViewById(R.id.rightp3);
+        if(mana){
+            ropop_name.setOnClickListener(this);
+            ropop_grade.setOnClickListener(this);
+            ropop_class.setOnClickListener(this);
+            delete.setOnClickListener(this);
+        }else {
+            delete.setVisibility(View.GONE);
+            imageView1.setVisibility(View.GONE);
+            imageView2.setVisibility(View.GONE);
+            imageView3.setVisibility(View.GONE);
+        }
+    }
     @Override
     protected void onStart() {
         findViewById();
@@ -242,6 +348,9 @@ public class Chatroom extends AppCompatActivity implements View.OnClickListener 
         teaname=getIntent().getStringExtra(Course.TEANAME);
         roomgrade=getIntent().getStringExtra(Course.COUGRADE);
         roomclass=getIntent().getStringExtra(Course.COUCLASS);
+
+        if(teaid.equals(MainActivity.user_info.getUserid()))
+            mana=true;
 
         BaseActivity.setWs(roomname,MainActivity.user_info.getUsername());
 
@@ -370,13 +479,5 @@ public class Chatroom extends AppCompatActivity implements View.OnClickListener 
         }
         return false;
     }
-    public void setlTV(TextView textView){
-        Drawable leftDrawable=textView.getCompoundDrawables()[0];
-        TextView mET=textView;
-        if(leftDrawable!=null){
-            leftDrawable.setBounds(0, 0, 80, 80);
-            mET.setCompoundDrawables(leftDrawable, mET.getCompoundDrawables()[1]
-                    , mET.getCompoundDrawables()[2], mET.getCompoundDrawables()[3]);
-        }
-    }
+
 }

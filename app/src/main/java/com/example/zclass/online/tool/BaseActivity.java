@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.zclass.MainActivity;
@@ -41,7 +42,23 @@ public class BaseActivity {
             layoutParams.height =(int) (num*height);
         });
     }
-
+    public static void setlTV(TextView textView){
+        Drawable leftDrawable=textView.getCompoundDrawables()[0];
+        TextView mET=textView;
+        if(leftDrawable!=null){
+            leftDrawable.setBounds(0, 0, 80, 80);
+            mET.setCompoundDrawables(leftDrawable, mET.getCompoundDrawables()[1]
+                    , mET.getCompoundDrawables()[2], mET.getCompoundDrawables()[3]);
+        }
+    }
+    public static void setrTV(TextView mETpassword){
+        Drawable rightDrawable = mETpassword.getCompoundDrawables()[2];
+        if(rightDrawable!=null){
+            rightDrawable.setBounds(0, 0,50 , 50);
+            mETpassword.setCompoundDrawables(mETpassword.getCompoundDrawables()[0], mETpassword.getCompoundDrawables()[1]
+                    ,rightDrawable ,mETpassword.getCompoundDrawables()[3]);
+        }
+    }
     public static ArrayList jtol_cou(String data) throws JSONException {
 
         Map<String,String> map=new HashMap<>();

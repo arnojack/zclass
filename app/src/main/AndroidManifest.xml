@@ -41,10 +41,7 @@
         <activity android:name=".online.Activity.MyInfoActivity" />
         <activity
             android:name=".online.Activity.Chatroom"
-            android:exported="true"
-            >
-
-        </activity>
+            android:exported="true" />
 
         <service
             android:name=".online.service.JWebSocketClientService"

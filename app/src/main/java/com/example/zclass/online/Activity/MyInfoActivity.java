@@ -1,5 +1,7 @@
 package com.example.zclass.online.Activity;
 
+import static com.example.zclass.online.tool.BaseActivity.setrTV;
+
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -65,43 +67,35 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
         });
         mTVuic=findViewById(R.id.info_icon);
         mTVuichang=findViewById(R.id.info_iconchange);
-        setpic(mTVuichang);
+        setrTV(mTVuichang);
         mTVuid=findViewById(R.id.info_userid);
-        setpic(mTVuid);
+        setrTV(mTVuid);
         mTVuid.setText(MainActivity.user_info.getUserid());
         mTVusex=findViewById(R.id.info_sex);
-        setpic(mTVusex);
+        setrTV(mTVusex);
         mTVusex.setOnClickListener(this);
         mTVusex.setText(MainActivity.user_info.getSex());
         mTVupassw=findViewById(R.id.info_passw);
-        setpic(mTVupassw);
+        setrTV(mTVupassw);
         mTVupassw.setOnClickListener(this);
         mTVupassw.setText(MainActivity.user_info.getPassword());
         mTVuname=findViewById(R.id.info_username);
-        setpic(mTVuname);
+        setrTV(mTVuname);
         mTVuname.setOnClickListener(this);
         mTVuname.setText(MainActivity.user_info.getUsername());
         mTVuprofess=findViewById(R.id.info_profess);
-        setpic(mTVuprofess);
+        setrTV(mTVuprofess);
         mTVuprofess.setOnClickListener(this);
         mTVuprofess.setText(MainActivity.user_info.getProfess());
         mTVuschool=findViewById(R.id.info_school);
         mTVuschool.setText(MainActivity.user_info.getSchool());
-        setpic(mTVuschool);
+        setrTV(mTVuschool);
         mTVuschool.setOnClickListener(this);
         mTVuphone=findViewById(R.id.info_phone);
         mTVuphone.setText(MainActivity.user_info.getPhonenumber());
-        setpic(mTVuphone);
+        setrTV(mTVuphone);
         mTVuphone.setOnClickListener(this);
         super.onCreate(savedInstanceState);
-    }
-    public void setpic(TextView mETpassword){
-        Drawable rightDrawable = mETpassword.getCompoundDrawables()[2];
-        if(rightDrawable!=null){
-            rightDrawable.setBounds(0, 0,50 , 50);
-            mETpassword.setCompoundDrawables(mETpassword.getCompoundDrawables()[0], mETpassword.getCompoundDrawables()[1]
-                    ,rightDrawable ,mETpassword.getCompoundDrawables()[3]);
-        }
     }
 
     @Override
@@ -156,7 +150,7 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
 
         Dialog_upUser Dialod_upsex = new Dialog_upUser(MyInfoActivity.this,R.style.MyDialog);
         Dialod_upsex.setKEY(KEY);
-        Dialod_upsex.setText(text).setsubmit(stringHashMap2, new Dialog_upUser.IonsaveListener() {
+        Dialod_upsex.setText(text).setsubmit("LoginServlet",stringHashMap2, new Dialog_upUser.IonsaveListener() {
             @Override
             public void submit() {
                 runOnUiThread(new Runnable() {

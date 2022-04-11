@@ -20,7 +20,7 @@ public class Course implements Serializable {
     public static String COUGRADE= "cou_grade";
     public static String COUCLASS= "cou_class";
     public static String TEAID = "tea_userid";
-    public static String TEANAME = "tea_name";
+    public static String TEANAME = "username";
 
     public Course(String cou_on_id, String cou_on_name, String tea_userid, String tea_name, String cou_grade, String cou_class) {
         this.cou_on_id = cou_on_id;

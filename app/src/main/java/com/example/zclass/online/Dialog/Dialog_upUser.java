@@ -15,11 +15,11 @@ import androidx.annotation.NonNull;
 
 import com.example.zclass.R;
 import com.example.zclass.online.service.HttpClientUtils;
+import com.example.zclass.online.tool.BaseActivity;
 
 import java.util.HashMap;
 
 public class Dialog_upUser extends Dialog implements View.OnClickListener{
-    String url_login="http://192.168.0.106:8080/demo_war/LoginServlet";
     private String title;
     private String text;
     private String submit;
@@ -28,6 +28,8 @@ public class Dialog_upUser extends Dialog implements View.OnClickListener{
     private TextView mTvtext;
     private IonsaveListener saveListener;
     private HashMap<String, String> stringHashMap;
+
+    String url;
 
     public String getTitle() {
         return title;
@@ -72,9 +74,10 @@ public class Dialog_upUser extends Dialog implements View.OnClickListener{
         return this;
     }
 
-    public Dialog_upUser setsubmit(HashMap<String, String> stringHashMap, Dialog_upUser.IonsaveListener Listener) {
+    public Dialog_upUser setsubmit(String url,HashMap<String, String> stringHashMap, Dialog_upUser.IonsaveListener Listener) {
         this.saveListener=Listener;
         this.stringHashMap =stringHashMap;
+        this.url=url;
         return this;
     }
 
@@ -113,7 +116,7 @@ public class Dialog_upUser extends Dialog implements View.OnClickListener{
             case R.id.upuser_save:
                 stringHashMap.put(KEY,getText());
                 saveListener.submit();
-                HttpClientUtils.post(url_login, HttpClientUtils.maptostr(stringHashMap), new HttpClientUtils.OnRequestCallBack() {
+                HttpClientUtils.post(BaseActivity.BaseUrl+url, HttpClientUtils.maptostr(stringHashMap), new HttpClientUtils.OnRequestCallBack() {
                     @Override
                     public void onSuccess(String json) {
                         saveListener.success(json);
