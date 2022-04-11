@@ -1,5 +1,7 @@
 package com.example.zclass.offline.dao;
 
+
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -17,7 +19,6 @@ import java.util.List;
 public class CourseDao extends SQLiteOpenHelper {
 
     private String tableName = "t_course";
-
     public CourseDao(Context context){
         super(context, "timetable.db", null, 1);
     }
@@ -135,6 +136,68 @@ public class CourseDao extends SQLiteOpenHelper {
         }
         database.close();
         return list;
+    }
+    @SuppressLint("Range")
+    public List<Course> query1(){
+        SQLiteDatabase db1 = getWritableDatabase();
+        List<Course> cs = new ArrayList<>();
+        int a= 1;
+
+        Cursor cursor = db1.query("t_course",null,null,null,null,null,null);
+        if(cursor!=null) {
+            while (cursor.moveToNext()) {
+
+                String courseName1=  cursor.getString(cursor.getColumnIndex("courseName"));
+                String teacherName1=  cursor.getString(cursor.getColumnIndex("teacherName"));
+                String weekType1=  cursor.getString(cursor.getColumnIndex("weekType"));
+                int day1 = cursor.getInt(cursor.getColumnIndex("day"));
+                Course c = new Course();
+                c.setDay(day1);
+                c.setCourseName(courseName1);
+                c.setWeekType(weekType1);
+                c.setTeacherName(teacherName1);
+                cs.add(c);
+            }
+        }
+        cursor.close();
+        return cs;
+    }
+    public List<Course> query2(int today1){
+        int today = today1;
+        SQLiteDatabase db = getWritableDatabase();
+        String sql_search_day = "SELECT * FROM t_course WHERE day=today";
+        Cursor result = db.rawQuery("SELECT * FROM t_course", null);
+        List<Course> cs = new ArrayList<>();
+        for (result.moveToFirst(); !result.isAfterLast();
+
+             result.moveToNext()) {
+            String courseName1=  result.getString(1);
+            String teacherName1=  result.getString(2);
+            String weekType1=  result.getString(7);
+            int startwWeek1=  result.getInt(4);
+            int endWeek1=  result.getInt(5);
+            int day1 = result.getInt(8);
+            int section1 = result.getInt(9);
+            if(day1!=today)
+                continue;
+            Course c = new Course();
+            c.setDay(day1);
+            c.setCourseName(courseName1);
+            c.setWeekType(weekType1);
+            c.setTeacherName(teacherName1);
+            c.setEndWeek(endWeek1);
+            c.setStartWeek(startwWeek1);
+            c.setSection(section1);
+            cs.add(c);
+
+
+        }
+
+        db.close() ;
+        result.close();
+
+
+        return cs;
     }
 
     @Override

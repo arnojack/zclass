@@ -7,7 +7,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="是否确认删除？"
+        android:text="是否确认操作？"
         android:gravity="center"
         android:layout_margin="10dp"
         android:layout_gravity="center"
@@ -17,7 +17,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="删除后将不可恢复"
+        android:text="操作可能不可恢复"
         android:layout_margin="10dp"
         android:layout_gravity="center"
         android:textSize="15sp"

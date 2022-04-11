@@ -121,6 +121,28 @@ public class Chatroom extends AppCompatActivity implements View.OnClickListener 
                 stringHashMap4.put(Course.WAY,"upclc");
                 toast(Course.COUCLASS,ropop_class.getText().toString(),stringHashMap4);
                 break;
+            case R.id.ropop_out:
+                Dialog_Confim confim1 = new Dialog_Confim(Chatroom.this,R.style.MyDialog);
+                confim1.setsubmit(new Dialog_Confim.IonsaveListener() {
+                    @Override//点击取消按钮
+                    public void submit() {
+                        confim1.cancel();
+                    }
+                }, new Dialog_Confim.IonsaveListener() {
+                    @Override//点击确认按钮
+                    public void submit() {
+                        HashMap<String, String> stringHashMap=new HashMap<String,String>();
+                        stringHashMap.put(Cou_Stu.STUID, MainActivity.user_info.getUserid());
+                        stringHashMap.put(Cou_Stu.COUONID, roomid);
+                        stringHashMap.put(Course.METHOD,"Update");
+                        stringHashMap.put(Cou_Stu.WAY,"delstu");
+                        delete(stringHashMap);
+                        Intent intent =new Intent(Chatroom.this,Class_OnlineActivity.class);
+                        startActivity(intent);
+                        Chatroom.this.finish();
+                    }
+                }).show();
+                break;
             case R.id.ropop_delete:
                 Dialog_Confim confim = new Dialog_Confim(Chatroom.this,R.style.MyDialog);
                 confim.setsubmit(new Dialog_Confim.IonsaveListener() {
@@ -131,7 +153,11 @@ public class Chatroom extends AppCompatActivity implements View.OnClickListener 
                 }, new Dialog_Confim.IonsaveListener() {
                     @Override//点击确认按钮
                     public void submit() {
-                        deletcla();
+                        HashMap<String, String> stringHashMap=new HashMap<String,String>();
+                        stringHashMap.put(Course.COUONID, roomid);
+                        stringHashMap.put(Course.METHOD,"Update");
+                        stringHashMap.put(Course.WAY,"delall");
+                        delete(stringHashMap);
                         Intent intent =new Intent(Chatroom.this,Class_OnlineActivity.class);
                         startActivity(intent);
                         Chatroom.this.finish();
@@ -178,11 +204,7 @@ public class Chatroom extends AppCompatActivity implements View.OnClickListener 
         }
 
     }
-    public void deletcla(){
-        HashMap<String, String> stringHashMap=new HashMap<String,String>();
-        stringHashMap.put(Course.COUONID, roomid);
-        stringHashMap.put(Course.METHOD,"Update");
-        stringHashMap.put(Course.WAY,"delall");
+    public void delete(HashMap stringHashMap){
         String url=BaseUrl+"CourseServlet";
 
         Dialog dialog_lod = LoadingDialog.createLoadingDialog(Chatroom.this);
@@ -196,10 +218,10 @@ public class Chatroom extends AppCompatActivity implements View.OnClickListener 
                     public void run() {
                         dialog_lod.hide();
                         if("Ok".equals(json)){
-                            Toast.makeText(getApplicationContext(), "删除成功!",
+                            Toast.makeText(getApplicationContext(), "操作成功!",
                                     Toast.LENGTH_SHORT).show();
                         }else {
-                            Toast.makeText(getApplicationContext(), "错误!" + json,
+                            Toast.makeText(getApplicationContext(), "操作失败!" + json,
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -295,6 +317,7 @@ public class Chatroom extends AppCompatActivity implements View.OnClickListener 
         ropop_grade.setText(roomgrade);
         TextView delete =popview.findViewById(R.id.ropop_delete);
         setlTV(delete);
+        Button out=popview.findViewById(R.id.ropop_out);
         ImageView imageView1 =popview.findViewById(R.id.rightp1);
         ImageView imageView2 =popview.findViewById(R.id.rightp2);
         ImageView imageView3 =popview.findViewById(R.id.rightp3);
@@ -303,7 +326,9 @@ public class Chatroom extends AppCompatActivity implements View.OnClickListener 
             ropop_grade.setOnClickListener(this);
             ropop_class.setOnClickListener(this);
             delete.setOnClickListener(this);
+            out.setVisibility(View.GONE);
         }else {
+            out.setOnClickListener(this);
             delete.setVisibility(View.GONE);
             imageView1.setVisibility(View.GONE);
             imageView2.setVisibility(View.GONE);

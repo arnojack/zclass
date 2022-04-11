@@ -4,18 +4,25 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.zclass.MainActivity;
 import com.example.zclass.R;
 import com.example.zclass.offline.dao.CourseDao;
 import com.example.zclass.offline.pojo.Course;
@@ -26,17 +33,28 @@ import java.util.List;
 
 public class OptionActivity extends AppCompatActivity {
 
-    private CourseDao courseDao = new CourseDao(this);
-
+    private CourseDao courseDao = new CourseDao(OptionActivity.this);
+    private TextView tv_1;
     private ListView lvContent;
     private List<Course> courseList;
-
+    private Button btn_1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_option);
+        tv_1 = findViewById(R.id.tv_1);
+        btn_1 = findViewById(R.id.btn_1);
+        btn_1.setOnClickListener(new View.OnClickListener(){
 
+
+            @Override
+            public void onClick(View view) {
+                textone();
+
+            }
+        });
         lvContent = findViewById(R.id.lvContent);
+
         lvContent.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -46,6 +64,7 @@ public class OptionActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
     }
 
     @Override
@@ -149,5 +168,31 @@ public class OptionActivity extends AppCompatActivity {
                 .setNegativeButton("取消", null)
                 .create()
                 .show();
+    }
+    public  void textone(){
+        int today = 1;
+        List<Course> cs = courseDao.query2(today);
+        String result = "";
+        for(Course course1 : cs)
+        {
+            result += "课程"+course1.getCourseName()+"星期"+course1.getDay()+"节次"+course1.getSection()+"单双周"+
+                    course1.getWeekType()+"\n";
+        }
+
+        tv_1.setText(result);
+    }
+
+    public void qd(){
+        final Handler handler = new Handler();
+        Runnable runnable = new Runnable(){
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void run() {
+                // TODO Auto-generated method stu
+                Toast.makeText(OptionActivity.this,"\n"+"通过SimpleDateFormat获取24小时制时间：\n"+"sdf.format(new Date())",Toast.LENGTH_SHORT).show();
+                handler.postDelayed(this, 5000);// 50是延时时长
+            }
+        };
+        handler.postDelayed(runnable, 5000);// 打开定时器，执行操作
     }
 }

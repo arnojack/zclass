@@ -1,6 +1,9 @@
 package com.example.zclass.offline.pojo;
 
+import android.os.Build;
 import android.text.TextUtils;
+
+import androidx.annotation.RequiresApi;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -138,6 +141,7 @@ public class Course implements Cloneable, Serializable {
                 '}';
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -149,6 +153,7 @@ public class Course implements Cloneable, Serializable {
                 Objects.equals(teacherName, course.teacherName);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public int hashCode() {
         return Objects.hash(courseName, teacherName, startWeek, endWeek);
