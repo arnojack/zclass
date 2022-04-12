@@ -87,6 +87,7 @@ public class Chatroom extends AppCompatActivity implements View.OnClickListener 
     private String roomclass;
     private String teaid;
     private String teaname;
+    private String teasex;
     private Boolean mana =false;
 
     TextView ropop_name;
@@ -169,6 +170,7 @@ public class Chatroom extends AppCompatActivity implements View.OnClickListener 
                 intent.putExtra(Cou_Stu.COUONID,roomid);
                 intent.putExtra(Course.TEAID,teaid);
                 intent.putExtra(Course.TEANAME,teaname);
+                intent.putExtra(User.SEX,teasex);
                 startActivity(intent);
                 break;
             case R.id.room_work:
@@ -407,13 +409,13 @@ public class Chatroom extends AppCompatActivity implements View.OnClickListener 
         //initMsgs();
         editText = (EditText)findViewById(R.id.room_text);
         sendButton = (Button)findViewById(R.id.room_send);
-        BaseActivity.setbackground(sendButton,0.75);
+        //BaseActivity.setbackground(sendButton,0.75);
         memTV=findViewById(R.id.room_mem);
         setlTV(memTV);
         workTV=findViewById(R.id.room_work);
         setlTV(workTV);
         chatPop=findViewById(R.id.chat_pop);
-        BaseActivity.setbackground(chatPop,0.35);
+        //BaseActivity.setbackground(chatPop,0.35);
         roomNa=findViewById(R.id.room_name);
 
         sendButton.setOnClickListener(this);
@@ -425,6 +427,7 @@ public class Chatroom extends AppCompatActivity implements View.OnClickListener 
         roomid=getIntent().getStringExtra(Course.COUONID);
         teaid=getIntent().getStringExtra(Course.TEAID);
         teaname=getIntent().getStringExtra(Course.TEANAME);
+        teasex=getIntent().getStringExtra(User.SEX);
         roomgrade=getIntent().getStringExtra(Course.COUGRADE);
         roomclass=getIntent().getStringExtra(Course.COUCLASS);
 

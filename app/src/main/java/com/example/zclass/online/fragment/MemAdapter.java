@@ -47,7 +47,11 @@ public class MemAdapter extends BaseAdapter {
     {
         public ImageView img;
         public TextView title;
+        public TextView userid;
         public TextView name;
+        public TextView sex;
+        public TextView profess;
+        public TextView school;
     }//声明一个外部静态类
     @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
@@ -59,8 +63,12 @@ public class MemAdapter extends BaseAdapter {
             convertView = mInflater.inflate(R.layout.mem_item, null);
 
             holder.img=convertView.findViewById((R.id.mem_item_icon));
+            holder.userid=convertView.findViewById(R.id.mem_item_id);
             holder.name=convertView.findViewById(R.id.mem_item_name);
             holder.title = (TextView)convertView.findViewById(R.id.mem_item_title);
+            holder.sex =convertView.findViewById(R.id.mem_item_sex);
+            holder.profess=convertView.findViewById(R.id.mem_item_profess);
+            holder.school=convertView.findViewById(R.id.mem_item_school);
 
             convertView.setTag(holder);
         }
@@ -70,8 +78,11 @@ public class MemAdapter extends BaseAdapter {
         }
         //holder.img.setImageResource((Integer) listItem.get(position).get("ItemImage"));
         holder.title.setText((String) listItem.get(position).get("title"));
-
-        holder.name.setText(listItem.get(position).get(User.USERNAME).toString());
+        holder.userid.setText((String)listItem.get(position).get(User.USERID));
+        holder.name.setText((String)listItem.get(position).get(User.USERNAME));
+        holder.sex.setText((String)listItem.get(position).get(User.SEX));
+        holder.profess.setText((String)listItem.get(position).get(User.PROFESS));
+        holder.school.setText((String)listItem.get(position).get(User.SCHOOL));
         //holder.item.setBackgroundColor(color[position]);
 
         return convertView;

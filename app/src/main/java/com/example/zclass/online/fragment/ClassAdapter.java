@@ -13,6 +13,7 @@ import androidx.annotation.RequiresApi;
 
 import com.example.zclass.R;
 import com.example.zclass.online.Dao.Course;
+import com.example.zclass.online.Dao.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,6 +50,7 @@ public class ClassAdapter extends BaseAdapter {
         public TextView title;
         public TextView item_class_id;
         public TextView item_tea_id;
+        public TextView item_tea_sex;
 
         public TextView text_left;
         public TextView text_grade;
@@ -66,6 +68,7 @@ public class ClassAdapter extends BaseAdapter {
             convertView = mInflater.inflate(R.layout.class_item, null);
             holder.item_class_id=convertView.findViewById(R.id.item_class_id);
             holder.item_tea_id=convertView.findViewById(R.id.item_tea_id);
+            holder.item_tea_sex=convertView.findViewById(R.id.item_tea_sex);
 
             holder.img_bottom = (ImageView)convertView.findViewById(R.id.item_icon);
             holder.title = (TextView)convertView.findViewById(R.id.item_title);
@@ -82,11 +85,12 @@ public class ClassAdapter extends BaseAdapter {
         }
         //holder.img.setImageResource((Integer) listItem.get(position).get("ItemImage"));
         holder.title.setText((String) listItem.get(position).get(Course.COUONNAME));
-        holder.text_left.setText((String) listItem.get(position).get(Course.TEANAME));
+        holder.text_left.setText((String) listItem.get(position).get(User.USERNAME));
         holder.text_grade.setText((String) listItem.get(position).get(Course.COUGRADE));
-        holder.text_class.setText(listItem.get(position).get(Course.COUCLASS).toString());
-        holder.item_class_id.setText(listItem.get(position).get(Course.COUONID).toString());
-        holder.item_tea_id.setText(listItem.get(position).get(Course.TEAID).toString());
+        holder.text_class.setText((String)listItem.get(position).get(Course.COUCLASS));
+        holder.item_class_id.setText((String)listItem.get(position).get(Course.COUONID));
+        holder.item_tea_id.setText((String)listItem.get(position).get(Course.TEAID));
+        holder.item_tea_sex.setText((String)listItem.get(position).get(User.SEX));
         //holder.item.setBackgroundColor(color[position]);
 
         return convertView;

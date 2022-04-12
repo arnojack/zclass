@@ -6,6 +6,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -38,6 +39,7 @@ public class Member extends AppCompatActivity {
     private String cou_on_id;
     private String teaid;
     private String teaname;
+    private String teasex;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,18 +48,38 @@ public class Member extends AppCompatActivity {
         cou_on_id=getIntent().getStringExtra(Cou_Stu.COUONID);
         teaid=getIntent().getStringExtra(Course.TEAID);
         teaname=getIntent().getStringExtra(Course.TEANAME);
+        teasex=getIntent().getStringExtra(User.SEX);
 
         lv = (ListView) findViewById(R.id.mem_lv);
         dialog_lod = LoadingDialog.createLoadingDialog(Member.this);
-        getmem();
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-
+                TextView id=arg1.findViewById(R.id.mem_item_id);
+                TextView name=arg1.findViewById(R.id.mem_item_name);
+                TextView sex =arg1.findViewById(R.id.mem_item_sex);
+                TextView profess=arg1.findViewById(R.id.mem_item_profess);
+                TextView school=arg1.findViewById(R.id.mem_item_school);
+                Intent intent=new Intent(Member.this,MemInfo.class);
+                intent.putExtra(User.USERID,id.getText().toString());
+                intent.putExtra(User.USERNAME,name.getText().toString());
+                intent.putExtra(User.SEX,sex.getText().toString());
+                intent.putExtra(User.PROFESS,profess.getText().toString());
+                intent.putExtra(User.SCHOOL,school.getText().toString());
+                intent.putExtra(Course.TEAID,teaid);
+                intent.putExtra(Course.COUONID,cou_on_id);
+                startActivity(intent);
             }
         });
     }
+
+    @Override
+    protected void onStart() {
+        getmem();
+        super.onStart();
+    }
+
     private void getmem(){
         HashMap<String, String> stringHashMap=new HashMap<String,String>();
         stringHashMap.put(Cou_Stu.COUONID, cou_on_id);
@@ -79,6 +101,7 @@ public class Member extends AppCompatActivity {
                             Map<String,String>map=new HashMap<>();
                             map.put(User.USERID,teaid);
                             map.put(User.USERNAME,teaname);
+                            map.put(User.SEX,teasex);
                             map.put("title","教师");
                             tt.add(map);
                             tt.addAll(temp);

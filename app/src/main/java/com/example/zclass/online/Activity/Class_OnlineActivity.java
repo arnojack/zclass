@@ -97,9 +97,11 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
                 TextView clgrade=arg1.findViewById(R.id.item_clgrade);
                 TextView class1=arg1.findViewById(R.id.item_class);
                 TextView teaname=arg1.findViewById(R.id.item_bottom_left);
+                TextView teasex=arg1.findViewById(R.id.item_tea_sex);
                 TextView teaid=arg1.findViewById(R.id.item_tea_id);
                 Intent intent =new Intent(Class_OnlineActivity.this, Chatroom.class);
 
+                intent.putExtra(User.SEX,teasex.getText().toString());
                 intent.putExtra(Course.COUONNAME,classNa.getText().toString());
                 intent.putExtra(Course.COUONID,classId.getText().toString());
                 intent.putExtra(Course.COUGRADE,clgrade.getText().toString());

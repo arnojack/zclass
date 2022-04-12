@@ -22,15 +22,21 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:text="11111"
+            android:text="roomid"
             android:maxLines="1"
             android:id="@+id/item_class_id"/>
         <TextView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:text="11111"
+            android:text="教师id"
             android:maxLines="1"
             android:id="@+id/item_tea_id"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="教师性别"
+            android:maxLines="1"
+            android:id="@+id/item_tea_sex"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

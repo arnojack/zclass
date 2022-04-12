@@ -27,7 +27,7 @@
                 android:layout_height="match_parent"
                 android:textSize="20dp"
                 android:layout_marginLeft="10dp"
-                android:text="11111"
+                android:text="名字"
                 android:gravity="center"
                 android:maxLines="1"
                 android:id="@+id/mem_item_name"/>
@@ -39,11 +39,30 @@
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:background="@color/dark_blue"
-                android:text="11111"
+                android:text="头衔"
                 android:maxLines="1"
                 android:id="@+id/mem_item_title"/>
         </LinearLayout>
-
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="id"
+            android:id="@+id/mem_item_id"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="性别"
+            android:id="@+id/mem_item_sex"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="专业"
+            android:id="@+id/mem_item_profess"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="学校"
+            android:id="@+id/mem_item_school"/>
     </LinearLayout>
 
 </LinearLayout>
