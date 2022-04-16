@@ -106,6 +106,12 @@ public class Dialog_Signin extends Dialog implements View.OnClickListener{
         if(!TextUtils.isEmpty(title)){
             mTvtitle.setText(title);
         }
+        if(!TextUtils.isEmpty(username)){
+            mETusername.setText(username);
+        }
+        if(!TextUtils.isEmpty(password)){
+            mETpassword.setText(password);
+        }
 
         if(!TextUtils.isEmpty(signin)){
             mTvsignin.setText(signin);

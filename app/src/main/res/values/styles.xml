@@ -24,8 +24,13 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
         <item name="android:backgroundDimEnabled">true</item>
-
     </style>
+    <!-- 圆形图片 -->
+    <style name="circleImageStyle">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
     <declare-styleable name="TextDrawable">
         <attr name="leftDrawable" format="reference" />
         <attr name="leftDrawableWidth" format="dimension" />

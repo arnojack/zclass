@@ -25,6 +25,7 @@ import com.example.zclass.online.Activity.MyInfoActivity;
 import com.example.zclass.online.service.HttpClientUtils;
 import com.example.zclass.online.service.UpdateUser;
 import com.example.zclass.online.tool.BaseActivity;
+import com.example.zclass.online.tool.SPUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
@@ -170,7 +171,9 @@ qd();
         String url_login=BaseActivity.BaseUrl+"LoginServlet";
 
         sign_Dialog =new Dialog_Signin(MainActivity.this,R.style.MyDialog);
-        sign_Dialog.setTitle("登录").setUsername("userid").setPassword("password")
+        sign_Dialog.setTitle("登录")
+                .setUsername(SPUtils.getString("userid","userid",MainActivity.this))
+                .setPassword(SPUtils.getString("password","password",MainActivity.this))
                 .setsignin("登录", new Dialog_Signin.IonsigninListener() {
                     @Override
                     public boolean onsignin(Dialog dialog) {
@@ -193,7 +196,8 @@ qd();
                             //pd.cancel();
                             dialog_lod.cancel();
                         }else {
-
+                            SPUtils.putString("userid",user_id,MainActivity.this);
+                            SPUtils.putString("password",user_password,MainActivity.this);
                             if(user_info.getFlag_login()==1){
 
                                 //pd.cancel();
@@ -490,22 +494,13 @@ qd();
                     try {
                         myMediaPlayer.setDataSource(afd.getFileDescriptor(),
                                 afd.getStartOffset(), afd.getLength());
-                    } catch (IllegalArgumentException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    } catch (IllegalStateException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    } catch (IOException e) {
+                    } catch (IllegalArgumentException | IllegalStateException | IOException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
                     try {
                         myMediaPlayer.prepare();
-                    } catch (IllegalStateException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    } catch (IOException e) {
+                    } catch (IllegalStateException | IOException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
@@ -535,8 +530,8 @@ qd();
     @RequiresApi(api = Build.VERSION_CODES.P)
     private void silentSwitchOff() {
         AudioManager mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        int min = mAudioManager.getStreamMinVolume(mAudioManager.STREAM_SYSTEM);
-        int max= mAudioManager.getStreamMaxVolume(mAudioManager.STREAM_SYSTEM);
+        int min = mAudioManager.getStreamMinVolume(AudioManager.STREAM_SYSTEM);
+        int max= mAudioManager.getStreamMaxVolume(AudioManager.STREAM_SYSTEM);
         int value = mAudioManager.getStreamVolume(AudioManager.STREAM_VOICE_CALL);
         int predict = max/2;
         NotificationManager notificationManager = (NotificationManager)getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
@@ -591,12 +586,6 @@ qd();
         } else if ("7".equals(mWay)) {
             STU = 6;
         }
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(MainActivity.this,"\n"+hour,Toast.LENGTH_SHORT).show();
-            }
-        });
         //OptionActivity q = new OptionActivity();
         CourseDao c1 = new CourseDao(this);
         List<Course> cs = courseDao.query2(3);
@@ -651,16 +640,6 @@ qd();
         }
 
 
-
-
-
-
-
-
-
-
-
-
         //****************************获取时间函数*************************************
 
     }
@@ -699,13 +678,11 @@ qd();
     @Override
     protected void onDestroy() {
         AudioManager mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        int min = mAudioManager.getStreamMinVolume(mAudioManager.STREAM_SYSTEM);
-        int max= mAudioManager.getStreamMaxVolume(mAudioManager.STREAM_SYSTEM);
+        int min = mAudioManager.getStreamMinVolume(AudioManager.STREAM_SYSTEM);
+        int max= mAudioManager.getStreamMaxVolume(AudioManager.STREAM_SYSTEM);
         int value = mAudioManager.getStreamVolume(AudioManager.STREAM_VOICE_CALL);
         int predict = max/2;
         NotificationManager notificationManager = (NotificationManager)getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-
-
 
         mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,predict,  0 );  //tempVolume:音量绝对值
 
