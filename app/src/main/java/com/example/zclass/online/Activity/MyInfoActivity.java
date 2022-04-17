@@ -13,10 +13,9 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +31,7 @@ import com.example.zclass.R;
 import com.example.zclass.online.Dao.User;
 import com.example.zclass.online.Dialog.Dialog_upUser;
 import com.example.zclass.online.Dialog.LoadingDialog;
+import com.example.zclass.online.service.HttpClientUtils;
 import com.example.zclass.online.tool.BitmapUtils;
 import com.example.zclass.online.tool.CameraUtils;
 import com.example.zclass.online.tool.SPUtils;
@@ -42,12 +42,18 @@ import com.google.android.material.navigation.NavigationBarView;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+
 
 public class MyInfoActivity extends AppCompatActivity implements View.OnClickListener {
+    private String TAG ="MyInfoActivity";
 
     private TextView mTVuid;
     private TextView mTVusex;
@@ -200,13 +206,11 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
         //拍照
         tvTakePictures.setOnClickListener(v -> {
             takePhoto();
-            //showMsg("拍照");
             bottomSheetDialog.cancel();
         });
         //打开相册
         tvOpenAlbum.setOnClickListener(v -> {
             openAlbum();
-            //showMsg("打开相册");
             bottomSheetDialog.cancel();
         });
         //取消
@@ -260,6 +264,28 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
                 if (resultCode == RESULT_OK) {
                     //显示图片
                     displayImage(outputImagePath.getAbsolutePath());
+                    HttpClientUtils.uploadic("icon", "1.jpg"
+                            , outputImagePath.getAbsolutePath(), new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    showMsg("上传失败");
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onResponse(Call call, Response response) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    showMsg("上传成功");
+                                }
+                            });
+                        }
+                    });
                 }
                 break;
             //打开相册后返回
@@ -275,11 +301,24 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
                     }
                     //显示图片
                     displayImage(imagePath);
+                    HttpClientUtils.uploadic("icon", "1.jpg"
+                            , imagePath, new Callback() {
+                                @Override
+                                public void onFailure(Call call, IOException e) {
+                                    showMsg("上传失败");
+                                }
+
+                                @Override
+                                public void onResponse(Call call, Response response) {
+                                    showMsg("上传成功");
+                                }
+                            });
                 }
                 break;
             default:
                 break;
         }
+
     }
 
     /**

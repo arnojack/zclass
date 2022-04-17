@@ -2,22 +2,35 @@ package com.example.zclass.online.service;
 
 import android.util.Log;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.example.zclass.MainActivity;
+import com.example.zclass.online.Dao.Cou_Stu;
+import com.example.zclass.online.Dao.User;
+import com.example.zclass.online.tool.BaseActivity;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.FileNameMap;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Headers;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 public class HttpClientUtils {
 
@@ -221,6 +234,35 @@ public class HttpClientUtils {
         }
     }
 
+    public static void uploadic(String method,String filename, String filePath,Callback callback){
+        OkHttpClient client = new OkHttpClient();
+        String url= BaseActivity.BaseUrl+"uploadHandleServlet2";
+        String filetype=getMimeType(filename);
+
+        MultipartBody.Builder multipartBodyBuilder = new MultipartBody.Builder()
+                .addFormDataPart("file", filename,
+                        RequestBody.create(MediaType.parse(filetype), new File(filePath)))
+                .setType(MultipartBody.FORM);
+
+        multipartBodyBuilder.addFormDataPart(User.USERID, MainActivity.user_info.getUserid());
+        multipartBodyBuilder.addFormDataPart("method",method);
+
+        RequestBody requestBody =multipartBodyBuilder.build();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(requestBody)
+                .build();
+        client.newCall(request).enqueue(callback);
+    }
+    private static String getMimeType(String fileName) {
+        FileNameMap filenameMap = URLConnection.getFileNameMap();
+        String contentType = filenameMap.getContentTypeFor(fileName);
+        if (contentType == null) {
+            contentType = "application/octet-stream"; //* exe,所有的可执行程序
+        }
+        return contentType;
+    }
     public interface OnRequestCallBack {
         void onSuccess(String json);
         void onError(String errorMsg);

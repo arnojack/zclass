@@ -40,6 +40,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation "org.java-websocket:Java-WebSocket:1.5.1"
     implementation 'com.alibaba:fastjson:1.2.75'
+    implementation 'com.squareup.okhttp3:okhttp:3.14.2'
     //权限请求框架
     api 'com.github.tbruyelle:rxpermissions:0.12'
     api 'io.reactivex.rxjava3:rxandroid:3.0.0'
