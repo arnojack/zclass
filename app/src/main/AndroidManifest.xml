@@ -57,7 +57,7 @@
             android:exported="true" />
         <activity android:name=".offline.UpdateCourseActivity" />
         <activity android:name=".offline.OptionActivity" />
-        <activity android:name=".offline.aidltest.MYyActivity"
+        <activity android:name="com.example.zclass.offline.aidltest.MYyActivity"
             android:label="@string/title_activity_myy"/>
         <activity android:name=".offline.aidltest.user1"
             android:label="@string/user"/>
