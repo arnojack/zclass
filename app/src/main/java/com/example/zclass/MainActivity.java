@@ -126,22 +126,27 @@ public class MainActivity extends AppCompatActivity {
                     }
                 case R.id.page_3:
 
-                    result=true;
+                    result=false;
                     if(user_info.getFlag_login()==1){
                         intent=new Intent(MainActivity.this, MyInfoActivity.class);
                         intent.putExtra("user",user_info);
                         startActivity(intent);
                         MainActivity.this.finish();
-                        return true;
+
+                        result=true;
+                        break;
+//                        return true;
                     }else{
                         login(MyInfoActivity.class);
                         Log.e("MainActivity","login结束");
-                        return false;
+                        result=false;
+                        break;
+//                        return false;
                     }
                 case R.id.page_4:
                     intent=new Intent(MainActivity.this, MYyActivity.class);
                     startActivity(intent);
-                    return false;
+                    return true;
             }
             return result;
         }
