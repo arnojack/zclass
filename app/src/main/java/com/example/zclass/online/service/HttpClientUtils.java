@@ -1,14 +1,21 @@
 package com.example.zclass.online.service;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.os.Environment;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import com.example.zclass.MainActivity;
 import com.example.zclass.online.Dao.Cou_Stu;
+import com.example.zclass.online.Dao.Course;
 import com.example.zclass.online.Dao.User;
 import com.example.zclass.online.tool.BaseActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
@@ -19,10 +26,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -84,6 +94,7 @@ public class HttpClientUtils {
             }
             HttpURLConnection connection = null;
             try {
+                assert url != null;
                 connection = (HttpURLConnection) url.openConnection();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -126,9 +137,6 @@ public class HttpClientUtils {
                 message = "请求失败 code:" + connection.getResponseCode();
             }
 
-        } catch (MalformedURLException e) {
-            message = e.getMessage();
-            e.printStackTrace();
         } catch (IOException e) {
             message = e.getMessage();
             e.printStackTrace();
@@ -182,7 +190,7 @@ public class HttpClientUtils {
 
             // set  params three way  OutputStreamWriter
             OutputStreamWriter out = new OutputStreamWriter(
-                    connection.getOutputStream(), "UTF-8");
+                    connection.getOutputStream(), StandardCharsets.UTF_8);
             // 发送请求params参数
             out.write(params);
             out.flush();
@@ -208,9 +216,6 @@ public class HttpClientUtils {
                 message = "请求失败 code:" + connection.getResponseCode();
             }
 
-        } catch (MalformedURLException e) {
-            message = e.getMessage();
-            e.printStackTrace();
         } catch (IOException e) {
             message = e.getMessage();
             e.printStackTrace();
@@ -263,8 +268,118 @@ public class HttpClientUtils {
         }
         return contentType;
     }
+    /*
+     * @param saveDir 储存下载文件的SDCard目录
+     * @param listener 下载监听
+     */
+    public static void download( String method, String cou_on_id, OnDownloadListener listener) {
+        String suffx=".jpg";
+        String url=BaseActivity.BaseUrl+"downLoadServlet1";
+        //String saveDir=getExternalCacheDir().getAbsolutePath();
+        String saveDir="/data/local/tmp/com.example.zclass/";
+        String filename=MainActivity.user_info.getUserid()+suffx;
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(10,TimeUnit.SECONDS)
+                .writeTimeout(10,TimeUnit.SECONDS)
+                .build();
+
+        FormBody formBody = null;
+        switch (method){
+            case "icon":
+                formBody= new FormBody.Builder()
+                        .add("method",method)
+                        .add("filename","1.jpg")
+                        .add(User.USERID, MainActivity.user_info.getUserid())
+                        .build();
+
+                break;
+            case "work":
+                formBody= new FormBody.Builder()
+                        .add("method",method)
+                        .add("filename","1.jpg")
+                        .add(Course.COUONID, cou_on_id)
+                        .add(User.USERID, MainActivity.user_info.getUserid())
+                        .build();
+
+                break;
+        }
+        assert formBody != null;
+        Request request= new Request.Builder()
+                .post(formBody)
+                .url(url)
+                .build();
+
+        Call call = okHttpClient.newCall(request);
+
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                // 下载失败
+                listener.onDownloadFailed(e.getLocalizedMessage());
+            }
+            @Override
+            public void onResponse(Call call, Response response) {
+                InputStream is = null;
+                byte[] buf = new byte[2048];
+                int len = 0;
+                FileOutputStream fos = null;
+
+                try {
+                    is = response.body().byteStream();
+                    long total = response.body().contentLength();
+                    File file = new File(saveDir,filename);
+                    if(!file.exists())
+                        file.createNewFile();
+                    fos = new FileOutputStream(file);
+                    long sum = 0;
+                    while ((len = is.read(buf)) != -1) {
+                        fos.write(buf, 0, len);
+                        sum += len;
+                        int progress = (int) (sum * 1.0f / total * 100);
+                        // 下载中
+                        listener.onDownloading(progress);
+                    }
+                    fos.flush();
+                    // 下载完成
+                    listener.onDownloadSuccess();
+                } catch (Exception e) {
+                    listener.onDownloadFailed(e.toString());
+                } finally {
+                    try {
+                        if (is != null)
+                            is.close();
+                    } catch (IOException ignored) {
+                    }
+                    try {
+                        if (fos != null)
+                            fos.close();
+                    } catch (IOException ignored) {
+                    }
+                }
+            }
+        });
+    }
+
     public interface OnRequestCallBack {
         void onSuccess(String json);
         void onError(String errorMsg);
+    }
+    public interface OnDownloadListener {
+        /**
+         * 下载成功
+         */
+        void onDownloadSuccess();
+
+        /**
+         * @param progress
+         * 下载进度
+         */
+        void onDownloading(int progress);
+
+        /**
+         * 下载失败
+         */
+        void onDownloadFailed(String msg);
     }
 }

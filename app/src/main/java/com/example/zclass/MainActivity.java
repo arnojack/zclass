@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         update_dl();
         BottomNavigationView mNaviView=findViewById(R.id.bottom_navigation);
         mNaviView.setOnItemSelectedListener(new NavigationViewlistener());
-qd();
+        qd();
     }
     class NavigationViewlistener implements NavigationBarView.OnItemSelectedListener {
         @Override
