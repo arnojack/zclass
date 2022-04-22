@@ -13,7 +13,6 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -28,6 +27,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.zclass.MainActivity;
 import com.example.zclass.R;
+import com.example.zclass.offline.aidltest.MYyActivity;
 import com.example.zclass.online.Dao.User;
 import com.example.zclass.online.Dialog.Dialog_upUser;
 import com.example.zclass.online.Dialog.LoadingDialog;
@@ -100,7 +100,7 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.page_1:
-                        Intent intent1=new Intent(MyInfoActivity.this, MainActivity.class);
+                        Intent intent1=new  Intent(MyInfoActivity.this, MainActivity.class);
                         intent1.putExtra("user",MainActivity.user_info);
                         startActivity(intent1);
                         MyInfoActivity.this.finish();
@@ -112,6 +112,11 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
                         MyInfoActivity.this.finish();
                         return true;
                     case R.id.page_3:
+                        return true;
+                    case R.id.page_4:
+                        Intent intent4=new Intent(MyInfoActivity.this, MYyActivity.class);
+                        startActivity(intent4);
+                        MyInfoActivity.this.finish();
                         return true;
                 }
                 return false;

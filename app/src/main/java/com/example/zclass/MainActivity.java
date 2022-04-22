@@ -10,9 +10,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.zclass.offline.OptionActivity;
+import com.example.zclass.offline.aidltest.MYyActivity;
 import com.example.zclass.offline.dao.CourseDao;
 import com.example.zclass.offline.pojo.Course;
 import com.example.zclass.offline.view.TimeTableView;
@@ -36,17 +38,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlarmManager;
-import android.app.Dialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
 import android.icu.util.Calendar;
 import android.icu.util.TimeZone;
@@ -55,42 +52,16 @@ import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
-import android.provider.Settings;
-import android.util.Log;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
-
-import com.example.zclass.offline.dao.CourseDao;
-import com.example.zclass.offline.OptionActivity;
-import com.example.zclass.online.Dao.User;
-
-import com.example.zclass.online.Dialog.Dialog_Signin;
-import com.example.zclass.online.Dialog.Dialog_Signup;
-import com.example.zclass.online.Dialog.LoadingDialog;
-import com.example.zclass.online.service.HttpClientUtils;
-import com.example.zclass.online.service.UpdateUser;
-import com.example.zclass.online.tool.BaseActivity;
-import com.example.zclass.offline.pojo.Course;
-import com.example.zclass.offline.view.TimeTableView;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
-
-import org.json.JSONException;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     public static User user_info;
     public static Boolean result=false;
     private CourseDao courseDao = new CourseDao(this);
     private TimeTableView timeTable;
+    private  Button tmp;
     private SharedPreferences sp;
 
     private MediaPlayer mMediaPlayer;
@@ -103,10 +74,21 @@ public class MainActivity extends AppCompatActivity {
 
     Dialog_Signin sign_Dialog;
     Dialog_Signup signup_Dialog;
+//    private Button mbtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//        mbtn = findViewById(R.id.btn_2);
+//        mbtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent7 = new Intent(MainActivity.this, MYyActivity.class);
+//                startActivity(intent7);
+//            }
+//        });
+
 
         sp = getSharedPreferences("config", MODE_PRIVATE);
         timeTable = findViewById(R.id.timeTable);
@@ -120,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         update_dl();
         BottomNavigationView mNaviView=findViewById(R.id.bottom_navigation);
         mNaviView.setOnItemSelectedListener(new NavigationViewlistener());
-qd();
+        qd();
     }
     class NavigationViewlistener implements NavigationBarView.OnItemSelectedListener {
         @Override
@@ -144,17 +126,22 @@ qd();
                     }
                 case R.id.page_3:
 
-                    result=false;
+                    result=true;
                     if(user_info.getFlag_login()==1){
                         intent=new Intent(MainActivity.this, MyInfoActivity.class);
                         intent.putExtra("user",user_info);
                         startActivity(intent);
                         MainActivity.this.finish();
-                        result =true;
+                        return true;
                     }else{
                         login(MyInfoActivity.class);
                         Log.e("MainActivity","login结束");
+                        return false;
                     }
+                case R.id.page_4:
+                    intent=new Intent(MainActivity.this, MYyActivity.class);
+                    startActivity(intent);
+                    return false;
             }
             return result;
         }

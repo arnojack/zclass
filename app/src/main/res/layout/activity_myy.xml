@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/main_bg"
+    android:orientation="vertical" >
+
+	<LinearLayout
+		android:layout_width="199dp"
+		android:layout_height="56dp"
+		android:orientation="horizontal"
+		android:layout_weight="1">
+
+
+		<Button
+			android:id="@+id/userButton"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="用户向导" />
+
+		<Button
+			android:id="@+id/button"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="设  置" />
+
+
+	</LinearLayout>
+
+   <LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+
+    android:orientation="horizontal"
+	   android:layout_weight="2">
+    <TextView android:id="@+id/start" android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				 android:textSize="20sp"
+				 android:text="开始时间：" ></TextView>
+     <TimePicker
+         android:id="@+id/mTimPicker"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"/>
+</LinearLayout>
+
+
+   <LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+   
+    android:orientation="horizontal"
+	   android:layout_weight="2">
+    <TextView android:id="@+id/end" android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				 android:textSize="20sp"
+				 android:text="结束时间：" ></TextView>
+     <TimePicker
+         android:id="@+id/mTimPicker2"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"/>
+     </LinearLayout>
+
+</LinearLayout>
