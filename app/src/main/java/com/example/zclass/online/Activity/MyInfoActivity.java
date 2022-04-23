@@ -32,6 +32,7 @@ import com.example.zclass.online.Dao.User;
 import com.example.zclass.online.Dialog.Dialog_upUser;
 import com.example.zclass.online.Dialog.LoadingDialog;
 import com.example.zclass.online.service.HttpClientUtils;
+import com.example.zclass.online.tool.BaseActivity;
 import com.example.zclass.online.tool.BitmapUtils;
 import com.example.zclass.online.tool.CameraUtils;
 import com.example.zclass.online.tool.SPUtils;
@@ -420,6 +421,8 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
     }
     private void findview(){
         ivHead = findViewById(R.id.iv_head);
+        BaseActivity.iconDO(ivHead,MainActivity.user_info.getUserid());
+
         mTVuid=findViewById(R.id.info_userid);
         setrTV(mTVuid);
         mTVuid.setText(MainActivity.user_info.getUserid());

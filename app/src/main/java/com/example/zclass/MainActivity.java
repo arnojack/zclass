@@ -55,6 +55,8 @@ import android.os.Handler;
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
+    String TAG="MainActivity";
+
     public static User user_info;
     public static Boolean result=false;
     private CourseDao courseDao = new CourseDao(this);
@@ -186,6 +188,7 @@ public class MainActivity extends AppCompatActivity {
                                 stringHashMap.put(User.METHOD,"login");
                                 stringHashMap.put(User.WAY,"signin");
 
+                                Log.e(TAG,"-------------正在登录----------");
                                 HttpClientUtils.post(url_login, HttpClientUtils.maptostr(stringHashMap), new HttpClientUtils.OnRequestCallBack() {
                                     @Override
                                     public void onSuccess(String json) {
@@ -228,6 +231,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     @Override
                                     public void onError(String errorMsg) {
+                                        Log.e(TAG,"-----------"+errorMsg);
                                         runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {

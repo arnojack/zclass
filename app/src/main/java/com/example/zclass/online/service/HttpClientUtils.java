@@ -1,14 +1,9 @@
 package com.example.zclass.online.service;
 
-import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Environment;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-
 import com.example.zclass.MainActivity;
-import com.example.zclass.online.Dao.Cou_Stu;
 import com.example.zclass.online.Dao.Course;
 import com.example.zclass.online.Dao.User;
 import com.example.zclass.online.tool.BaseActivity;

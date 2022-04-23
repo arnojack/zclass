@@ -87,7 +87,7 @@ public class ClassAdapter extends BaseAdapter {
         else {
             holder = (ViewHolder)convertView.getTag();
         }
-        BaseActivity.iconDO((ShapeableImageView) holder.img_icon,(String)listItem.get(position).get(Course.TEAID));
+        BaseActivity.iconDO((ImageView) holder.img_icon,(String)listItem.get(position).get(Course.TEAID));
         //holder.img.setImageResource((Integer) listItem.get(position).get("ItemImage"));
         holder.title.setText((String) listItem.get(position).get(Course.COUONNAME));
         holder.text_left.setText((String) listItem.get(position).get(User.USERNAME));

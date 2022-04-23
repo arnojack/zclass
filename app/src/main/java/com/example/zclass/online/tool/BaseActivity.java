@@ -31,8 +31,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BaseActivity {
-    public static  String ws = "ws://192.168.0.106:8080/websocket/";
-    public static final String BaseUrl="http://192.168.0.106:8080/";
+    public static  String ws = "ws://192.168.0.107:8080/demo_war/websocket/";
+    public static final String BaseUrl="http://192.168.0.107:8080/demo_war/";
 
     public static void showToast(Context ctx, String msg) {
         Toast.makeText(ctx, msg, Toast.LENGTH_LONG).show();
@@ -115,7 +115,7 @@ public class BaseActivity {
         return mlists;
     }
     //这个方法返回了指定索引对应的数据项的视图
-    public static void iconDO(ShapeableImageView imageView, String userid){
+    public static void iconDO(ImageView imageView, String userid){
         HttpClientUtils.download("icon",userid, null, new HttpClientUtils.OnDownloadListener() {
             @Override
             public void onDownloadSuccess() {
