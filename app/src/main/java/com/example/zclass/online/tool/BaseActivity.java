@@ -31,8 +31,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BaseActivity {
-    public static  String ws = "ws://192.168.0.107:8080/demo_war/websocket/";
-    public static final String BaseUrl="http://192.168.0.107:8080/demo_war/";
+    public static final String base="192.168.0.107:8080/demo_war/";
+    public static String ws = "ws://"+base+"websocket/";
+    public static String BaseUrl="http://"+base;
 
     public static void showToast(Context ctx, String msg) {
         Toast.makeText(ctx, msg, Toast.LENGTH_LONG).show();
@@ -116,29 +117,35 @@ public class BaseActivity {
     }
     //这个方法返回了指定索引对应的数据项的视图
     public static void iconDO(ImageView imageView, String userid){
-        HttpClientUtils.download("icon",userid, null, new HttpClientUtils.OnDownloadListener() {
-            @Override
-            public void onDownloadSuccess() {
-                String saveDir= Environment.getExternalStorageDirectory().getAbsolutePath();
-                File file=new File(saveDir,userid+".jpg");
-                Bitmap bitmap= BitmapFactory.decodeFile(file.getAbsolutePath());
-                imageView.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(bitmap!=null)
-                            imageView.setImageBitmap(bitmap);
-                    }
-                });
-            }
+        String saveDir= Environment.getExternalStorageDirectory().getAbsolutePath();
+        File file=new File(saveDir,userid+".jpg");
+        Bitmap bitmap= BitmapFactory.decodeFile(file.getAbsolutePath());
+        if(bitmap!=null){
+            imageView.setImageBitmap(bitmap);
+        }else {
+            HttpClientUtils.download("icon",userid, null, new HttpClientUtils.OnDownloadListener() {
+                @Override
+                public void onDownloadSuccess() {
+                    File file=new File(saveDir,userid+".jpg");
+                    Bitmap bitmap= BitmapFactory.decodeFile(file.getAbsolutePath());
+                    imageView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(bitmap!=null)
+                                imageView.setImageBitmap(bitmap);
+                        }
+                    });
+                }
+                @Override
+                public void onDownloading(int progress) {
+                }
 
-            @Override
-            public void onDownloading(int progress) {
-            }
+                @Override
+                public void onDownloadFailed(String msg) {
+                }
+            });
+        }
 
-            @Override
-            public void onDownloadFailed(String msg) {
-            }
-        });
     }
     public static String toUtf8String(String s) {
         StringBuffer sb = new StringBuffer();
