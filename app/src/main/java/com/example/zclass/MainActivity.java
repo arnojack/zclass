@@ -36,17 +36,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlarmManager;
-import android.app.Dialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
 import android.icu.util.Calendar;
 import android.icu.util.TimeZone;
@@ -55,36 +50,9 @@ import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
-import android.provider.Settings;
-import android.util.Log;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
-
-import com.example.zclass.offline.dao.CourseDao;
-import com.example.zclass.offline.OptionActivity;
-import com.example.zclass.online.Dao.User;
-
-import com.example.zclass.online.Dialog.Dialog_Signin;
-import com.example.zclass.online.Dialog.Dialog_Signup;
-import com.example.zclass.online.Dialog.LoadingDialog;
-import com.example.zclass.online.service.HttpClientUtils;
-import com.example.zclass.online.service.UpdateUser;
-import com.example.zclass.online.tool.BaseActivity;
-import com.example.zclass.offline.pojo.Course;
-import com.example.zclass.offline.view.TimeTableView;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
-
-import org.json.JSONException;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     public static User user_info;
@@ -98,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences saved_prefs;
     public static AssetFileDescriptor afd = null;
     private boolean SoundEnabled = true;
-    Context context= null;
     private AudioManager amanager = null;
 
     Dialog_Signin sign_Dialog;
