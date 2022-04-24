@@ -10,11 +10,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.zclass.offline.OptionActivity;
-//import com.example.zclass.offline.aidltest.MYyActivity;
 import com.example.zclass.offline.dao.CourseDao;
 import com.example.zclass.offline.pojo.Course;
 import com.example.zclass.offline.view.TimeTableView;
@@ -57,11 +55,12 @@ import android.os.Handler;
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
+    String TAG="MainActivity";
+
     public static User user_info;
     public static Boolean result=false;
     private CourseDao courseDao = new CourseDao(this);
     private TimeTableView timeTable;
-    private  Button tmp;
     private SharedPreferences sp;
 
     private MediaPlayer mMediaPlayer;
@@ -69,26 +68,14 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences saved_prefs;
     public static AssetFileDescriptor afd = null;
     private boolean SoundEnabled = true;
-    Context context= null;
     private AudioManager amanager = null;
 
     Dialog_Signin sign_Dialog;
     Dialog_Signup signup_Dialog;
-//    private Button mbtn;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        mbtn = findViewById(R.id.btn_2);
-//        mbtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent7 = new Intent(MainActivity.this, MYyActivity.class);
-//                startActivity(intent7);
-//            }
-//        });
-
 
         sp = getSharedPreferences("config", MODE_PRIVATE);
         timeTable = findViewById(R.id.timeTable);
@@ -133,20 +120,20 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                         MainActivity.this.finish();
 
-                        result=true;
-                        break;
-//                        return true;
+                        return true;
                     }else{
                         login(MyInfoActivity.class);
                         Log.e("MainActivity","login结束");
-                        result=false;
-                        break;
-//                        return false;
+
+                        return false;
                     }
-//                case R.id.page_4:
-//                    intent=new Intent(MainActivity.this, MYyActivity.class);
-//                    startActivity(intent);
-//                    return true;
+                    /*
+                case R.id.page_4:
+                    intent=new Intent(MainActivity.this, MYyActivity.class);
+                    startActivity(intent);
+                    return true;
+
+                     */
             }
             return result;
         }
@@ -211,6 +198,7 @@ public class MainActivity extends AppCompatActivity {
                                 stringHashMap.put(User.METHOD,"login");
                                 stringHashMap.put(User.WAY,"signin");
 
+                                Log.e(TAG,"-------------正在登录----------");
                                 HttpClientUtils.post(url_login, HttpClientUtils.maptostr(stringHashMap), new HttpClientUtils.OnRequestCallBack() {
                                     @Override
                                     public void onSuccess(String json) {
@@ -253,6 +241,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     @Override
                                     public void onError(String errorMsg) {
+                                        Log.e(TAG,"-----------"+errorMsg);
                                         runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {

@@ -22,8 +22,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BaseActivity {
-    public static  String ws = "ws://192.168.0.106:8080/demo_war/websocket/";
-    public static final String BaseUrl="http://192.168.0.106:8080/demo_war/";
+    public static final String base="zclass.free.idcfengye.com/";
+    public static String ws = "ws://"+base+"websocket/";
+    public static String BaseUrl="http://"+base;
 
     public static void showToast(Context ctx, String msg) {
         Toast.makeText(ctx, msg, Toast.LENGTH_LONG).show();
