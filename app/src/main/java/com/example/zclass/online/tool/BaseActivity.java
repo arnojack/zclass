@@ -1,9 +1,14 @@
 package com.example.zclass.online.tool;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,11 +17,15 @@ import com.example.zclass.online.Dao.Cou_Stu;
 import com.example.zclass.online.Dao.Course;
 import com.example.zclass.online.Dao.Msg;
 import com.example.zclass.online.Dao.User;
+import com.example.zclass.online.fragment.ClassAdapter;
+import com.example.zclass.online.service.HttpClientUtils;
+import com.google.android.material.imageview.ShapeableImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -105,6 +114,38 @@ public class BaseActivity {
         }
 
         return mlists;
+    }
+    //这个方法返回了指定索引对应的数据项的视图
+    public static void iconDO(ImageView imageView, String userid){
+        String saveDir= Environment.getExternalStorageDirectory().getAbsolutePath();
+        File file=new File(saveDir,userid+".jpg");
+        Bitmap bitmap= BitmapFactory.decodeFile(file.getAbsolutePath());
+        if(bitmap!=null){
+            imageView.setImageBitmap(bitmap);
+        }else {
+            HttpClientUtils.download("icon",userid, null, new HttpClientUtils.OnDownloadListener() {
+                @Override
+                public void onDownloadSuccess() {
+                    File file=new File(saveDir,userid+".jpg");
+                    Bitmap bitmap= BitmapFactory.decodeFile(file.getAbsolutePath());
+                    imageView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(bitmap!=null)
+                                imageView.setImageBitmap(bitmap);
+                        }
+                    });
+                }
+                @Override
+                public void onDownloading(int progress) {
+                }
+
+                @Override
+                public void onDownloadFailed(String msg) {
+                }
+            });
+        }
+
     }
     public static String toUtf8String(String s) {
         StringBuffer sb = new StringBuffer();

@@ -14,7 +14,7 @@ import java.util.HashMap;
 public class UpdateUser {
 private Updatelistener updatelistener;
     public static void Update(Updatelistener updatelistener){
-        String url_login= BaseActivity.BaseUrl+ "LoginServlet";
+        String url_login= BaseActivity.BaseUrl+"LoginServlet";
         HashMap<String, String> stringHashMap=new HashMap<String,String>();
         stringHashMap.put(User.USERID, MainActivity.user_info.getUserid());
         stringHashMap.put(User.WAY,"getuser");

@@ -1,14 +1,9 @@
 package com.example.zclass.online.service;
 
-import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Environment;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-
 import com.example.zclass.MainActivity;
-import com.example.zclass.online.Dao.Cou_Stu;
 import com.example.zclass.online.Dao.Course;
 import com.example.zclass.online.Dao.User;
 import com.example.zclass.online.tool.BaseActivity;
@@ -272,12 +267,12 @@ public class HttpClientUtils {
      * @param saveDir 储存下载文件的SDCard目录
      * @param listener 下载监听
      */
-    public static void download( String method, String cou_on_id, OnDownloadListener listener) {
+    public static void download( String method,String userid, String cou_on_id, OnDownloadListener listener) {
         String suffx=".jpg";
         String url=BaseActivity.BaseUrl+"downLoadServlet1";
-        //String saveDir=getExternalCacheDir().getAbsolutePath();
-        String saveDir="/data/local/tmp/com.example.zclass/";
-        String filename=MainActivity.user_info.getUserid()+suffx;
+        String saveDir=Environment.getExternalStorageDirectory().getAbsolutePath();
+        //String saveDir="/data/local/tmp/com.example.zclass/";
+        String filename=userid+suffx;
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(10,TimeUnit.SECONDS)
@@ -290,7 +285,7 @@ public class HttpClientUtils {
                 formBody= new FormBody.Builder()
                         .add("method",method)
                         .add("filename","1.jpg")
-                        .add(User.USERID, MainActivity.user_info.getUserid())
+                        .add(User.USERID, userid)
                         .build();
 
                 break;
@@ -299,7 +294,7 @@ public class HttpClientUtils {
                         .add("method",method)
                         .add("filename","1.jpg")
                         .add(Course.COUONID, cou_on_id)
-                        .add(User.USERID, MainActivity.user_info.getUserid())
+                        .add(User.USERID, userid)
                         .build();
 
                 break;
@@ -311,11 +306,11 @@ public class HttpClientUtils {
                 .build();
 
         Call call = okHttpClient.newCall(request);
-
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 // 下载失败
+                Log.e(TAG,"-----------HttpClient-failed-------------"+e.getLocalizedMessage());
                 listener.onDownloadFailed(e.getLocalizedMessage());
             }
             @Override
@@ -328,6 +323,10 @@ public class HttpClientUtils {
                 try {
                     is = response.body().byteStream();
                     long total = response.body().contentLength();
+                    File dir = new File(saveDir);
+                    if(!dir.exists()) {
+                        dir.mkdirs();
+                    }
                     File file = new File(saveDir,filename);
                     if(!file.exists())
                         file.createNewFile();
@@ -344,7 +343,7 @@ public class HttpClientUtils {
                     // 下载完成
                     listener.onDownloadSuccess();
                 } catch (Exception e) {
-                    listener.onDownloadFailed(e.toString());
+                    listener.onDownloadFailed(e.getLocalizedMessage());
                 } finally {
                     try {
                         if (is != null)
