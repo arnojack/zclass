@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.example.zclass.MainActivity;
 import com.example.zclass.R;
+//import com.example.zclass.offline.aidltest.MYyActivity;
 import com.example.zclass.online.Dao.Cou_Stu;
 import com.example.zclass.online.Dao.Course;
 import com.example.zclass.online.Dao.User;
@@ -36,7 +37,6 @@ import com.google.android.material.navigation.NavigationBarView;
 
 import org.json.JSONException;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -79,6 +79,11 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
                         startActivity(intent);
                         Class_OnlineActivity.this.finish();
                         return true;
+//                    case R.id.page_4:
+//                        Intent intent4=new Intent(Class_OnlineActivity.this, MYyActivity.class);
+//                        startActivity(intent4);
+//                        Class_OnlineActivity.this.finish();
+//                        return true;
                 }
                 return false;
             }

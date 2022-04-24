@@ -50,4 +50,16 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
+    <!-- 定义一个样式，继承android系统的对话框样式 android:style/Theme.Dialog -->
+    <style name="my_theme01" parent="android:style/Theme.Dialog">
+        <!--   <item name="android:windowBackground">@drawable/my_bg</item>  -->
+        <item name="android:windowBackground">@drawable/second_bg</item>
+    </style>
+    <!-- 定义一个样式，继承android系统的对话框样式 android:style/Theme.Dialog -->
+    <style name="my_theme02" parent="android:style/Theme.Dialog">
+        <!--   <item name="android:windowBackground">@drawable/my_bg</item>  -->
+        <item name="android:windowBackground">@drawable/dialog11</item>
+    </style>
+
 </resources>

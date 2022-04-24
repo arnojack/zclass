@@ -119,11 +119,21 @@ public class MainActivity extends AppCompatActivity {
                         intent.putExtra("user",user_info);
                         startActivity(intent);
                         MainActivity.this.finish();
-                        result =true;
+
+                        return true;
                     }else{
                         login(MyInfoActivity.class);
                         Log.e("MainActivity","login结束");
+
+                        return false;
                     }
+                    /*
+                case R.id.page_4:
+                    intent=new Intent(MainActivity.this, MYyActivity.class);
+                    startActivity(intent);
+                    return true;
+
+                     */
             }
             return result;
         }

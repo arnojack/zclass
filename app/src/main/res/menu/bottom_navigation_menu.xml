@@ -14,4 +14,13 @@
         android:enabled="true"
         android:icon="@drawable/my"
         android:title="个人信息"/>
+
+<!--    <item-->
+<!--        android:id="@+id/page_4"-->
+<!--        android:enabled="true"-->
+<!--        android:icon="@drawable/class_onl"-->
+<!--        android:title="个人监督"/>-->
+
+
+
 </menu>
