@@ -31,7 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BaseActivity {
-    public static final String base="192.168.0.107:8080/demo_war/";
+    public static final String base="zclass.free.idcfengye.com/";
     public static String ws = "ws://"+base+"websocket/";
     public static String BaseUrl="http://"+base;
 
