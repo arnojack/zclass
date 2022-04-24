@@ -13,6 +13,7 @@ import androidx.annotation.RequiresApi;
 
 import com.example.zclass.R;
 import com.example.zclass.online.Dao.User;
+import com.example.zclass.online.tool.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -76,7 +77,7 @@ public class MemAdapter extends BaseAdapter {
             holder = (ViewHolder)convertView.getTag();
 
         }
-        //holder.img.setImageResource((Integer) listItem.get(position).get("ItemImage"));
+        BaseActivity.iconDO(holder.img, (String) listItem.get(position).get(User.USERID));
         holder.title.setText((String) listItem.get(position).get("title"));
         holder.userid.setText((String)listItem.get(position).get(User.USERID));
         holder.name.setText((String)listItem.get(position).get(User.USERNAME));

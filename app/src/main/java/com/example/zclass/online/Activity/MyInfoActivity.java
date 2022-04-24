@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -114,6 +115,11 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
                         return true;
                     case R.id.page_3:
                         return true;
+//                    case R.id.page_4:
+//                        Intent intent4=new Intent(MyInfoActivity.this, MYyActivity.class);
+//                        startActivity(intent4);
+//                        MyInfoActivity.this.finish();
+//                        return true;
                 }
                 return false;
             }
@@ -123,6 +129,8 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
         String imageUrl = SPUtils.getString("imageUrl",null,this);
         if(imageUrl != null){
             Glide.with(this).load(imageUrl).apply(requestOptions).into(ivHead);
+        }else {
+            BaseActivity.iconDO(ivHead,MainActivity.user_info.getUserid());
         }
         super.onCreate(savedInstanceState);
         checkVersion();
@@ -199,7 +207,8 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
         bottomSheetDialog = new BottomSheetDialog(this);
         bottomView = getLayoutInflater().inflate(R.layout.dialog_bottom, null);
         bottomSheetDialog.setContentView(bottomView);
-        bottomSheetDialog.getWindow().findViewById(com.google.android.material.R.id.design_bottom_sheet).setBackgroundColor(Color.TRANSPARENT);
+        bottomSheetDialog.getWindow().findViewById(com.google.android.material.R.id.design_bottom_sheet)
+                .setBackgroundColor(Color.TRANSPARENT);
         TextView tvTakePictures = bottomView.findViewById(R.id.tv_take_pictures);
         TextView tvOpenAlbum = bottomView.findViewById(R.id.tv_open_album);
         TextView tvCancel = bottomView.findViewById(R.id.tv_cancel);
