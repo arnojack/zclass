@@ -1,5 +1,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/page_0"
+        android:enabled="true"
+        android:icon="@drawable/learning"
+        android:title="专心课堂"/>
+    <item
         android:id="@+id/page_1"
         android:enabled="true"
         android:icon="@drawable/classmap"
@@ -14,13 +19,4 @@
         android:enabled="true"
         android:icon="@drawable/my"
         android:title="个人信息"/>
-
-    <item
-        android:id="@+id/page_4"
-        android:enabled="true"
-        android:icon="@drawable/class_onl"
-        android:title="个人监督"/>
-
-
-
 </menu>

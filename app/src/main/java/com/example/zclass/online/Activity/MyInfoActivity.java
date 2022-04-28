@@ -91,17 +91,22 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
             .diskCacheStrategy(DiskCacheStrategy.NONE)//不做磁盘缓存
             .skipMemoryCache(true);//不做内存缓存
 
+    BottomNavigationView mNaviView;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.myinfo);
-        BottomNavigationView mNaviView=findViewById(R.id.bottom_navigation);
-        mNaviView.setSelectedItemId(R.id.page_3);
+        mNaviView=findViewById(R.id.bottom_navigation);
 
         mNaviView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @SuppressLint("NonConstantResourceId")
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
                 switch (item.getItemId()){
+                    case R.id.page_0:
+                        Intent intent4=new Intent(MyInfoActivity.this, MYyActivity.class);
+                        startActivity(intent4);
+                        return true;
                     case R.id.page_1:
                         Intent intent1=new Intent(MyInfoActivity.this, MainActivity.class);
                         intent1.putExtra("user",MainActivity.user_info);
@@ -115,11 +120,6 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
                         MyInfoActivity.this.finish();
                         return true;
                     case R.id.page_3:
-                        return true;
-                    case R.id.page_4:
-                        Intent intent4=new Intent(MyInfoActivity.this, MYyActivity.class);
-                        startActivity(intent4);
-                        MyInfoActivity.this.finish();
                         return true;
                 }
                 return false;
@@ -136,6 +136,13 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         checkVersion();
     }
+
+    @Override
+    protected void onStart() {
+        mNaviView.setSelectedItemId(R.id.page_3);
+        super.onStart();
+    }
+
     /**
      * 检查版本
      */

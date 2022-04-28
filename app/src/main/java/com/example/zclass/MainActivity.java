@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
     public static AssetFileDescriptor afd = null;
     private boolean SoundEnabled = true;
     private AudioManager amanager = null;
-
+    BottomNavigationView mNaviView;
     Dialog_Signin sign_Dialog;
     Dialog_Signup signup_Dialog;
     @Override
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         });
         user_info =new User();
         update_dl();
-        BottomNavigationView mNaviView=findViewById(R.id.bottom_navigation);
+        mNaviView=findViewById(R.id.bottom_navigation);
         mNaviView.setOnItemSelectedListener(new NavigationViewlistener());
         qd();
     }
@@ -97,6 +97,10 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             Intent intent=null;
             switch (item.getItemId()){
+                case R.id.page_0:
+                    intent=new Intent(MainActivity.this, MYyActivity.class);
+                    startActivity(intent);
+                    return true;
                 case R.id.page_1:
                     return true;
                 case R.id.page_2:
@@ -128,13 +132,6 @@ public class MainActivity extends AppCompatActivity {
 
                         return false;
                     }
-
-                case R.id.page_4:
-                    intent=new Intent(MainActivity.this, MYyActivity.class);
-                    startActivity(intent);
-                    return true;
-
-
             }
             return result;
         }
@@ -403,11 +400,12 @@ public class MainActivity extends AppCompatActivity {
         //user_info.setSchool((String) t.get(User.SCHOOL));
     }
     protected void onStart() {
-        super.onStart();
+        mNaviView.setSelectedItemId(R.id.page_1);
         //获取开学时间
         long date = sp.getLong("date", new Date().getTime());
         timeTable.loadData(acquireData(), new Date(date));
         Log.i("test", new Date(date).toString());
+        super.onStart();
     }
 
     private List<Course> acquireData() {

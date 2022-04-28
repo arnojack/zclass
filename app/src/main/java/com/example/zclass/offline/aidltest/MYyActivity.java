@@ -19,10 +19,10 @@ import android.widget.Button;
 import android.widget.TimePicker;
 import android.widget.TimePicker.OnTimeChangedListener;
 
-import com.example.zclass.DialogActivity03;
-import com.example.zclass.MyService;
+import com.example.zclass.offline.DialogActivity03;
+import com.example.zclass.offline.MyService;
 import com.example.zclass.R;
-import com.example.zclass.user1;
+import com.example.zclass.offline.user1;
 
 import aidl.IStockQuoteService;
 

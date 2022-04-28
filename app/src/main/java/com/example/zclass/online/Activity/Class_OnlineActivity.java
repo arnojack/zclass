@@ -49,6 +49,7 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
 
     Dialog_Joinclass joinclass;
     Dialog_Creatclass creatclass;
+    BottomNavigationView mNaviView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,13 +60,17 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
         mBt_createdclass.setOnClickListener(this);
         mBt_joinedclass.setOnClickListener(this);
         mBt_pop.setOnClickListener(this);
-        BottomNavigationView mNaviView=findViewById(R.id.bottom_navigation);
-        mNaviView.setSelectedItemId(R.id.page_2);
+        mNaviView=findViewById(R.id.bottom_navigation);
+
 
         mNaviView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
+                    case R.id.page_0:
+                        Intent intent4=new Intent(Class_OnlineActivity.this, MYyActivity.class);
+                        startActivity(intent4);
+                        return true;
                     case R.id.page_1:
                         Intent intent1=new Intent(Class_OnlineActivity.this,MainActivity.class);
                         intent1.putExtra("user",MainActivity.user_info);
@@ -78,11 +83,6 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
                         Intent intent=new Intent(Class_OnlineActivity.this, MyInfoActivity.class);
                         intent.putExtra("user",MainActivity.user_info);
                         startActivity(intent);
-                        Class_OnlineActivity.this.finish();
-                        return true;
-                    case R.id.page_4:
-                        Intent intent4=new Intent(Class_OnlineActivity.this, MYyActivity.class);
-                        startActivity(intent4);
                         Class_OnlineActivity.this.finish();
                         return true;
                 }
@@ -118,6 +118,12 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        mNaviView.setSelectedItemId(R.id.page_2);
+        super.onStart();
     }
 
     @Override

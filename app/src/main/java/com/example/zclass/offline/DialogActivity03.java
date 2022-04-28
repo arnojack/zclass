@@ -1,4 +1,4 @@
-package com.example.zclass;
+package com.example.zclass.offline;
 
 import android.app.Activity;
 import android.os.Bundle;

@@ -59,12 +59,9 @@
         <activity android:name=".offline.OptionActivity" />
         <activity android:name="com.example.zclass.offline.aidltest.MYyActivity"
             android:label="@string/title_activity_myy"/>
-        <activity android:name=".user1"
+        <activity android:name=".offline.user1"
             android:label="@string/user"/>
-        <activity android:name=".DialogActivity04"
-            android:label="@string/title_activity_myy"
-            android:theme="@style/my_theme02"/>
-        <activity android:name=".DialogActivity03"
+        <activity android:name=".offline.DialogActivity03"
             android:label="@string/title_activity_myy"
             android:theme="@style/my_theme01"/>
 
@@ -77,7 +74,7 @@
             android:enabled="true"
             android:exported="true"
             android:process=":gray" />
-        <service android:name=".MyService"
+        <service android:name=".offline.MyService"
             android:process=":remote"
             android:exported="false">
             <intent-filter>
