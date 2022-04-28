@@ -38,6 +38,7 @@ public class OptionActivity extends AppCompatActivity {
     private ListView lvContent;
     private List<Course> courseList;
     private Button btn_1;
+    int m1=0,y1=0,d1= 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -141,6 +142,7 @@ public class OptionActivity extends AppCompatActivity {
      * 修改开学时间
      * @param view
      */
+
     public void alterDate(View view) {
         final SharedPreferences config = getSharedPreferences("config", MODE_PRIVATE);
         final DatePicker datePicker = new DatePicker(this);
@@ -159,16 +161,24 @@ public class OptionActivity extends AppCompatActivity {
                         int year = datePicker.getYear();
                         int month = datePicker.getMonth();
                         int dayOfMonth = datePicker.getDayOfMonth();
+                        d1 = dayOfMonth;
+                        m1 = month;
+                        y1 = year;
                         Calendar calendar = Calendar.getInstance();
                         calendar.set(year, month, dayOfMonth, 0, 0, 0);
                         Date time = calendar.getTime();
                         config.edit().putLong("date", time.getTime()).apply();
+                        config.edit().putInt("day",d1).apply();
+                        config.edit().putInt("month",m1).apply();
+                        config.edit().putInt("year",y1).apply();
+
                     }
                 })
                 .setNegativeButton("取消", null)
                 .create()
                 .show();
     }
+
     public  void textone(){
         int today = 1;
         List<Course> cs = courseDao.query2(today);

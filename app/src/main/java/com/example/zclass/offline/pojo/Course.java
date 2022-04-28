@@ -166,7 +166,7 @@ public class Course implements Cloneable, Serializable {
         for (int i = 0; i < courseArray.length; i++) {
             Course clone = this.clone();
             String[] info = courseArray[i].split(":");
-
+            //Integer.parseInt()
             clone.setDay(Integer.parseInt(info[0]));
             clone.setSection(Integer.parseInt(info[1]));
             clone.setWeekType(info[2]);

@@ -508,7 +508,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.P)
-    private void silentSwitchOff() {
+    private void startmusic() {
         AudioManager mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         int min = mAudioManager.getStreamMinVolume(AudioManager.STREAM_SYSTEM);
         int max= mAudioManager.getStreamMaxVolume(AudioManager.STREAM_SYSTEM);
@@ -528,8 +528,19 @@ public class MainActivity extends AppCompatActivity {
     //****************************获取时间函数*************************************
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void gettime() {
+        OptionActivity q = new OptionActivity();
+        SharedPreferences config = getSharedPreferences("config", MODE_PRIVATE);
+        long date = config.getLong("date", 0);
+        int newday = config.getInt("day",0);
+        int newmonth = config.getInt("month",0);
+        int newyear = config.getInt("year",0);
+        java.util.Calendar calendar1 = java.util.Calendar.getInstance();
+        calendar1.set(newyear, newmonth, newday, 0, 0, 0);
+        Date time1 = calendar1.getTime();
+
         int STU = 0;
         Calendar calendar = Calendar.getInstance();
+
         //获取系统的日期
 //年
         int year = calendar.get(Calendar.YEAR);
@@ -544,6 +555,11 @@ public class MainActivity extends AppCompatActivity {
         int minute = calendar.get(Calendar.MINUTE);
         //秒
         int second = calendar.get(Calendar.SECOND);
+        java.util.Calendar calendar2 = java.util.Calendar.getInstance();
+        calendar2.set(year, month, day, 0, 0, 0);
+        Date time2 = calendar2.getTime();
+         long l = (new Date().getTime() - time1.getTime()) / (1000 * 3600 * 24 * 7) + 1;
+
 
         String mYear, mMonth, mDay, mWay;
         calendar.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
@@ -568,54 +584,125 @@ public class MainActivity extends AppCompatActivity {
         }
         //OptionActivity q = new OptionActivity();
         CourseDao c1 = new CourseDao(this);
-        List<Course> cs = courseDao.query2(3);
+        List<Course> cs = courseDao.query2(STU);
         String result = "";
+       // Toast.makeText(MainActivity.this,""+newyear+" "+newmonth+" "+newday+"周："+l,Toast.LENGTH_SHORT).show();
         for(Course course1 : cs)
         {
-            if(course1.getDay()==3)
+            if(course1.getDay()==STU)
             {
-                if(hour==11||hour==23)
-                {
-                    //startAlarm();
-                    //stopAlarm();
-                     //stopmusic();
+                /*
 
 
+                Toast.makeText(MainActivity.this,"fhfg"+Integer.parseInt(course1.getWeekType()),Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(MainActivity.this,"sdf"+course1.getWeekType(),Toast.LENGTH_SHORT).show();
+                if(course1.getStartWeek()<=l) {
+                    if((Integer.parseInt(course1.getWeekType()) ==2&&l%2==1)||Integer.parseInt(course1.getWeekType())==1) {
+                        if((Integer.parseInt(course1.getWeekType()) ==3&&l%2==0)||Integer.parseInt(course1.getWeekType())==1) {
+                            if (hour == 12 && minute == 31) {
+                                startAlarm();
+                                stopAlarm();
+                            }
+                            if (hour == 12&&minute==32)
+                                stopmusic();
+                            if(hour == 12 && minute == 33)
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                                    startmusic();
+                                }}}
                 }
-                switch(course1.getSection()){
+*/
+                switch(course1.getSection()) {
                     case 1:
-                        if(hour==7&&minute>45)
-                        {startAlarm();
-                            stopAlarm();
+                        if (course1.getStartWeek() <= l) {
+                            if ((Integer.parseInt(course1.getWeekType()) == 2 && l % 2 == 1)||Integer.parseInt(course1.getWeekType())==1) {
+                                if ((Integer.parseInt(course1.getWeekType()) == 3 && l % 2 == 0)||Integer.parseInt(course1.getWeekType())==1) {
+                                    if (hour == 7 && minute > 45) {
+                                        startAlarm();
+                                        stopAlarm();
+
+                                    }
+                                    if (hour == 8)
+                                        stopmusic();
+                                    if (hour == 9 && minute == 40)
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                                            startmusic();
+                                        }
+                                }
+                            }
                         }
-                        if(hour ==8)
-                            stopmusic();
                     case 3:
-                        if(hour==9&&minute>55)
-                        {startAlarm();
-                            stopAlarm();
+                        if (course1.getStartWeek() <= l) {
+                            if((Integer.parseInt(course1.getWeekType()) ==2&&l%2==1)||Integer.parseInt(course1.getWeekType())==1) {
+                                if((Integer.parseInt(course1.getWeekType()) ==3&&l%2==0)||Integer.parseInt(course1.getWeekType())==1) {
+                            if (hour == 9 && minute > 55) {
+                                startAlarm();
+                                stopAlarm();
+                            }
+                            if (hour == 10)
+                                stopmusic();
+                            if (hour == 12 && minute == 1)
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                                    startmusic();
+                                }
                         }
-                        if(hour ==10)
-                            stopmusic();
+                }
+                        }
                     case 5:
-                        if(hour==1&&minute>45)
-                        {startAlarm();
-                            stopAlarm();
+                        if(course1.getStartWeek()<=l) {
+                            if ((Integer.parseInt(course1.getWeekType()) == 2 && l % 2 == 1)||Integer.parseInt(course1.getWeekType())==1) {
+                                if((Integer.parseInt(course1.getWeekType()) ==3&&l%2==0)||Integer.parseInt(course1.getWeekType())==1) {
+                                if (hour == 1 && minute > 45) {
+                                    startAlarm();
+                                    stopAlarm();
+                                }
+                                if (hour == 2)
+                                    stopmusic();
+                                if (hour == 3 && minute == 40)
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                                        startmusic();
+                                    }
+                            }
                         }
-                        if(hour ==2)
-                            stopmusic();
+                        }
                     case 7:
-                        if(hour==3&&minute>45)
-                        {startAlarm();
-                            stopAlarm();
+                        if(course1.getStartWeek()<=l) {
+                            if((Integer.parseInt(course1.getWeekType()) ==2&&l%2==1)||Integer.parseInt(course1.getWeekType())==1) {
+                                if((Integer.parseInt(course1.getWeekType()) ==3&&l%2==0)||Integer.parseInt(course1.getWeekType())==1) {
+                            if (hour == 3 && minute > 45) {
+                                startAlarm();
+                                stopAlarm();
+                            }
+                            if (hour == 4)
+                                stopmusic();
+                            if(hour == 5 && minute == 40)
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                                    startmusic();
+                                }}}
                         }
-                        if(hour ==4)
-                            stopmusic();
+                    case 9:
+                        if(course1.getStartWeek()<=l) {
+                            if((Integer.parseInt(course1.getWeekType()) ==2&&l%2==1)||Integer.parseInt(course1.getWeekType())==1) {
+                                if((Integer.parseInt(course1.getWeekType()) ==3&&l%2==0)||Integer.parseInt(course1.getWeekType())==1) {
+                            if (hour == 6 && minute == 45) {
+                                startAlarm();
+                                stopAlarm();
+                            }
+                            if (hour == 7)
+                                stopmusic();
+                            if(hour == 8 && minute == 40)
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                                    startmusic();
+                                }}}
+                        }
+
+
+
+
 
 
                 }
             }else{
-                // Toast.makeText(MainActivity.this,"\n"+"fdgfhfyy",Toast.LENGTH_SHORT).show();
+
             }
         }
 
@@ -646,11 +733,11 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 gettime();
 //Toast.makeText(MainActivity.this,"\n"+"通过SimpleDateFormat获取24小时制时间：\n"+"sdf.format(new Date())",Toast.LENGTH_SHORT).show();
-                handler.postDelayed(this, 5550);// 50是延时时长
+                handler.postDelayed(this, 50000);// 50是延时时长
             }
         });
         thread.setDaemon(true);
-        handler.postDelayed(thread, 5550);// 打开定时器，执行操作
+        handler.postDelayed(thread, 50000);// 打开定时器，执行操作
     }
     //程序关闭时
     //获取Do not disturb权限,才可进行音量操作
