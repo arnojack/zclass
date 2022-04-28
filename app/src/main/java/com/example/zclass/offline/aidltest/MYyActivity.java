@@ -19,7 +19,10 @@ import android.widget.Button;
 import android.widget.TimePicker;
 import android.widget.TimePicker.OnTimeChangedListener;
 
+import com.example.zclass.DialogActivity03;
+import com.example.zclass.MyService;
 import com.example.zclass.R;
+import com.example.zclass.user1;
 
 import aidl.IStockQuoteService;
 
@@ -175,7 +178,7 @@ public class MYyActivity extends Activity
 		};
 		private void bindMyService(){
 			// Intent intent=new Intent("com.dongzi.IStockQuoteService");
-			Intent intent=new Intent(this,MyService.class);
+			Intent intent=new Intent(this, MyService.class);
 			startService(intent);
 			bindService(intent, conn, Context.BIND_AUTO_CREATE);
 			}

@@ -1,4 +1,4 @@
-package com.example.zclass.offline.aidltest;
+package com.example.zclass;
 
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -63,7 +63,7 @@ public class MyService extends Service
      			       if(rightTime(nowHour,nowMinute)){
      			    	  //alert.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
      			  // new AlertDialog.Builder(context).setMessage("没有可以使用的网络").setPositiveButton("Ok", null).show();
-     			    	  Intent it =new Intent(MyService.this,DialogActivity04.class);
+     			    	  Intent it =new Intent(MyService.this, DialogActivity04.class);
      			    	  it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
      			    	 startActivity(it);
      			      //  long [] pattern = {100,400,100,400};
