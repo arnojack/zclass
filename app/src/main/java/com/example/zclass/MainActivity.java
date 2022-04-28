@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.zclass.offline.OptionActivity;
+import com.example.zclass.offline.aidltest.MYyActivity;
 import com.example.zclass.offline.dao.CourseDao;
 import com.example.zclass.offline.pojo.Course;
 import com.example.zclass.offline.view.TimeTableView;
@@ -127,13 +128,13 @@ public class MainActivity extends AppCompatActivity {
 
                         return false;
                     }
-                    /*
+
                 case R.id.page_4:
                     intent=new Intent(MainActivity.this, MYyActivity.class);
                     startActivity(intent);
                     return true;
 
-                     */
+
             }
             return result;
         }

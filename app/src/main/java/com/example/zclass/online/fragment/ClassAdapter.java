@@ -88,7 +88,6 @@ public class ClassAdapter extends BaseAdapter {
             holder = (ViewHolder)convertView.getTag();
         }
         BaseActivity.iconDO(holder.img_icon,(String)listItem.get(position).get(Course.TEAID));
-        //holder.img.setImageResource((Integer) listItem.get(position).get("ItemImage"));
         holder.title.setText((String) listItem.get(position).get(Course.COUONNAME));
         holder.text_left.setText((String) listItem.get(position).get(User.USERNAME));
         holder.text_grade.setText((String) listItem.get(position).get(Course.COUGRADE));
@@ -96,7 +95,6 @@ public class ClassAdapter extends BaseAdapter {
         holder.item_class_id.setText((String)listItem.get(position).get(Course.COUONID));
         holder.item_tea_id.setText((String)listItem.get(position).get(Course.TEAID));
         holder.item_tea_sex.setText((String)listItem.get(position).get(User.SEX));
-        //holder.item.setBackgroundColor(color[position]);
 
         return convertView;
     }

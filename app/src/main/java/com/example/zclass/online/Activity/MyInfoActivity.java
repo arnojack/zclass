@@ -29,6 +29,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.zclass.MainActivity;
 import com.example.zclass.R;
+import com.example.zclass.offline.aidltest.MYyActivity;
 import com.example.zclass.online.Dao.User;
 import com.example.zclass.online.Dialog.Dialog_upUser;
 import com.example.zclass.online.Dialog.LoadingDialog;
@@ -115,11 +116,11 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
                         return true;
                     case R.id.page_3:
                         return true;
-//                    case R.id.page_4:
-//                        Intent intent4=new Intent(MyInfoActivity.this, MYyActivity.class);
-//                        startActivity(intent4);
-//                        MyInfoActivity.this.finish();
-//                        return true;
+                    case R.id.page_4:
+                        Intent intent4=new Intent(MyInfoActivity.this, MYyActivity.class);
+                        startActivity(intent4);
+                        MyInfoActivity.this.finish();
+                        return true;
                 }
                 return false;
             }
