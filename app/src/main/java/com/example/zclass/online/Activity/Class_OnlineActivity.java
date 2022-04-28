@@ -400,4 +400,15 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
             }
         });
     }
+    @Override
+    protected void onDestroy() {
+        // TODO Auto-generated method stub
+        try{
+            dialog_lod.dismiss();
+        }catch (Exception e) {
+            System.out.println("myDialog取消，失败！");
+            // TODO: handle exception
+        }
+        super.onDestroy();
+    }
 }

@@ -1,4 +1,4 @@
-package com.example.zclass.offline;
+package com.example.zclass.offline.aidltest;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,7 +8,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.example.zclass.R;
-import com.example.zclass.offline.aidltest.MYyActivity;
 
 
 public class user1 extends Activity {

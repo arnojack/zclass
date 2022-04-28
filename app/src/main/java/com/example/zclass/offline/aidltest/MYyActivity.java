@@ -19,10 +19,7 @@ import android.widget.Button;
 import android.widget.TimePicker;
 import android.widget.TimePicker.OnTimeChangedListener;
 
-import com.example.zclass.offline.DialogActivity03;
-import com.example.zclass.offline.MyService;
 import com.example.zclass.R;
-import com.example.zclass.offline.user1;
 
 import aidl.IStockQuoteService;
 
@@ -182,6 +179,12 @@ public class MYyActivity extends Activity
 			startService(intent);
 			bindService(intent, conn, Context.BIND_AUTO_CREATE);
 			}
+	@Override
+	protected void onDestroy() {
+		// TODO 自动生成的方法存根
+		super.onDestroy();
+		unbindService(conn);
+	}
 }
 
 
