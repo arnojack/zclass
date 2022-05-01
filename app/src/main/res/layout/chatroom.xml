@@ -45,14 +45,6 @@
                 android:layout_margin="5dp"
                 android:text="成员"/>
             <TextView
-                android:id="@+id/room_work"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/work"
-                android:gravity="center"
-                android:layout_margin="5dp"
-                android:text="作业"/>
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="10"/>

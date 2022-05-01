@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,8 +19,8 @@ import com.example.zclass.R;
 
 public class Dialog_Confim extends Dialog implements View.OnClickListener{
 
-    private TextView mTVconcel;
-    private TextView mTVconfim;
+    private Button mTVconcel;
+    private Button mTVconfim;
 
     private Dialog_Confim.IonsaveListener saveListener1;
     private Dialog_Confim.IonsaveListener saveListener2;

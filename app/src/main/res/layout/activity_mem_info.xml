@@ -3,20 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/meminfo_icon"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_marginLeft="30dp"
-                android:foregroundGravity="center"
-                android:background="@drawable/classid"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"
+                style="@style/circleImageStyle"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/classid"
+                app:shapeAppearanceOverlay="@style/circleImageStyle" />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -134,14 +136,14 @@
         android:layout_width="match_parent"
         android:layout_height="5dp"
         android:background="@color/viewLine"/>
-    <TextView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/meminfo_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/delete"
-        android:text="删除"
-        android:textSize="30sp"
-        android:layout_gravity="center" />
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        style="@style/circleImageStyle"
+        android:src="@drawable/delete"
+        app:shapeAppearanceOverlay="@style/circleImageStyle" />
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

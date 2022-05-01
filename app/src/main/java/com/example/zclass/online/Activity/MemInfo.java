@@ -31,7 +31,7 @@ public class MemInfo extends AppCompatActivity implements View.OnClickListener {
     private TextView sex;
     private TextView profess;
     private TextView school;
-    private TextView delete;
+    private ImageView delete;
 
     private String stu_id;
     private String roomid;
@@ -46,7 +46,7 @@ public class MemInfo extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.meminfo_delete:
-                Dialog_Confim confim1 = new Dialog_Confim(MemInfo.this,R.style.MyDialog);
+                Dialog_Confim confim1 = new Dialog_Confim(MemInfo.this,R.style.upuser);
                 confim1.setsubmit(new Dialog_Confim.IonsaveListener() {
                     @Override//点击取消按钮
                     public void submit() {
@@ -68,7 +68,11 @@ public class MemInfo extends AppCompatActivity implements View.OnClickListener {
         }
     }
     private void findview(){
+        roomid=getIntent().getStringExtra(Course.COUONID);
+        stu_id=getIntent().getStringExtra(User.USERID);
+
         icon=findViewById(R.id.meminfo_icon);
+        BaseActivity.iconDO(icon,stu_id);
         name=findViewById(R.id.meminfo_username);
         name.setText(getIntent().getStringExtra(User.USERNAME));
 
@@ -83,8 +87,7 @@ public class MemInfo extends AppCompatActivity implements View.OnClickListener {
 
         delete=findViewById(R.id.meminfo_delete);
 
-        roomid=getIntent().getStringExtra(Course.COUONID);
-        stu_id=getIntent().getStringExtra(User.USERID);
+
         String tea_id=getIntent().getStringExtra(Course.TEAID);
         if(!MainActivity.user_info.getUserid().equals(tea_id)
             || stu_id.equals(tea_id)){
@@ -92,7 +95,6 @@ public class MemInfo extends AppCompatActivity implements View.OnClickListener {
         }else {
             delete.setOnClickListener(this);
         }
-        BaseActivity.setlTV(delete);
     }
     public void delete(HashMap stringHashMap){
         String url=BaseUrl+"CourseServlet";

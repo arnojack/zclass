@@ -124,7 +124,7 @@ public class JWebSocketClientService extends Service {
     /**
      * 初始化websocket连接
      */
-    private void initSocketClient() {
+    public void initSocketClient() {
         URI uri = URI.create(BaseActivity.toUtf8String(BaseActivity.getWs()));
         client = new JWebSocketClient(uri) {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -140,7 +140,7 @@ public class JWebSocketClientService extends Service {
 
                 Msg msg = JSON.parseObject(message,Msg.class);
                 String Nmsg=String.format("%s : %s",msg.getName(),msg.getContent());
-                checkLockAndShowNotification(Nmsg);
+                checkLockAndShowNotification(msg.getRoom(),Nmsg);
             }
 
             @Override
@@ -202,11 +202,11 @@ public class JWebSocketClientService extends Service {
 
     /**
      * 检查锁屏状态，如果锁屏先点亮屏幕
-     *
+     * @param title
      * @param content
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void checkLockAndShowNotification(String content) {
+    private void checkLockAndShowNotification(String title,String content) {
         //管理锁屏的一个服务
         KeyguardManager km = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
         if (km.inKeyguardRestrictedInputMode()) {//锁屏
@@ -218,25 +218,26 @@ public class JWebSocketClientService extends Service {
                 wl.acquire();  //点亮屏幕
                 wl.release();  //任务结束后释放
             }
-            sendNotification(content);
+            sendNotification(title,content);
         } else {
-            sendNotification(content);
+            sendNotification(title,content);
         }
     }
 
     /**
      * 发送通知
      *
+     * @param title
      * @param content
      */
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void sendNotification(@NonNull String content) {
+    private void sendNotification(String title,@NonNull String content) {
         Intent notificationIntent =  new Intent(this, JWebSocketClientService.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
                 0, notificationIntent, 0);
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("Example Service")
+                .setContentTitle(title)
                 .setContentText(content)
                 .setSmallIcon(R.drawable.classid)
                 .setContentIntent(pendingIntent)

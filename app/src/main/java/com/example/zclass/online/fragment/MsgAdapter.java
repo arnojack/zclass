@@ -79,6 +79,7 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder> {
     public MsgAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.msg_item,parent,false);
         final ViewHolder holder = new ViewHolder(view);
+
         holder.myView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,6 +112,7 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder> {
             time =now.compareTo(last)>0 ? simpleDateFormat.format(now):null;
         }
 
+
         //判断是信息是接收还是发送的，并且分别判断需要隐藏的布局和显示的布局
         if (msg.getType() == Msg.TYPE_RECEIVED){
             //判断到信息是接收的，将左边的布局显示，右边的布局隐藏
@@ -118,19 +120,19 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder> {
             holder.right_layout.setVisibility(View.GONE);
             holder.left_msg.setText(msg.getContent());
             holder.left_name.setText(msg.getName());
+            BaseActivity.iconDO(holder.left_ic,msgList.get(position).getUserid());
 
             holder.left_time.setText(time);
 
-            //holder.left_ic.setImageDrawable();
         } else if (msg.getType() == Msg.TYPE_SENT){
             holder.right_layout.setVisibility(View.VISIBLE);
             holder.left_layout.setVisibility(View.GONE);
             holder.right_msg.setText(msg.getContent());
             holder.right_name.setText(msg.getName());
+            BaseActivity.iconDO(holder.right_ic,msgList.get(position).getUserid());
 
             holder.right_time.setText(time);
 
-            //holder.right_ic.setImageDrawable();
         }
     }
     //  必须要重写的方法，返回list的长度

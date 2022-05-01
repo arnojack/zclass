@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,7 +23,7 @@ public class Dialog_Creatclass extends Dialog implements View.OnClickListener{
     private String grade;
     private String classname;
     private String submit;
-    private TextView msubmit;
+    private ImageView msubmit;
     private TextView mgrade;
     private TextView mclassname;
     private TextView mcouname;
@@ -117,13 +118,6 @@ public class Dialog_Creatclass extends Dialog implements View.OnClickListener{
             leftDrawable4.setBounds(0, 0, 80, 80);
             mcouname.setCompoundDrawables(leftDrawable4, mcouname.getCompoundDrawables()[1]
                     , mcouname.getCompoundDrawables()[2], mcouname.getCompoundDrawables()[3]);
-        }
-
-        if(!TextUtils.isEmpty(title)){
-            mTvtitle.setText(title);
-        }
-        if(!TextUtils.isEmpty(submit)){
-            msubmit.setText(submit);
         }
 
         msubmit.setOnClickListener(this);

@@ -2,16 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:gravity="center_horizontal">
-    <TextView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="编辑"
-        android:gravity="center"
-        android:textSize="25sp"
-        android:textColor="@color/black"/>
-
+        android:textColor="@color/dark_blue"
+        android:textSize="25sp" />
     <EditText
         android:id="@+id/upuser_info"
         android:layout_width="match_parent"
@@ -30,16 +29,15 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:orientation="horizontal">
-        <TextView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/upuser_save"
             android:layout_width="0dp"
             android:layout_gravity="center"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="保存"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:gravity="center"/>
+            style="@style/circleImageStyle"
+            android:src="@drawable/submit"
+            app:shapeAppearanceOverlay="@style/circleImageStyle" />
     </LinearLayout>
 
 </LinearLayout>

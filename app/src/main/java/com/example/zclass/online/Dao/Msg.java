@@ -34,7 +34,8 @@ public class Msg implements Serializable {
         this.user_ty=user_ty;
         this.room=room;
     }
-    public Msg(String userid,String name,String user_ty,String content,int type,Date time){
+    public Msg(String room,String userid,String name,String user_ty,String content,int type,Date time){
+        this.room=room;
         this.userid=userid;
         this.username=name;
         this.user_ty=user_ty;

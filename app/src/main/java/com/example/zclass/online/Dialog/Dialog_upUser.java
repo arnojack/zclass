@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,7 +24,7 @@ public class Dialog_upUser extends Dialog implements View.OnClickListener{
     private String title;
     private String text;
     private String submit;
-    private TextView msubmit;
+    private ImageView msubmit;
     private String KEY;
     private TextView mTvtext;
     private IonsaveListener saveListener;
@@ -60,7 +61,7 @@ public class Dialog_upUser extends Dialog implements View.OnClickListener{
         return this;
     }
 
-    public TextView getMsubmit() {
+    public ImageView getMsubmit() {
         return msubmit;
     }
 

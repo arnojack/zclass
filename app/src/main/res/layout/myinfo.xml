@@ -21,10 +21,11 @@
                 android:orientation="horizontal">
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/iv_head"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="30dp"
+                    style="@style/circleImageStyle"
+                    android:layout_marginLeft="160dp"
                     android:onClick="changeAvatar"
                     android:src="@drawable/classid"
                     app:shapeAppearanceOverlay="@style/circleImageStyle" />

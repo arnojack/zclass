@@ -1,5 +1,7 @@
 package com.example.zclass;
 
+import static com.example.zclass.online.service.UpdateUser.update_onl;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -29,8 +31,6 @@ import com.example.zclass.online.tool.BaseActivity;
 import com.example.zclass.online.tool.SPUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
-
-import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -87,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         user_info =new User();
-        update_dl();
         mNaviView=findViewById(R.id.bottom_navigation);
         mNaviView.setOnItemSelectedListener(new NavigationViewlistener());
         qd();
@@ -112,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
                         MainActivity.this.finish();
                         return true;
                     }else {
-                        login(Class_OnlineActivity.class);
+                        login(MainActivity.this,Class_OnlineActivity.class);
                         Log.e("MainActivity","login结束");
                         return false;
                     }
@@ -127,7 +126,8 @@ public class MainActivity extends AppCompatActivity {
 
                         return true;
                     }else{
-                        login(MyInfoActivity.class);
+                        login(MainActivity.this,MyInfoActivity.class);
+                        MainActivity.this.finish();
                         Log.e("MainActivity","login结束");
 
                         return false;
@@ -144,20 +144,20 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
     }
 
-    public void login(Class cl){
+    public void login(Context context,Class cl){
         String url_login=BaseActivity.BaseUrl+"LoginServlet";
 
-        sign_Dialog =new Dialog_Signin(MainActivity.this,R.style.MyDialog);
+        Dialog_Signin sign_Dialog =new Dialog_Signin(context,R.style.upuser);
         sign_Dialog.setTitle("登录")
-                .setUsername(SPUtils.getString("userid","userid",MainActivity.this))
-                .setPassword(SPUtils.getString("password","password",MainActivity.this))
+                .setUsername(SPUtils.getString("userid","userid",context))
+                .setPassword(SPUtils.getString("password","password",context))
                 .setsignin("登录", new Dialog_Signin.IonsigninListener() {
                     @Override
-                    public boolean onsignin(Dialog dialog) {
+                    public void onsignin(Dialog dialog) {
 
                         //正在加载 图片
                         //sign_Dialog.hide();
-                        Dialog dialog_lod = LoadingDialog.createLoadingDialog(MainActivity.this);
+                        Dialog dialog_lod = LoadingDialog.createLoadingDialog(context);
                         dialog_lod.show();
 
                         String user_id =sign_Dialog.getUsername();
@@ -173,8 +173,8 @@ public class MainActivity extends AppCompatActivity {
                             //pd.cancel();
                             dialog_lod.cancel();
                         }else {
-                            SPUtils.putString("userid",user_id,MainActivity.this);
-                            SPUtils.putString("password",user_password,MainActivity.this);
+                            SPUtils.putString("userid",user_id,context);
+                            SPUtils.putString("password",user_password,context);
                             if(user_info.getFlag_login()==1){
 
                                 //pd.cancel();
@@ -183,10 +183,9 @@ public class MainActivity extends AppCompatActivity {
                                 sign_Dialog.hide();
                                 //跳转到cl
                                 user_info.setFlag_login(1);
-                                Intent intent=new Intent(MainActivity.this, cl);
+                                Intent intent=new Intent(context, cl);
                                 intent.putExtra("user",user_info);
                                 startActivity(intent);
-                                MainActivity.this.finish();
                                 result=true;
                             }else{
                                 //update_onl();
@@ -216,10 +215,9 @@ public class MainActivity extends AppCompatActivity {
                                             });
                                             update_onl();
                                             user_info.setFlag_login(1);
-                                            Intent intent=new Intent(MainActivity.this, cl);
+                                            Intent intent=new Intent(context, cl);
                                             intent.putExtra("user",user_info);
                                             startActivity(intent);
-                                            MainActivity.this.finish();
                                             result =true;
                                             Log.e("MainActivity","跳转");
                                         }else{
@@ -255,7 +253,6 @@ public class MainActivity extends AppCompatActivity {
                                 });
                             }
                         }
-                        return result;
                     }
                 }).setsignup("注册", new Dialog_Signin.IonsignupListener(){
             @Override
@@ -264,7 +261,7 @@ public class MainActivity extends AppCompatActivity {
                 //跳转到注册页面
 
 
-                signup_Dialog =new Dialog_Signup(MainActivity.this,R.style.MyDialog);
+                Dialog_Signup signup_Dialog =new Dialog_Signup(context,R.style.upuser);
                 signup_Dialog.setTitle("注册").setUserid("userid").setPassword("password")
                         .setsubmit("提交", new Dialog_Signup.IonsubmitListener() {
                             @Override
@@ -272,7 +269,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 //加载
                                 //signup_Dialog.hide();
-                                Dialog dialog_lod =LoadingDialog.createLoadingDialog(MainActivity.this);
+                                Dialog dialog_lod =LoadingDialog.createLoadingDialog(context);
                                 dialog_lod.show();
 
                                 String user_id =signup_Dialog.getUserid();
@@ -315,10 +312,9 @@ public class MainActivity extends AppCompatActivity {
                                                 });//跳转到cl
                                                 update_onl();
                                                 user_info.setFlag_login(1);
-                                                Intent intent=new Intent(MainActivity.this, cl);
+                                                Intent intent=new Intent(context, cl);
                                                 intent.putExtra("user",user_info);
                                                 startActivity(intent);
-                                                MainActivity.this.finish();
                                                 result =true;
                                                 Log.e("MainActivity","跳转");
                                             }else {
@@ -358,48 +354,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }).show();
     }
-    public void update_onl(){
-        UpdateUser.Update(new UpdateUser.Updatelistener() {
-            @Override
-            public void onSuccess(String json) {
-                ArrayList<HashMap<String,String>> temp=null;
-                try {
-                    temp= BaseActivity.jtol_user(json);
-                    HashMap t=temp.get(0);
-                    user_info.setUserid((String) t.get(User.USERID));
-                    user_info.setUsername((String) t.get(User.USERNAME));
-                    user_info.setSex((String) t.get(User.SEX));
-                    user_info.setCode((String) t.get(User.CODE));
-                    user_info.setPhonenumber((String) t.get(User.PHONENUMBER));
-                    user_info.setProfess((String) t.get(User.PROFESS));
-                    user_info.setSchool((String) t.get(User.SCHOOL));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-            @Override
-            public void onError(String errorMsg) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getApplicationContext(), "网络崩溃!"+errorMsg,
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
-    }
-    public void update_dl(){
-        User m=(User) getIntent().getSerializableExtra("user");
-        if(m!=null)
-        user_info= m;
-        //user_info.setUserid((String) t.get(User.USERID));
-        //user_info.setUsername((String) t.get(User.USERNAME));
-        //user_info.setPhonenumber((String) t.get(User.PHONENUMBER));
-        //user_info.setProfess((String) t.get(User.PROFESS));
-        //user_info.setSchool((String) t.get(User.SCHOOL));
-    }
     protected void onStart() {
+        UpdateUser.update_dl(getIntent());
         mNaviView.setSelectedItemId(R.id.page_1);
         //获取开学时间
         long date = sp.getLong("date", new Date().getTime());

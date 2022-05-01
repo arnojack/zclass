@@ -2,19 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    style="@style/MyDialog"
     android:gravity="center_horizontal">
-
-    <TextView
+    <Button
         android:id="@+id/creat_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textColor="@color/black"
         android:text="创建班级"
-        android:textStyle="bold"
-        android:layout_marginTop="20dp"/>
+        android:textColor="@color/dark_blue"
+        android:textSize="20sp" />
     <EditText
         android:id="@+id/creat_couname"
         android:drawableLeft="@drawable/classname"
@@ -59,15 +56,15 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:orientation="horizontal">
-        <TextView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/creat_submit"
             android:layout_width="0dp"
+            android:layout_gravity="center"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="提交"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:gravity="center"/>
+            style="@style/circleImageStyle"
+            android:src="@drawable/submit"
+            app:shapeAppearanceOverlay="@style/circleImageStyle" />
     </LinearLayout>
 
 </LinearLayout>

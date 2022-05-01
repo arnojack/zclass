@@ -31,7 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BaseActivity {
-    public static final String base="zclass.free.idcfengye.com/";
+    public static final String base="zclass.gz2vip.91tunnel.com/";
     public static String ws = "ws://"+base+"websocket/";
     public static String BaseUrl="http://"+base;
 
@@ -117,6 +117,7 @@ public class BaseActivity {
     }
     //这个方法返回了指定索引对应的数据项的视图
     public static void iconDO(ImageView imageView, String userid){
+        imageView.setBackground(null);
         String saveDir= Environment.getExternalStorageDirectory().getAbsolutePath();
         File file=new File(saveDir,userid+".jpg");
         Bitmap bitmap= BitmapFactory.decodeFile(file.getAbsolutePath());

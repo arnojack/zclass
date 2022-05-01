@@ -11,6 +11,7 @@ import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,7 +22,7 @@ public class Dialog_Joinclass extends Dialog implements View.OnClickListener{
     private String title;
     private String text;
     private String submit;
-    private TextView msubmit;
+    private ImageView msubmit;
     private TextView mTvtext;
     private IonsubmitListener submitListener;
 
@@ -45,14 +46,6 @@ public class Dialog_Joinclass extends Dialog implements View.OnClickListener{
     public Dialog_Joinclass setText(String text) {
         this.text = text;
         return this;
-    }
-
-    public TextView getMsubmit() {
-        return msubmit;
-    }
-
-    public void setMsubmit(TextView msubmit) {
-        this.msubmit = msubmit;
     }
 
     public Dialog_Joinclass(@NonNull Context context, int themeResId) {
@@ -95,14 +88,6 @@ public class Dialog_Joinclass extends Dialog implements View.OnClickListener{
                     , mTvtext.getCompoundDrawables()[2], mTvtext.getCompoundDrawables()[3]);
         }
         msubmit =findViewById(R.id.join_submit);
-
-        if(!TextUtils.isEmpty(title)){
-            mTvtitle.setText(title);
-        }
-
-        if(!TextUtils.isEmpty(submit)){
-            msubmit.setText(submit);
-        }
 
         msubmit.setOnClickListener(this);
     }

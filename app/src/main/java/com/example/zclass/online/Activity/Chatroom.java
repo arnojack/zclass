@@ -78,7 +78,6 @@ public class Chatroom extends AppCompatActivity implements View.OnClickListener 
     private ChatMessageReceiver chatMessageReceiver;
 
     private TextView memTV;
-    private TextView workTV;
     private TextView roomNa;
 
     private String roomname;
@@ -123,7 +122,7 @@ public class Chatroom extends AppCompatActivity implements View.OnClickListener 
                 toast(Course.COUCLASS,ropop_class.getText().toString(),stringHashMap4);
                 break;
             case R.id.ropop_out:
-                Dialog_Confim confim1 = new Dialog_Confim(Chatroom.this,R.style.MyDialog);
+                Dialog_Confim confim1 = new Dialog_Confim(Chatroom.this,R.style.upuser);
                 confim1.setsubmit(new Dialog_Confim.IonsaveListener() {
                     @Override//点击取消按钮
                     public void submit() {
@@ -145,7 +144,7 @@ public class Chatroom extends AppCompatActivity implements View.OnClickListener 
                 }).show();
                 break;
             case R.id.ropop_delete:
-                Dialog_Confim confim = new Dialog_Confim(Chatroom.this,R.style.MyDialog);
+                Dialog_Confim confim = new Dialog_Confim(Chatroom.this,R.style.upuser);
                 confim.setsubmit(new Dialog_Confim.IonsaveListener() {
                     @Override//点击取消按钮
                     public void submit() {
@@ -173,8 +172,6 @@ public class Chatroom extends AppCompatActivity implements View.OnClickListener 
                 intent.putExtra(User.SEX,teasex);
                 startActivity(intent);
                 break;
-            case R.id.room_work:
-                break;
             case R.id.room_send:
                 //得到输入框中的内容
                 String content = editText.getText().toString();
@@ -186,7 +183,7 @@ public class Chatroom extends AppCompatActivity implements View.OnClickListener 
                 if (client != null && client.isOpen()) {
                     //暂时将发送的消息加入消息列表，实际以发送成功为准（也就是服务器返回你发的消息时）
                     Date date=new Date(System.currentTimeMillis());
-                    Msg chatMessage=new Msg(MainActivity.user_info.getUserid(),MainActivity.user_info.getUsername(),
+                    Msg chatMessage=new Msg(roomname,MainActivity.user_info.getUserid(),MainActivity.user_info.getUsername(),
                             MainActivity.user_info.getType(),content,Msg.TYPE_SENT,date);
 
                     jWebSClientService.sendMsg(JSON.toJSONString(chatMessage));
@@ -250,7 +247,7 @@ public class Chatroom extends AppCompatActivity implements View.OnClickListener 
         String url ="courseServlet";
         Dialog dialog = LoadingDialog.createLoadingDialog(Chatroom.this);
 
-        Dialog_upUser Dialod_upsex = new Dialog_upUser(Chatroom.this,R.style.MyDialog);
+        Dialog_upUser Dialod_upsex = new Dialog_upUser(Chatroom.this,R.style.upuser);
         Dialod_upsex.setKEY(KEY);
         Dialod_upsex.setText(text).setsubmit(url,stringHashMap2, new Dialog_upUser.IonsaveListener() {
             @Override
@@ -317,8 +314,8 @@ public class Chatroom extends AppCompatActivity implements View.OnClickListener 
         ropop_class.setText(roomclass);
         ropop_grade=popview.findViewById(R.id.ropop_grade);
         ropop_grade.setText(roomgrade);
-        TextView delete =popview.findViewById(R.id.ropop_delete);
-        setlTV(delete);
+        ImageView delete =popview.findViewById(R.id.ropop_delete);
+
         Button out=popview.findViewById(R.id.ropop_out);
         ImageView imageView1 =popview.findViewById(R.id.rightp1);
         ImageView imageView2 =popview.findViewById(R.id.rightp2);
@@ -412,15 +409,13 @@ public class Chatroom extends AppCompatActivity implements View.OnClickListener 
         //BaseActivity.setbackground(sendButton,0.75);
         memTV=findViewById(R.id.room_mem);
         setlTV(memTV);
-        workTV=findViewById(R.id.room_work);
-        setlTV(workTV);
+
         chatPop=findViewById(R.id.chat_pop);
         //BaseActivity.setbackground(chatPop,0.35);
         roomNa=findViewById(R.id.room_name);
 
         sendButton.setOnClickListener(this);
         memTV.setOnClickListener(this);
-        workTV.setOnClickListener(this);
         chatPop.setOnClickListener(this);
 
         roomname=getIntent().getStringExtra(Course.COUONNAME);

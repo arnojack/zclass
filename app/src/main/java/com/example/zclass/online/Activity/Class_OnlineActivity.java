@@ -22,7 +22,6 @@ import android.widget.Toast;
 
 import com.example.zclass.MainActivity;
 import com.example.zclass.R;
-//import com.example.zclass.offline.aidltest.MYyActivity;
 import com.example.zclass.offline.aidltest.MYyActivity;
 import com.example.zclass.online.Dao.Cou_Stu;
 import com.example.zclass.online.Dao.Course;
@@ -62,7 +61,6 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
         mBt_pop.setOnClickListener(this);
         mNaviView=findViewById(R.id.bottom_navigation);
 
-
         mNaviView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -93,6 +91,7 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
         lv = (ListView) findViewById(R.id.listView1);
         dialog_lod = LoadingDialog.createLoadingDialog(Class_OnlineActivity.this);
         Mylisten_class();
+
         //test();
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -122,6 +121,7 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     protected void onStart() {
+
         mNaviView.setSelectedItemId(R.id.page_2);
         super.onStart();
     }
@@ -152,7 +152,7 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
                     public void onClick(View view) {
                         mpop.dismiss();
                         //加入班级
-                        joinclass = new Dialog_Joinclass(Class_OnlineActivity.this, R.style.MyDialog);
+                        joinclass = new Dialog_Joinclass(Class_OnlineActivity.this, R.style.upuser);
                         joinclass.setTitle("加入课程").setText("请输入课程编码").setsubmit("提交", new Dialog_Joinclass.IonsubmitListener() {
                             @Override
                             public void onsubmit(Dialog dialog) {
@@ -183,7 +183,7 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
                     public void onClick(View view) {
                         mpop.dismiss();
                         //创建班级
-                        creatclass = new Dialog_Creatclass(Class_OnlineActivity.this,R.style.MyDialog);
+                        creatclass = new Dialog_Creatclass(Class_OnlineActivity.this,R.style.upuser);
                         creatclass.setTitle("创建班级").setsubmit("提交", new Dialog_Creatclass.IonsubmitListener() {
                             @Override
                             public void onsubmit(Dialog dialog) {
@@ -403,6 +403,7 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
     @Override
     protected void onDestroy() {
         // TODO Auto-generated method stub
+
         try{
             dialog_lod.dismiss();
         }catch (Exception e) {
@@ -410,5 +411,8 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
             // TODO: handle exception
         }
         super.onDestroy();
+    }
+    private void showMsg(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 }

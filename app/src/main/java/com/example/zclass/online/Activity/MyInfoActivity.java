@@ -6,6 +6,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.FragmentManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,8 +14,6 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.Gravity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -22,6 +21,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
@@ -34,6 +34,7 @@ import com.example.zclass.online.Dao.User;
 import com.example.zclass.online.Dialog.Dialog_upUser;
 import com.example.zclass.online.Dialog.LoadingDialog;
 import com.example.zclass.online.service.HttpClientUtils;
+import com.example.zclass.online.service.UpdateUser;
 import com.example.zclass.online.tool.BaseActivity;
 import com.example.zclass.online.tool.BitmapUtils;
 import com.example.zclass.online.tool.CameraUtils;
@@ -94,7 +95,17 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
     BottomNavigationView mNaviView;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.myinfo);
+        findview();
+        //取出缓存
+        String imageUrl = SPUtils.getString("imageUrl",null,this);
+        if(imageUrl != null){
+            Glide.with(this).load(imageUrl).apply(requestOptions).into(ivHead);
+        }else {
+            BaseActivity.iconDO(ivHead,MainActivity.user_info.getUserid());
+        }
+        checkVersion();
         mNaviView=findViewById(R.id.bottom_navigation);
 
         mNaviView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -125,16 +136,6 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
                 return false;
             }
         });
-        findview();
-        //取出缓存
-        String imageUrl = SPUtils.getString("imageUrl",null,this);
-        if(imageUrl != null){
-            Glide.with(this).load(imageUrl).apply(requestOptions).into(ivHead);
-        }else {
-            BaseActivity.iconDO(ivHead,MainActivity.user_info.getUserid());
-        }
-        super.onCreate(savedInstanceState);
-        checkVersion();
     }
 
     @Override
@@ -175,9 +176,60 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.info_userid:
                 break;
             case R.id.info_sex:
+                String[] sexArry = new String[]{"男性", "女性", "中性"};// 性别选择
                 HashMap<String, String> stringHashMap2=new HashMap<String,String>();
                 stringHashMap2.put(User.WAY,"upsex");
-                toast(User.SEX,mTVusex.getText().toString(),stringHashMap2);
+                //toast(User.SEX,mTVusex.getText().toString(),stringHashMap2);
+                AlertDialog.Builder builder3 = new AlertDialog.Builder(this);// 自定义对话框
+                builder3.setSingleChoiceItems(sexArry, 0, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {// which是被选中的位置
+                        mTVusex.setText(sexArry[which]);
+
+                        HashMap<String, String> stringHashMap=new HashMap<String,String>();
+                        stringHashMap.put(User.USERID, MainActivity.user_info.getUserid());
+                        stringHashMap.put(User.WAY,"upsex");
+                        stringHashMap.put(User.SEX,sexArry[which]);
+                        stringHashMap.put(User.METHOD,"login");
+
+                        Dialog dialog1 = LoadingDialog.createLoadingDialog(MyInfoActivity.this);
+                        dialog1.show();
+                        HttpClientUtils.post(BaseActivity.BaseUrl+"LoginServlet", HttpClientUtils.maptostr(stringHashMap), new HttpClientUtils.OnRequestCallBack() {
+                            @Override
+                            public void onSuccess(String json) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        dialog1.hide();
+                                        if("Ok".equals(json)){
+                                            Toast.makeText(getApplicationContext(), "更新成功!", Toast.LENGTH_SHORT).show();
+                                            MainActivity.user_info.setSex(sexArry[which]);
+                                            mTVusex.setText(sexArry[which]);
+                                        }else {
+                                            Toast.makeText(getApplicationContext(), "更新失败!",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                            }
+                            @Override
+                            public void onError(String errorMsg) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        dialog1.hide();
+                                        Toast.makeText(getApplicationContext(), "网络崩溃!/n"+errorMsg,
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        });
+
+                        dialog.dismiss();// 随便点击一个item消失对话框，不用点击确认取消
+                    }
+                });
+                builder3.show();// 让弹出框显示
+
                 break;
             case R.id.info_passw:
                 HashMap<String, String> stringHashMap3=new HashMap<String,String>();
@@ -204,7 +256,6 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
                 stringHashMap7.put(User.WAY,"upprof");
                 toast(User.PROFESS,mTVuprofess.getText().toString(),stringHashMap7);
                 break;
-
         }
     }
     /**
@@ -323,12 +374,22 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
                             , imagePath, new Callback() {
                                 @Override
                                 public void onFailure(Call call, IOException e) {
-                                    showMsg("上传失败");
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            showMsg("上传失败");
+                                        }
+                                    });
                                 }
 
                                 @Override
                                 public void onResponse(Call call, Response response) {
-                                    showMsg("上传成功");
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            showMsg("上传成功");
+                                        }
+                                    });
                                 }
                             });
                 }
@@ -368,7 +429,7 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
 
         Dialog dialog = LoadingDialog.createLoadingDialog(MyInfoActivity.this);
 
-        Dialog_upUser Dialod_upsex = new Dialog_upUser(MyInfoActivity.this,R.style.MyDialog);
+        Dialog_upUser Dialod_upsex = new Dialog_upUser(MyInfoActivity.this,R.style.upuser);
         Dialod_upsex.setKEY(KEY);
         Dialod_upsex.setText(text).setsubmit("LoginServlet",stringHashMap2, new Dialog_upUser.IonsaveListener() {
             @Override

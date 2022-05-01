@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_marginLeft="10dp"
@@ -24,11 +25,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/left_ic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/icon_user"/>
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="bottom"
+                style="@style/circleImageStyle"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/icon_user"
+                app:shapeAppearanceOverlay="@style/circleImageStyle" />
 
             <TextView
                 android:id="@+id/left_name"
@@ -82,12 +87,15 @@
                 android:layout_gravity="right"
                 android:gravity="center"
                 android:text="名字" />
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/right_ic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:background="@drawable/icon_user"/>
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="bottom"
+                style="@style/circleImageStyle"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/icon_user"
+                app:shapeAppearanceOverlay="@style/circleImageStyle" />
         </LinearLayout>
         <TextView
             android:id="@+id/right_msg"

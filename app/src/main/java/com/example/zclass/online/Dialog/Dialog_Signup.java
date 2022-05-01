@@ -12,7 +12,9 @@ import android.text.TextUtils;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.zclass.R;
@@ -84,8 +86,8 @@ public class Dialog_Signup extends Dialog implements View.OnClickListener {
         getWindow().setAttributes(p);
 
 
-        TextView mTvsubmit = findViewById(R.id.submit);
-        TextView mTvtitle = findViewById(R.id.title_dialog);
+        Button mTvsubmit = findViewById(R.id.submit);
+        ImageView mTvtitle = findViewById(R.id.title_dialog);
 
 
         mETuserid = findViewById(R.id.userid);
@@ -113,12 +115,7 @@ public class Dialog_Signup extends Dialog implements View.OnClickListener {
             mETpassword.setCompoundDrawables(leftDrawable2, mETpassword.getCompoundDrawables()[1]
                     , mETpassword.getCompoundDrawables()[2], mETpassword.getCompoundDrawables()[3]);
         }
-        if(!TextUtils.isEmpty(title)){
-            mTvtitle.setText(title);
-        }
-        if(!TextUtils.isEmpty(submit)){
-            mTvsubmit.setText(submit);
-        }
+
         mTvsubmit.setOnClickListener(this);
     }
 

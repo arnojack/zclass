@@ -2,19 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:gravity="center_horizontal">
-
-    <TextView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/title_dialog"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textColor="@color/black"
-        android:text="登录"
-        android:textStyle="bold"
-        android:layout_marginTop="20dp"/>
-
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        style="@style/circleImageStyle"
+        android:src="@drawable/login"
+        app:shapeAppearanceOverlay="@style/circleImageStyle"/>
     <EditText
         android:id="@+id/username"
         android:drawableLeft="@drawable/icon_user"
@@ -53,28 +51,54 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:orientation="horizontal">
-        <TextView
-            android:id="@+id/signup"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="注册"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:gravity="center"/>
+            android:layout_weight="1" >
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+            <Button
+                android:id="@+id/signup"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:text="注册"
+                android:textColor="@color/dark_blue"
+                android:textSize="20sp" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
         <View
             android:layout_width="0.8dp"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:background="@color/cardview_dark_background"/>
-        <TextView
-            android:id="@+id/signin"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="登录"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:gravity="center"/>
+            android:layout_weight="1" >
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+            <Button
+                android:id="@+id/signin"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:text="登录"
+                android:textColor="@color/dark_blue"
+                android:textSize="20sp" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

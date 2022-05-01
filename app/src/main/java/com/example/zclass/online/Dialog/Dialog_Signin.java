@@ -12,8 +12,8 @@ import android.text.TextUtils;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.example.zclass.R;
 
@@ -84,9 +84,9 @@ public class Dialog_Signin extends Dialog implements View.OnClickListener{
         p.width =(int)(size.x *0.8);//设置dialog的宽度为当前手机屏幕的宽度*0.8
         getWindow().setAttributes(p);
 
-        TextView mTvsignin = findViewById(R.id.signin);
-        TextView mTvsignup = findViewById(R.id.signup);
-        TextView mTvtitle = findViewById(R.id.title_dialog);
+        Button mTvsignin = findViewById(R.id.signin);
+        Button mTvsignup = findViewById(R.id.signup);
+
         mETusername=findViewById(R.id.username);
 
         Drawable leftDrawable1 = mETusername.getCompoundDrawables()[0];
@@ -103,21 +103,12 @@ public class Dialog_Signin extends Dialog implements View.OnClickListener{
             mETpassword.setCompoundDrawables(leftDrawable2, mETpassword.getCompoundDrawables()[1]
                     , mETpassword.getCompoundDrawables()[2], mETpassword.getCompoundDrawables()[3]);
         }
-        if(!TextUtils.isEmpty(title)){
-            mTvtitle.setText(title);
-        }
+
         if(!TextUtils.isEmpty(username)){
             mETusername.setText(username);
         }
         if(!TextUtils.isEmpty(password)){
             mETpassword.setText(password);
-        }
-
-        if(!TextUtils.isEmpty(signin)){
-            mTvsignin.setText(signin);
-        }
-        if(!TextUtils.isEmpty(signup)){
-            mTvsignup.setText(signup);
         }
 
         mTvsignup.setOnClickListener(this);
@@ -142,7 +133,7 @@ public class Dialog_Signin extends Dialog implements View.OnClickListener{
     }
 
     public interface IonsigninListener{
-        boolean onsignin(Dialog dialog);
+        void onsignin(Dialog dialog);
     }
     public interface IonsignupListener{
         void onsignup(Dialog dialog);
