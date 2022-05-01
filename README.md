@@ -13,3 +13,5 @@
 - 自定义对象实现Serializable接口后，可以转换为json类型传入网络
 - 在调试过程中，遇到无法调试的代码段，可以写log，将数据打印到日志
 - 如果涉及到serve，最好将此代码段写入生命周期的onstart里
+- 写完dialog后，要在ondestory里加close方法
+- hashmap在发生哈希冲突时无法直接取出value
