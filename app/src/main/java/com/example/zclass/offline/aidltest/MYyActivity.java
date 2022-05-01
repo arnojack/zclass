@@ -58,7 +58,8 @@ public class MYyActivity extends Activity
 	    private SharedPreferences.Editor editor;
         private IBinder myService;
 	BottomNavigationView mNaviView;
-
+	Dialog_Signin sign_Dialog;
+	Dialog_Signup signup_Dialog;
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -171,11 +172,7 @@ public class MYyActivity extends Activity
 		mNaviView.setOnItemSelectedListener(new NavigationViewlistener());
 		}
 
-	@Override
-	protected void onStart() {
-		super.onStart();
-		mNaviView.setSelectedItemId(R.id.page_0);
-	}
+
 
 	class NavigationViewlistener implements NavigationBarView.OnItemSelectedListener {
 		@Override
@@ -200,7 +197,6 @@ public class MYyActivity extends Activity
 						return true;
 					}else {
 						login(MYyActivity.this,Class_OnlineActivity.class);
-						MYyActivity.this.finish();
 						Log.e(TAG,"login结束");
 						return false;
 					}
@@ -214,7 +210,6 @@ public class MYyActivity extends Activity
 						return true;
 					}else{
 						login(MYyActivity.this,MyInfoActivity.class);
-						MYyActivity.this.finish();
 						Log.e(TAG,"login结束");
 
 						return false;
@@ -254,16 +249,12 @@ public class MYyActivity extends Activity
 			startService(intent);
 			bindService(intent, conn, Context.BIND_AUTO_CREATE);
 			}
-	@Override
-	protected void onDestroy() {
-		// TODO 自动生成的方法存根
-		super.onDestroy();
-		unbindService(conn);
-	}
+
+
 	public void login(Context context,Class cl){
 		String url_login= BaseActivity.BaseUrl+"LoginServlet";
 
-		Dialog_Signin sign_Dialog =new Dialog_Signin(context,R.style.upuser);
+		sign_Dialog =new Dialog_Signin(context,R.style.upuser);
 		sign_Dialog.setTitle("登录")
 				.setUsername(SPUtils.getString("userid","userid",context))
 				.setPassword(SPUtils.getString("password","password",context))
@@ -302,6 +293,7 @@ public class MYyActivity extends Activity
 								Intent intent=new Intent(context, cl);
 								intent.putExtra("user",user_info);
 								startActivity(intent);
+								MYyActivity.this.finish();
 							}else{
 								//update_onl();
 								HashMap<String, String> stringHashMap=new HashMap<String,String>();
@@ -333,6 +325,7 @@ public class MYyActivity extends Activity
 											Intent intent=new Intent(context, cl);
 											intent.putExtra("user",user_info);
 											startActivity(intent);
+											MYyActivity.this.finish();
 											Log.e(TAG,"跳转");
 										}else{
 											runOnUiThread(new Runnable() {
@@ -375,7 +368,7 @@ public class MYyActivity extends Activity
 				//跳转到注册页面
 
 
-				Dialog_Signup signup_Dialog =new Dialog_Signup(context,R.style.upuser);
+				signup_Dialog =new Dialog_Signup(context,R.style.upuser);
 				signup_Dialog.setTitle("注册").setUserid("userid").setPassword("password")
 						.setsubmit("提交", new Dialog_Signup.IonsubmitListener() {
 							@Override
@@ -429,6 +422,7 @@ public class MYyActivity extends Activity
 												Intent intent=new Intent(context, cl);
 												intent.putExtra("user",user_info);
 												startActivity(intent);
+												MYyActivity.this.finish();
 												Log.e("MainActivity","跳转");
 											}else {
 												runOnUiThread(new Runnable() {
@@ -466,6 +460,18 @@ public class MYyActivity extends Activity
 						}).show();
 			}
 		}).show();
+	}
+	@Override
+	protected void onStart() {
+		super.onStart();
+		mNaviView.setSelectedItemId(R.id.page_0);
+	}
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		unbindService(conn);
+		if (sign_Dialog != null) { sign_Dialog.cancel();sign_Dialog=null;}
+		if (signup_Dialog != null) { signup_Dialog.cancel();signup_Dialog=null;}
 	}
 }
 

@@ -127,7 +127,6 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     }else{
                         login(MainActivity.this,MyInfoActivity.class);
-                        MainActivity.this.finish();
                         Log.e("MainActivity","login结束");
 
                         return false;
@@ -136,18 +135,10 @@ public class MainActivity extends AppCompatActivity {
             return result;
         }
     }
-
-    @Override
-    protected void onStop() {
-        if (sign_Dialog != null) { sign_Dialog.dismiss();}
-        if (signup_Dialog != null) { signup_Dialog.dismiss();}
-        super.onStop();
-    }
-
     public void login(Context context,Class cl){
         String url_login=BaseActivity.BaseUrl+"LoginServlet";
 
-        Dialog_Signin sign_Dialog =new Dialog_Signin(context,R.style.upuser);
+        sign_Dialog =new Dialog_Signin(context,R.style.upuser);
         sign_Dialog.setTitle("登录")
                 .setUsername(SPUtils.getString("userid","userid",context))
                 .setPassword(SPUtils.getString("password","password",context))
@@ -186,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
                                 Intent intent=new Intent(context, cl);
                                 intent.putExtra("user",user_info);
                                 startActivity(intent);
+                                MainActivity.this.finish();
                                 result=true;
                             }else{
                                 //update_onl();
@@ -218,6 +210,7 @@ public class MainActivity extends AppCompatActivity {
                                             Intent intent=new Intent(context, cl);
                                             intent.putExtra("user",user_info);
                                             startActivity(intent);
+                                            MainActivity.this.finish();
                                             result =true;
                                             Log.e("MainActivity","跳转");
                                         }else{
@@ -261,7 +254,7 @@ public class MainActivity extends AppCompatActivity {
                 //跳转到注册页面
 
 
-                Dialog_Signup signup_Dialog =new Dialog_Signup(context,R.style.upuser);
+                signup_Dialog =new Dialog_Signup(context,R.style.upuser);
                 signup_Dialog.setTitle("注册").setUserid("userid").setPassword("password")
                         .setsubmit("提交", new Dialog_Signup.IonsubmitListener() {
                             @Override
@@ -315,6 +308,7 @@ public class MainActivity extends AppCompatActivity {
                                                 Intent intent=new Intent(context, cl);
                                                 intent.putExtra("user",user_info);
                                                 startActivity(intent);
+                                                MainActivity.this.finish();
                                                 result =true;
                                                 Log.e("MainActivity","跳转");
                                             }else {
@@ -354,15 +348,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }).show();
     }
-    protected void onStart() {
-        UpdateUser.update_dl(getIntent());
-        mNaviView.setSelectedItemId(R.id.page_1);
-        //获取开学时间
-        long date = sp.getLong("date", new Date().getTime());
-        timeTable.loadData(acquireData(), new Date(date));
-        Log.i("test", new Date(date).toString());
-        super.onStart();
-    }
+
 
     private List<Course> acquireData() {
         List<Course> courses = new ArrayList<>();
@@ -695,11 +681,22 @@ public class MainActivity extends AppCompatActivity {
         thread.setDaemon(true);
         handler.postDelayed(thread, 50000);// 打开定时器，执行操作
     }
+    protected void onStart() {
+        UpdateUser.update_dl(getIntent());
+        mNaviView.setSelectedItemId(R.id.page_1);
+        //获取开学时间
+        long date = sp.getLong("date", new Date().getTime());
+        timeTable.loadData(acquireData(), new Date(date));
+        Log.i("test", new Date(date).toString());
+        super.onStart();
+    }
     //程序关闭时
     //获取Do not disturb权限,才可进行音量操作
     @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
     protected void onDestroy() {
+        if (sign_Dialog != null) { sign_Dialog.cancel();sign_Dialog=null;}
+        if (signup_Dialog != null) { signup_Dialog.cancel();signup_Dialog=null;}
         AudioManager mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         int min = mAudioManager.getStreamMinVolume(AudioManager.STREAM_SYSTEM);
         int max= mAudioManager.getStreamMaxVolume(AudioManager.STREAM_SYSTEM);
@@ -711,6 +708,4 @@ public class MainActivity extends AppCompatActivity {
 
         super.onDestroy();
     }
-
-
 }
