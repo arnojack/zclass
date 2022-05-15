@@ -256,8 +256,8 @@ public class MYyActivity extends Activity
 
 		sign_Dialog =new Dialog_Signin(context,R.style.upuser);
 		sign_Dialog.setTitle("登录")
-				.setUsername(SPUtils.getString("userid","userid",context))
-				.setPassword(SPUtils.getString("password","password",context))
+				.setUsername(SPUtils.getString("userid",null,context))
+				.setPassword(SPUtils.getString("password",null,context))
 				.setsignin("登录", new Dialog_Signin.IonsigninListener() {
 					@Override
 					public void onsignin(Dialog dialog) {

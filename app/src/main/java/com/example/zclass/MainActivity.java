@@ -5,7 +5,9 @@ import static com.example.zclass.online.service.UpdateUser.update_onl;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
 import android.app.Dialog;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -30,7 +32,9 @@ import com.example.zclass.online.service.UpdateUser;
 import com.example.zclass.online.tool.BaseActivity;
 import com.example.zclass.online.tool.SPUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.navigation.NavigationBarView;
+import com.tbruyelle.rxpermissions3.RxPermissions;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -57,7 +61,10 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
     String TAG="MainActivity";
-
+    private final RxPermissions rxPermissions=new RxPermissions(this);
+    //是否拥有权限
+    private boolean hasPermissions = false;
+    //底部弹窗
     public static User user_info;
     public static Boolean result=false;
     private CourseDao courseDao = new CourseDao(this);
@@ -77,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        checkVersion();
         sp = getSharedPreferences("config", MODE_PRIVATE);
         timeTable = findViewById(R.id.timeTable);
         timeTable.addListener(new View.OnClickListener() {
@@ -90,6 +97,31 @@ public class MainActivity extends AppCompatActivity {
         mNaviView=findViewById(R.id.bottom_navigation);
         mNaviView.setOnItemSelectedListener(new NavigationViewlistener());
         qd();
+    }
+    /**
+     * 检查版本
+     */
+    private void checkVersion() {
+        //Android6.0及以上版本
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            //如果你是在Fragment中，则把this换成getActivity()
+            //权限请求
+            FragmentManager fragmentManager=this.getFragmentManager();
+            rxPermissions.request(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    .subscribe(granted -> {
+                        if (granted) {//申请成功
+                            //showMsg("已获取权限");
+                            hasPermissions=true;
+                        } else {//申请失败
+                            showMsg("权限未开启");
+                            hasPermissions=false;
+                        }
+                    });
+
+        } else {
+            //Android6.0以下
+            //showMsg("无需请求动态权限");
+        }
     }
     class NavigationViewlistener implements NavigationBarView.OnItemSelectedListener {
         @Override
@@ -140,8 +172,8 @@ public class MainActivity extends AppCompatActivity {
 
         sign_Dialog =new Dialog_Signin(context,R.style.upuser);
         sign_Dialog.setTitle("登录")
-                .setUsername(SPUtils.getString("userid","userid",context))
-                .setPassword(SPUtils.getString("password","password",context))
+                .setUsername(SPUtils.getString("userid",null,context))
+                .setPassword(SPUtils.getString("password",null,context))
                 .setsignin("登录", new Dialog_Signin.IonsigninListener() {
                     @Override
                     public void onsignin(Dialog dialog) {
@@ -707,5 +739,8 @@ public class MainActivity extends AppCompatActivity {
         mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,predict,  0 );  //tempVolume:音量绝对值
 
         super.onDestroy();
+    }
+    private void showMsg(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 }
