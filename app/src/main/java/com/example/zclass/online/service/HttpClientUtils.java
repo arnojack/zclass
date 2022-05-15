@@ -1,7 +1,10 @@
 package com.example.zclass.online.service;
 
+import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
+
+import androidx.annotation.RequiresApi;
 
 import com.example.zclass.MainActivity;
 import com.example.zclass.online.Dao.Course;
@@ -51,6 +54,7 @@ public class HttpClientUtils {
 
     public static void post(final String requestUrl, final String params, final HttpClientUtils.OnRequestCallBack callBack) {
         new Thread() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             public void run() {
                 postRequest(requestUrl, params, callBack);
             }
@@ -155,6 +159,7 @@ public class HttpClientUtils {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private static void postRequest(String requestUrl, String params, HttpClientUtils.OnRequestCallBack callBack) {
         boolean isSuccess = false;
         String message;

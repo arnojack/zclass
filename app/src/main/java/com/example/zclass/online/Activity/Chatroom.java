@@ -334,20 +334,6 @@ public class Chatroom extends AppCompatActivity implements View.OnClickListener 
             imageView3.setVisibility(View.GONE);
         }
     }
-    @Override
-    protected void onStart() {
-        findViewById();
-        //启动服务
-        startJWebSClientService();
-        //绑定服务
-        bindService();
-        //注册广播
-        doRegisterReceiver();
-        //检测通知是否开启
-        checkNotification(mContext);
-        initView();
-        super.onStart();
-    }
 
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
@@ -556,5 +542,18 @@ public class Chatroom extends AppCompatActivity implements View.OnClickListener 
         }
         return false;
     }
-
+    @Override
+    protected void onStart() {
+        findViewById();
+        //启动服务
+        startJWebSClientService();
+        //绑定服务
+        bindService();
+        //注册广播
+        doRegisterReceiver();
+        //检测通知是否开启
+        checkNotification(mContext);
+        initView();
+        super.onStart();
+    }
 }
