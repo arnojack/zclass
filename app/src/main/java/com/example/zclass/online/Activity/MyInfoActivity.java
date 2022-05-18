@@ -334,9 +334,6 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
                 if (resultCode == RESULT_OK) {
                     //显示图片
                     SPUtils.remove("imageUrl",this);
-                    String saveDir= Environment.getExternalStorageDirectory().getAbsolutePath();
-                    File file=new File(saveDir,MainActivity.user_info.getUserid()+".jpg");
-                    BaseActivity.delete(file);
                     displayImage(outputImagePath.getAbsolutePath());
                     HttpClientUtils.uploadic("icon", "1.jpg"
                             , outputImagePath.getAbsolutePath(), new Callback() {
@@ -375,9 +372,6 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
                     }
                     //显示图片
                     SPUtils.remove("imageUrl",this);
-                    String saveDir= Environment.getExternalStorageDirectory().getAbsolutePath();
-                    File file=new File(saveDir,MainActivity.user_info.getUserid()+".jpg");
-                    BaseActivity.delete(file);
                     displayImage(imagePath);
                     HttpClientUtils.uploadic("icon", "1.jpg"
                             , imagePath, new Callback() {
