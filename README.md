@@ -17,3 +17,6 @@
 - 如果涉及到serve，最好将此代码段写入生命周期的onstart里
 - 写完dialog后，要在ondestory里加close方法
 - hashmap在发生哈希冲突时无法直接取出value
+#### 写产品的途中我遇到了以下问题
+- url传参无法识别
+- websocket无法重定向  //经过多次使用log查看代码流程，我决定取消重定向，重写onOpen方法，发送信息给服务器，在服务器端切换房间
