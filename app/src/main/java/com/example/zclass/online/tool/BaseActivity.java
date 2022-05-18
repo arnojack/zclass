@@ -116,28 +116,33 @@ public class BaseActivity {
         imageView.setBackground(null);
         String saveDir= Environment.getExternalStorageDirectory().getAbsolutePath();
         File file=new File(saveDir,userid+".jpg");
-        delete(file);
-        HttpClientUtils.download("icon",userid, null, new HttpClientUtils.OnDownloadListener() {
-            @Override
-            public void onDownloadSuccess() {
-                File file=new File(saveDir,userid+".jpg");
-                Bitmap bitmap= BitmapFactory.decodeFile(file.getAbsolutePath());
-                imageView.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(bitmap!=null)
-                            imageView.setImageBitmap(bitmap);
-                    }
-                });
-            }
-            @Override
-            public void onDownloading(int progress) {
-            }
+        Bitmap bitmap= BitmapFactory.decodeFile(file.getAbsolutePath());
+        if(bitmap!=null){
+            imageView.setImageBitmap(bitmap);
+            delete(file);
+        }else {
+            HttpClientUtils.download("icon",userid, null, new HttpClientUtils.OnDownloadListener() {
+                @Override
+                public void onDownloadSuccess() {
+                    File file=new File(saveDir,userid+".jpg");
+                    Bitmap bitmap= BitmapFactory.decodeFile(file.getAbsolutePath());
+                    imageView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(bitmap!=null)
+                                imageView.setImageBitmap(bitmap);
+                        }
+                    });
+                }
+                @Override
+                public void onDownloading(int progress) {
+                }
 
-            @Override
-            public void onDownloadFailed(String msg) {
-            }
-        });
+                @Override
+                public void onDownloadFailed(String msg) {
+                }
+            });
+        }
     }
 
     /** 删除文件，可以是文件或文件夹
