@@ -25,14 +25,17 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
 import com.alibaba.fastjson.JSON;
+import com.example.zclass.MainActivity;
 import com.example.zclass.R;
 import com.example.zclass.online.Activity.Chatroom;
+import com.example.zclass.online.Dao.Course;
 import com.example.zclass.online.Dao.Msg;
 import com.example.zclass.online.tool.BaseActivity;
 
 import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
+import java.util.Date;
 
 public class JWebSocketClientService extends Service {
     public static JWebSocketClient client;
@@ -125,6 +128,7 @@ public class JWebSocketClientService extends Service {
      * 初始化websocket连接
      */
     public void initSocketClient() {
+        Log.e("------------","创建websock连接");
         URI uri = URI.create(BaseActivity.toUtf8String(BaseActivity.getWs()));
         client = new JWebSocketClient(uri) {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -142,7 +146,6 @@ public class JWebSocketClientService extends Service {
                 String Nmsg=String.format("%s : %s",msg.getName(),msg.getContent());
                 checkLockAndShowNotification(msg.getRoom(),Nmsg);
             }
-
             @Override
             public void onOpen(ServerHandshake handshakedata) {
                 super.onOpen(handshakedata);
@@ -151,7 +154,6 @@ public class JWebSocketClientService extends Service {
         };
         connect();
     }
-
     /**
      * 连接websocket
      */
@@ -175,7 +177,7 @@ public class JWebSocketClientService extends Service {
      *
      * @param msg
      */
-    public void sendMsg(String msg) {
+    public static void sendMsg(String msg) {
         if (null != client) {
             Log.e("JWebSocketClientService", "发送的消息：" + msg);
             client.send(msg);

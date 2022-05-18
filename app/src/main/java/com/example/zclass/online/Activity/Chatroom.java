@@ -14,7 +14,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.pm.ApplicationInfo;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -48,7 +47,7 @@ import com.example.zclass.online.Dao.User;
 import com.example.zclass.online.Dialog.Dialog_Confim;
 import com.example.zclass.online.Dialog.Dialog_upUser;
 import com.example.zclass.online.Dialog.LoadingDialog;
-import com.example.zclass.online.fragment.MsgAdapter;
+import com.example.zclass.online.Adapter.MsgAdapter;
 import com.example.zclass.online.service.HttpClientUtils;
 import com.example.zclass.online.service.JWebSocketClient;
 import com.example.zclass.online.service.JWebSocketClientService;
@@ -80,7 +79,7 @@ public class Chatroom extends AppCompatActivity implements View.OnClickListener 
     private TextView memTV;
     private TextView roomNa;
 
-    private String roomname;
+    public static String roomname;
     private String roomid;
     private String roomgrade;
     private String roomclass;
@@ -92,6 +91,7 @@ public class Chatroom extends AppCompatActivity implements View.OnClickListener 
     TextView ropop_name;
     TextView ropop_class;
     TextView ropop_grade;
+    String Tag="Chatroom";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -184,7 +184,7 @@ public class Chatroom extends AppCompatActivity implements View.OnClickListener 
                     //暂时将发送的消息加入消息列表，实际以发送成功为准（也就是服务器返回你发的消息时）
                     Date date=new Date(System.currentTimeMillis());
                     Msg chatMessage=new Msg(roomname,MainActivity.user_info.getUserid(),MainActivity.user_info.getUsername(),
-                            MainActivity.user_info.getType(),content,Msg.TYPE_SENT,date);
+                            MainActivity.user_info.getUserid().equals(teaid)?"tea":"stu",content,Msg.TYPE_SENT,date);
 
                     jWebSClientService.sendMsg(JSON.toJSONString(chatMessage));
 
@@ -404,7 +404,6 @@ public class Chatroom extends AppCompatActivity implements View.OnClickListener 
         memTV.setOnClickListener(this);
         chatPop.setOnClickListener(this);
 
-        roomname=getIntent().getStringExtra(Course.COUONNAME);
         roomid=getIntent().getStringExtra(Course.COUONID);
         teaid=getIntent().getStringExtra(Course.TEAID);
         teaname=getIntent().getStringExtra(Course.TEANAME);
@@ -415,7 +414,7 @@ public class Chatroom extends AppCompatActivity implements View.OnClickListener 
         if(teaid.equals(MainActivity.user_info.getUserid()))
             mana=true;
 
-        BaseActivity.setWs(roomname,MainActivity.user_info.getUsername());
+        BaseActivity.setWs(roomname,MainActivity.user_info.getUsername(),MainActivity.user_info.getUserid());
 
         roomNa.setText(roomname);
 

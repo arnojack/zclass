@@ -20,17 +20,20 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.example.zclass.MainActivity;
 import com.example.zclass.R;
 import com.example.zclass.offline.aidltest.MYyActivity;
 import com.example.zclass.online.Dao.Cou_Stu;
 import com.example.zclass.online.Dao.Course;
+import com.example.zclass.online.Dao.Msg;
 import com.example.zclass.online.Dao.User;
 import com.example.zclass.online.Dialog.Dialog_Creatclass;
 import com.example.zclass.online.Dialog.Dialog_Joinclass;
 import com.example.zclass.online.Dialog.LoadingDialog;
-import com.example.zclass.online.fragment.ClassAdapter;
+import com.example.zclass.online.Adapter.ClassAdapter;
 import com.example.zclass.online.service.HttpClientUtils;
+import com.example.zclass.online.service.JWebSocketClientService;
 import com.example.zclass.online.tool.BaseActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -38,6 +41,7 @@ import com.google.android.material.navigation.NavigationBarView;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 public class Class_OnlineActivity extends AppCompatActivity implements View.OnClickListener {
@@ -107,16 +111,22 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
                 Intent intent =new Intent(Class_OnlineActivity.this, Chatroom.class);
 
                 intent.putExtra(User.SEX,teasex.getText().toString());
-                intent.putExtra(Course.COUONNAME,classNa.getText().toString());
+                Chatroom.roomname=classNa.getText().toString();
                 intent.putExtra(Course.COUONID,classId.getText().toString());
                 intent.putExtra(Course.COUGRADE,clgrade.getText().toString());
                 intent.putExtra(Course.COUCLASS,class1.getText().toString());
                 intent.putExtra(Course.TEANAME,teaname.getText().toString());
                 intent.putExtra(Course.TEAID,teaid.getText().toString());
-
+                if(JWebSocketClientService.client!=null){
+                    Date date=new Date(System.currentTimeMillis());
+                    Msg Message=new Msg(Chatroom.roomname,MainActivity.user_info.getUserid(),MainActivity.user_info.getUsername(),
+                            "onOpen",MainActivity.user_info.getUsername()+" 进入 "+Chatroom.roomname+" 课堂",Msg.TYPE_SENT,date);
+                    JWebSocketClientService.sendMsg(JSON.toJSONString(Message));
+                }
                 startActivity(intent);
             }
         });
+        dialog_lod.hide();
     }
 
     @Override

@@ -5,21 +5,15 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.zclass.MainActivity;
-import com.example.zclass.online.Dao.Cou_Stu;
 import com.example.zclass.online.Dao.Course;
-import com.example.zclass.online.Dao.Msg;
 import com.example.zclass.online.Dao.User;
-import com.example.zclass.online.fragment.ClassAdapter;
 import com.example.zclass.online.service.HttpClientUtils;
-import com.google.android.material.imageview.ShapeableImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -291,8 +285,8 @@ public class BaseActivity {
         return ws;
     }
 
-    public static void setWs(String roomname,String username) {
-        BaseActivity.ws = ws+roomname+"/"+username;
+    public static void setWs(String roomname,String username,String userid) {
+        BaseActivity.ws = ws+roomname+"/"+username+"/"+userid;
     }
 
 }

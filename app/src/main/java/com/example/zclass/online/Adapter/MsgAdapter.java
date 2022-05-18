@@ -1,4 +1,4 @@
-package com.example.zclass.online.fragment;
+package com.example.zclass.online.Adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +14,6 @@ import com.example.zclass.R;
 import com.example.zclass.online.Dao.Msg;
 import com.example.zclass.online.tool.BaseActivity;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -41,6 +40,9 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder> {
         TextView left_name;
         TextView right_name;
 
+        TextView left_title;
+        TextView right_title;
+
         ImageView left_ic;
         ImageView right_ic;
 
@@ -62,6 +64,9 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder> {
 
             left_name=itemView.findViewById(R.id.left_name);
             right_name=itemView.findViewById(R.id.right_name);
+
+            left_title=itemView.findViewById(R.id.left_title);
+            right_title=itemView.findViewById(R.id.right_title);
         }
     }
     /*
@@ -111,8 +116,15 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder> {
             last=calendar.getTime();
             time =now.compareTo(last)>0 ? simpleDateFormat.format(now):null;
         }
-
-
+        String title = null;
+        switch (msg.getUser_ty()){
+            case "tea":
+                title="教师";
+                break;
+            case "sys":
+                title="系统";
+                break;
+        }
         //判断是信息是接收还是发送的，并且分别判断需要隐藏的布局和显示的布局
         if (msg.getType() == Msg.TYPE_RECEIVED){
             //判断到信息是接收的，将左边的布局显示，右边的布局隐藏
@@ -120,6 +132,7 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder> {
             holder.right_layout.setVisibility(View.GONE);
             holder.left_msg.setText(msg.getContent());
             holder.left_name.setText(msg.getName());
+            holder.left_title.setText(title);
             BaseActivity.iconDO(holder.left_ic,msgList.get(position).getUserid());
 
             holder.left_time.setText(time);
@@ -129,6 +142,7 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder> {
             holder.left_layout.setVisibility(View.GONE);
             holder.right_msg.setText(msg.getContent());
             holder.right_name.setText(msg.getName());
+            holder.right_title.setText(title);
             BaseActivity.iconDO(holder.right_ic,msgList.get(position).getUserid());
 
             holder.right_time.setText(time);

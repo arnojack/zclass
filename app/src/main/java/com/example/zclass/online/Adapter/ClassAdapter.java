@@ -1,4 +1,4 @@
-package com.example.zclass.online.fragment;
+package com.example.zclass.online.Adapter;
 
 import android.content.Context;
 import android.os.Build;
@@ -15,7 +15,6 @@ import com.example.zclass.R;
 import com.example.zclass.online.Dao.Course;
 import com.example.zclass.online.Dao.User;
 import com.example.zclass.online.tool.BaseActivity;
-import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.ArrayList;
 import java.util.HashMap;

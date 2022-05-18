@@ -20,7 +20,7 @@ import com.example.zclass.online.Dao.Cou_Stu;
 import com.example.zclass.online.Dao.Course;
 import com.example.zclass.online.Dao.User;
 import com.example.zclass.online.Dialog.LoadingDialog;
-import com.example.zclass.online.fragment.MemAdapter;
+import com.example.zclass.online.Adapter.MemAdapter;
 import com.example.zclass.online.service.HttpClientUtils;
 import com.example.zclass.online.tool.BaseActivity;
 
