@@ -40,37 +40,11 @@ import java.util.Date;
 public class JWebSocketClientService extends Service {
     public static JWebSocketClient client;
     private JWebSocketClientBinder mBinder = new JWebSocketClientBinder();
-    private final static int GRAY_SERVICE_ID = 1001;
-    //灰色保活
-    public static class GrayInnerService extends Service {
+    private static JWebSocketClientService jWebSocketClientService;
 
-        @Override
-        public int onStartCommand(Intent intent, int flags, int startId) {
-            startForeground(GRAY_SERVICE_ID,
-                    new Notification());
-            stopForeground(true);
-            stopSelf();
-            return super.onStartCommand(intent, flags, startId);
-        }
-        @Override
-        public IBinder onBind(Intent intent) {
-            return null;
-        }
-    }
-    PowerManager.WakeLock wakeLock;//锁屏唤醒
-    //获取电源锁，保持该服务在屏幕熄灭时仍然获取CPU时，保持运行
-    @SuppressLint("InvalidWakeLockTag")
-    private void acquireWakeLock()
-    {
-        if (null == wakeLock)
-        {
-            PowerManager pm = (PowerManager)this.getSystemService(Context.POWER_SERVICE);
-            wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK|PowerManager.ON_AFTER_RELEASE, "PostLocationService");
-            if (null != wakeLock)
-            {
-                wakeLock.acquire();
-            }
-        }
+    public static JWebSocketClientService getInstance(){
+        if(jWebSocketClientService==null)return new JWebSocketClientService();
+        else return jWebSocketClientService;
     }
 
     //用于Activity和service通讯
@@ -88,29 +62,7 @@ public class JWebSocketClientService extends Service {
     @Override
     public void onCreate() {
         initSocketClient();
-        mHandler.postDelayed(heartBeatRunnable, HEART_BEAT_RATE);//开启心跳检测
         super.onCreate();
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        //初始化websocket
-        //设置service为前台服务，提高优先级
-        if (Build.VERSION.SDK_INT < 18) {
-            //Android4.3以下 ，隐藏Notification上的图标
-            startForeground(GRAY_SERVICE_ID, new Notification());
-        } else if(Build.VERSION.SDK_INT>18 && Build.VERSION.SDK_INT<25){
-            //Android4.3 - Android7.0，隐藏Notification上的图标
-            Intent innerIntent = new Intent(this, GrayInnerService.class);
-            startService(innerIntent);
-            startForeground(GRAY_SERVICE_ID, new Notification());
-        }else{
-            //Android7.0以上app启动后通知栏会出现一条"正在运行"的通知
-            startForeground(GRAY_SERVICE_ID, new Notification());
-        }
-
-        acquireWakeLock();
-        return START_STICKY;
     }
 
 
@@ -177,10 +129,13 @@ public class JWebSocketClientService extends Service {
      *
      * @param msg
      */
-    public static void sendMsg(String msg) {
-        if (null != client) {
+    public void sendMsg(String msg) {
+        if(null==client)initSocketClient();
+        else if (client.isOpen()) {
             Log.e("JWebSocketClientService", "发送的消息：" + msg);
             client.send(msg);
+        }else {
+            client.reconnect();
         }
     }
 
@@ -248,22 +203,4 @@ public class JWebSocketClientService extends Service {
 
         startForeground(1,notification);
     }
-
-    //    -------------------------------------websocket心跳检测------------------------------------------------
-    private static final long HEART_BEAT_RATE = 10 * 1000;//每隔10秒进行一次对长连接的心跳检测
-    private Handler mHandler = new Handler();
-    private Runnable heartBeatRunnable = new Runnable() {
-        @Override
-        public void run() {
-            Log.e("JWebSocketClientService", "心跳保活");
-            if(client==null){
-                initSocketClient();
-            }
-            if(!client.isOpen()){
-                client.reconnect();
-            }
-            //每隔一定的时间，对长连接进行一次心跳检测
-            mHandler.postDelayed(this, HEART_BEAT_RATE);
-        }
-    };
 }

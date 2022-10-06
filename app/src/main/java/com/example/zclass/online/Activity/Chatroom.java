@@ -341,6 +341,13 @@ public class Chatroom extends AppCompatActivity implements View.OnClickListener 
             Log.e("MyChatroomDemo", "服务与活动成功绑定");
             binder = (JWebSocketClientService.JWebSocketClientBinder) iBinder;
             jWebSClientService = binder.getService();
+
+            //通知服务器有新人来到
+            Date date=new Date(System.currentTimeMillis());
+            Msg Message=new Msg(roomname,MainActivity.user_info.getUserid(),MainActivity.user_info.getUsername(),
+                    "onOpen","加入课堂",Msg.TYPE_RECEIVED,date);
+            jWebSClientService.sendMsg(JSON.toJSONString(Message));
+
             client = jWebSClientService.client;
         }
 
@@ -554,5 +561,11 @@ public class Chatroom extends AppCompatActivity implements View.OnClickListener 
         checkNotification(mContext);
         initView();
         super.onStart();
+    }
+
+    @Override
+    protected void onDestroy() {
+        client.close();
+        super.onDestroy();
     }
 }

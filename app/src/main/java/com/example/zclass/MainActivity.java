@@ -17,7 +17,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.zclass.offline.OptionActivity;
-import com.example.zclass.offline.aidltest.MYyActivity;
 import com.example.zclass.offline.dao.CourseDao;
 import com.example.zclass.offline.pojo.Course;
 import com.example.zclass.offline.view.TimeTableView;
@@ -32,7 +31,6 @@ import com.example.zclass.online.service.UpdateUser;
 import com.example.zclass.online.tool.BaseActivity;
 import com.example.zclass.online.tool.SPUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.navigation.NavigationBarView;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 
@@ -41,23 +39,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import androidx.annotation.RequiresApi;
-
-import android.app.AlarmManager;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.res.AssetFileDescriptor;
-import android.icu.util.Calendar;
-import android.icu.util.TimeZone;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Build;
-import android.os.Handler;
-
-import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
     String TAG="MainActivity";
@@ -71,12 +54,6 @@ public class MainActivity extends AppCompatActivity {
     private TimeTableView timeTable;
     private SharedPreferences sp;
 
-    private MediaPlayer mMediaPlayer;
-    private MediaPlayer myMediaPlayer;
-    private SharedPreferences saved_prefs;
-    public static AssetFileDescriptor afd = null;
-    private boolean SoundEnabled = true;
-    private AudioManager amanager = null;
     BottomNavigationView mNaviView;
     Dialog_Signin sign_Dialog;
     Dialog_Signup signup_Dialog;
@@ -96,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
         user_info =new User();
         mNaviView=findViewById(R.id.bottom_navigation);
         mNaviView.setOnItemSelectedListener(new NavigationViewlistener());
-        qd();
     }
     /**
      * 检查版本
@@ -128,10 +104,6 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             Intent intent=null;
             switch (item.getItemId()){
-                case R.id.page_0:
-                    intent=new Intent(MainActivity.this, MYyActivity.class);
-                    startActivity(intent);
-                    return true;
                 case R.id.page_1:
                     return true;
                 case R.id.page_2:
@@ -400,319 +372,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, OptionActivity.class);
         startActivity(intent);
     }
-    //**************************静音响铃函数********************************
-    private void startAlarm() {
-        mMediaPlayer = MediaPlayer.create(this, getSystemDefultRingtoneUri());
-        mMediaPlayer.setLooping(true);
-        try {
-            mMediaPlayer.prepare();
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        mMediaPlayer.start();
-    }
-
-    private void stopAlarm() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mMediaPlayer.stop();
-            }
-        }, 20000);
-
-    }
-
-    private Uri getSystemDefultRingtoneUri() {
-        return RingtoneManager.getActualDefaultRingtoneUri(this,
-                RingtoneManager.TYPE_RINGTONE);
-    }
-
-
-    public void stopmusic() {
-        this.saved_prefs = getSharedPreferences("RealSilent", 0);// 存储静音前的音量索引
-        try {
-            afd = getAssets().openFd("test.mp3");
-            myMediaPlayer = new MediaPlayer();
-            myMediaPlayer.reset();
-            myMediaPlayer.setDataSource(afd.getFileDescriptor(),
-                    afd.getStartOffset(), afd.getLength());
-            myMediaPlayer.prepare();
-            myMediaPlayer.start();
-            myMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-
-                public void onCompletion(MediaPlayer mp) {
-                    // TODO Auto-generated method stub
-                    myMediaPlayer.reset();
-                    try {
-                        myMediaPlayer.setDataSource(afd.getFileDescriptor(),
-                                afd.getStartOffset(), afd.getLength());
-                    } catch (IllegalArgumentException | IllegalStateException | IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                    try {
-                        myMediaPlayer.prepare();
-                    } catch (IllegalStateException | IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                    myMediaPlayer.start();
-                }
-            });
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        amanager = (AudioManager) getSystemService(AUDIO_SERVICE);
-        if (SoundEnabled) {
-            SharedPreferences.Editor localEditor = saved_prefs.edit();
-
-            localEditor.putInt("last_media_volume", amanager.getStreamVolume(AudioManager.STREAM_MUSIC));
-            localEditor.commit();
-            amanager.getStreamVolume(AudioManager.STREAM_MUSIC);
-            amanager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0);
-
-        } else {
-            int i = saved_prefs.getInt("last_media_volume", 0);
-            amanager.setStreamVolume(AudioManager.STREAM_MUSIC, i, 0);
-        }
-        SoundEnabled = !SoundEnabled;
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.P)
-    private void startmusic() {
-        AudioManager mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        int min = mAudioManager.getStreamMinVolume(AudioManager.STREAM_SYSTEM);
-        int max= mAudioManager.getStreamMaxVolume(AudioManager.STREAM_SYSTEM);
-        int value = mAudioManager.getStreamVolume(AudioManager.STREAM_VOICE_CALL);
-        int predict = max/2;
-        NotificationManager notificationManager = (NotificationManager)getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-
-
-
-        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,predict,  0 );  //tempVolume:音量绝对值
-
-
-        //mAudioManager.setStreamVolume( AudioManager.STREAM_MUSIC,10,0); //音乐音量
-
-    }
-
-    //****************************获取时间函数*************************************
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public void gettime() {
-        OptionActivity q = new OptionActivity();
-        SharedPreferences config = getSharedPreferences("config", MODE_PRIVATE);
-        long date = config.getLong("date", 0);
-        int newday = config.getInt("day",0);
-        int newmonth = config.getInt("month",0);
-        int newyear = config.getInt("year",0);
-        java.util.Calendar calendar1 = java.util.Calendar.getInstance();
-        calendar1.set(newyear, newmonth, newday, 0, 0, 0);
-        Date time1 = calendar1.getTime();
-
-        int STU = 0;
-        Calendar calendar = Calendar.getInstance();
-
-        //获取系统的日期
-//年
-        int year = calendar.get(Calendar.YEAR);
-        //月
-        int month = calendar.get(Calendar.MONTH) + 1;
-        //日
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        //获取系统时间
-//小时
-        int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        //分钟
-        int minute = calendar.get(Calendar.MINUTE);
-        //秒
-        int second = calendar.get(Calendar.SECOND);
-        java.util.Calendar calendar2 = java.util.Calendar.getInstance();
-        calendar2.set(year, month, day, 0, 0, 0);
-        Date time2 = calendar2.getTime();
-         long l = (new Date().getTime() - time1.getTime()) / (1000 * 3600 * 24 * 7) + 1;
-
-
-        String mYear, mMonth, mDay, mWay;
-        calendar.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
-        mYear = String.valueOf(calendar.get(Calendar.YEAR)); // 获取当前年份
-        mMonth = String.valueOf(calendar.get(Calendar.MONTH) + 1);// 获取当前月份
-        mDay = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));// 获取当前月份的日期号码
-        mWay = String.valueOf(calendar.get(Calendar.DAY_OF_WEEK));
-        if ("1".equals(mWay)) {
-            STU = 7;
-        } else if ("2".equals(mWay)) {
-            STU = 1;
-        } else if ("3".equals(mWay)) {
-            STU = 2;
-        } else if ("4".equals(mWay)) {
-            STU = 3;
-        } else if ("5".equals(mWay)) {
-            STU = 4;
-        } else if ("6".equals(mWay)) {
-            STU = 5;
-        } else if ("7".equals(mWay)) {
-            STU = 6;
-        }
-        //OptionActivity q = new OptionActivity();
-        CourseDao c1 = new CourseDao(this);
-        List<Course> cs = courseDao.query2(STU);
-        String result = "";
-       // Toast.makeText(MainActivity.this,""+newyear+" "+newmonth+" "+newday+"周："+l,Toast.LENGTH_SHORT).show();
-        for(Course course1 : cs)
-        {
-            if(course1.getDay()==STU)
-            {
-                /*
-
-
-                Toast.makeText(MainActivity.this,"fhfg"+Integer.parseInt(course1.getWeekType()),Toast.LENGTH_SHORT).show();
-                    //Toast.makeText(MainActivity.this,"sdf"+course1.getWeekType(),Toast.LENGTH_SHORT).show();
-                if(course1.getStartWeek()<=l) {
-                    if((Integer.parseInt(course1.getWeekType()) ==2&&l%2==1)||Integer.parseInt(course1.getWeekType())==1) {
-                        if((Integer.parseInt(course1.getWeekType()) ==3&&l%2==0)||Integer.parseInt(course1.getWeekType())==1) {
-                            if (hour == 12 && minute == 31) {
-                                startAlarm();
-                                stopAlarm();
-                            }
-                            if (hour == 12&&minute==32)
-                                stopmusic();
-                            if(hour == 12 && minute == 33)
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                                    startmusic();
-                                }}}
-                }
-*/
-                switch(course1.getSection()) {
-                    case 1:
-                        if (course1.getStartWeek() <= l) {
-                            if ((Integer.parseInt(course1.getWeekType()) == 2 && l % 2 == 1)||Integer.parseInt(course1.getWeekType())==1) {
-                                if ((Integer.parseInt(course1.getWeekType()) == 3 && l % 2 == 0)||Integer.parseInt(course1.getWeekType())==1) {
-                                    if (hour == 7 && minute > 45) {
-                                        startAlarm();
-                                        stopAlarm();
-
-                                    }
-                                    if (hour == 8)
-                                        stopmusic();
-                                    if (hour == 9 && minute == 40)
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                                            startmusic();
-                                        }
-                                }
-                            }
-                        }
-                    case 3:
-                        if (course1.getStartWeek() <= l) {
-                            if((Integer.parseInt(course1.getWeekType()) ==2&&l%2==1)||Integer.parseInt(course1.getWeekType())==1) {
-                                if((Integer.parseInt(course1.getWeekType()) ==3&&l%2==0)||Integer.parseInt(course1.getWeekType())==1) {
-                            if (hour == 9 && minute > 55) {
-                                startAlarm();
-                                stopAlarm();
-                            }
-                            if (hour == 10)
-                                stopmusic();
-                            if (hour == 12 && minute == 1)
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                                    startmusic();
-                                }
-                        }
-                }
-                        }
-                    case 5:
-                        if(course1.getStartWeek()<=l) {
-                            if ((Integer.parseInt(course1.getWeekType()) == 2 && l % 2 == 1)||Integer.parseInt(course1.getWeekType())==1) {
-                                if((Integer.parseInt(course1.getWeekType()) ==3&&l%2==0)||Integer.parseInt(course1.getWeekType())==1) {
-                                if (hour == 1 && minute > 45) {
-                                    startAlarm();
-                                    stopAlarm();
-                                }
-                                if (hour == 2)
-                                    stopmusic();
-                                if (hour == 3 && minute == 40)
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                                        startmusic();
-                                    }
-                            }
-                        }
-                        }
-                    case 7:
-                        if(course1.getStartWeek()<=l) {
-                            if((Integer.parseInt(course1.getWeekType()) ==2&&l%2==1)||Integer.parseInt(course1.getWeekType())==1) {
-                                if((Integer.parseInt(course1.getWeekType()) ==3&&l%2==0)||Integer.parseInt(course1.getWeekType())==1) {
-                            if (hour == 3 && minute > 45) {
-                                startAlarm();
-                                stopAlarm();
-                            }
-                            if (hour == 4)
-                                stopmusic();
-                            if(hour == 5 && minute == 40)
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                                    startmusic();
-                                }}}
-                        }
-                    case 9:
-                        if(course1.getStartWeek()<=l) {
-                            if((Integer.parseInt(course1.getWeekType()) ==2&&l%2==1)||Integer.parseInt(course1.getWeekType())==1) {
-                                if((Integer.parseInt(course1.getWeekType()) ==3&&l%2==0)||Integer.parseInt(course1.getWeekType())==1) {
-                            if (hour == 6 && minute == 45) {
-                                startAlarm();
-                                stopAlarm();
-                            }
-                            if (hour == 7)
-                                stopmusic();
-                            if(hour == 8 && minute == 40)
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                                    startmusic();
-                                }}}
-                        }
-
-
-
-
-
-
-                }
-            }else{
-
-            }
-        }
-
-
-        //****************************获取时间函数*************************************
-
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public void alock() {
-        AlarmManager alarmMgr = null;
-        PendingIntent alarmIntent = null;
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 14);
-
-        // With setInexactRepeating(), you have to use one of the AlarmManager interval
-        // constants--in this case, AlarmManager.INTERVAL_DAY.
-        alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY, alarmIntent);
-    }
-
-    public void qd(){
-        final Handler handler = new Handler();
-        Thread thread =new Thread(new Runnable() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
-            @Override
-            public void run() {
-                gettime();
-//Toast.makeText(MainActivity.this,"\n"+"通过SimpleDateFormat获取24小时制时间：\n"+"sdf.format(new Date())",Toast.LENGTH_SHORT).show();
-                handler.postDelayed(this, 50000);// 50是延时时长
-            }
-        });
-        thread.setDaemon(true);
-        handler.postDelayed(thread, 50000);// 打开定时器，执行操作
-    }
     protected void onStart() {
         UpdateUser.update_dl(getIntent());
         mNaviView.setSelectedItemId(R.id.page_1);
@@ -721,24 +380,6 @@ public class MainActivity extends AppCompatActivity {
         timeTable.loadData(acquireData(), new Date(date));
         Log.i("test", new Date(date).toString());
         super.onStart();
-    }
-    //程序关闭时
-    //获取Do not disturb权限,才可进行音量操作
-    @RequiresApi(api = Build.VERSION_CODES.P)
-    @Override
-    protected void onDestroy() {
-        if (sign_Dialog != null) { sign_Dialog.cancel();sign_Dialog=null;}
-        if (signup_Dialog != null) { signup_Dialog.cancel();signup_Dialog=null;}
-        AudioManager mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        int min = mAudioManager.getStreamMinVolume(AudioManager.STREAM_SYSTEM);
-        int max= mAudioManager.getStreamMaxVolume(AudioManager.STREAM_SYSTEM);
-        int value = mAudioManager.getStreamVolume(AudioManager.STREAM_VOICE_CALL);
-        int predict = max/2;
-        NotificationManager notificationManager = (NotificationManager)getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-
-        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,predict,  0 );  //tempVolume:音量绝对值
-
-        super.onDestroy();
     }
     private void showMsg(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();

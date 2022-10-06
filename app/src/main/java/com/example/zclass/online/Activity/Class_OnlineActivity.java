@@ -23,7 +23,6 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.example.zclass.MainActivity;
 import com.example.zclass.R;
-import com.example.zclass.offline.aidltest.MYyActivity;
 import com.example.zclass.online.Dao.Cou_Stu;
 import com.example.zclass.online.Dao.Course;
 import com.example.zclass.online.Dao.Msg;
@@ -69,10 +68,6 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
-                    case R.id.page_0:
-                        Intent intent4=new Intent(Class_OnlineActivity.this, MYyActivity.class);
-                        startActivity(intent4);
-                        return true;
                     case R.id.page_1:
                         Intent intent1=new Intent(Class_OnlineActivity.this,MainActivity.class);
                         intent1.putExtra("user",MainActivity.user_info);
@@ -121,7 +116,7 @@ public class Class_OnlineActivity extends AppCompatActivity implements View.OnCl
                     Date date=new Date(System.currentTimeMillis());
                     Msg Message=new Msg(Chatroom.roomname,MainActivity.user_info.getUserid(),MainActivity.user_info.getUsername(),
                             "onOpen",MainActivity.user_info.getUsername()+" 进入 "+Chatroom.roomname+" 课堂",Msg.TYPE_SENT,date);
-                    JWebSocketClientService.sendMsg(JSON.toJSONString(Message));
+                    JWebSocketClientService.getInstance().sendMsg(JSON.toJSONString(Message));
                 }
                 startActivity(intent);
             }

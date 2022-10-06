@@ -57,30 +57,11 @@
             android:exported="true" />
         <activity android:name=".offline.UpdateCourseActivity" />
         <activity android:name=".offline.OptionActivity" />
-        <activity android:name="com.example.zclass.offline.aidltest.MYyActivity"
-            android:label="@string/title_activity_myy"/>
-        <activity android:name=".offline.aidltest.user1"
-            android:label="@string/user"/>
-        <activity android:name=".offline.aidltest.DialogActivity03"
-            android:label="@string/title_activity_myy"
-            android:theme="@style/my_theme01"/>
 
         <service
             android:name=".online.service.JWebSocketClientService"
             android:enabled="true"
             android:exported="true" />
-        <service
-            android:name=".online.service.JWebSocketClientService$GrayInnerService"
-            android:enabled="true"
-            android:exported="true"
-            android:process=":gray" />
-        <service android:name=".offline.aidltest.MyService"
-            android:process=":remote"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="aidl.IStockQuoteService"/>
-            </intent-filter>
-        </service>
     </application>
 
 </manifest>

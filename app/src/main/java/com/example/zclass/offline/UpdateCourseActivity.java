@@ -1,6 +1,7 @@
 package com.example.zclass.offline;
 
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -251,6 +253,7 @@ public class UpdateCourseActivity extends AppCompatActivity {
      *
      * @param view
      */
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void save(View view) {
         //封装信息
         Course course = new Course();

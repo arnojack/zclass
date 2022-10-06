@@ -2,6 +2,7 @@ package com.example.zclass.offline.view;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -14,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import com.example.zclass.R;
 import com.example.zclass.offline.pojo.Course;
@@ -92,6 +94,7 @@ public class TimeTableView extends LinearLayout {
      *
      * @param params 参数
      */
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void initParams(Map<String, Integer> params) {
         if (!params.isEmpty()) {
             try {

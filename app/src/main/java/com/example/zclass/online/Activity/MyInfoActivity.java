@@ -13,7 +13,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,12 +29,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.zclass.MainActivity;
 import com.example.zclass.R;
-import com.example.zclass.offline.aidltest.MYyActivity;
 import com.example.zclass.online.Dao.User;
 import com.example.zclass.online.Dialog.Dialog_upUser;
 import com.example.zclass.online.Dialog.LoadingDialog;
 import com.example.zclass.online.service.HttpClientUtils;
-import com.example.zclass.online.service.UpdateUser;
 import com.example.zclass.online.tool.BaseActivity;
 import com.example.zclass.online.tool.BitmapUtils;
 import com.example.zclass.online.tool.CameraUtils;
@@ -115,10 +112,6 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
                 switch (item.getItemId()){
-                    case R.id.page_0:
-                        Intent intent4=new Intent(MyInfoActivity.this, MYyActivity.class);
-                        startActivity(intent4);
-                        return true;
                     case R.id.page_1:
                         Intent intent1=new Intent(MyInfoActivity.this, MainActivity.class);
                         intent1.putExtra("user",MainActivity.user_info);

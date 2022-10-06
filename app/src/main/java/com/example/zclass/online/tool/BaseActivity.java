@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BaseActivity {
-    public static final String base="zclass.gz2vip.91tunnel.com/";
+    public static final String base="192.168.0.113:8080/";
     public static String ws = "ws://"+base+"websocket/";
     public static String BaseUrl="http://"+base;
 

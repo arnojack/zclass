@@ -38,6 +38,10 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:background="@color/viewLine"/>
     <LinearLayout
         android:layout_width="match_parent"
@@ -69,6 +73,10 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:background="@color/viewLine"/>
     <LinearLayout
         android:layout_width="match_parent"
@@ -99,7 +107,11 @@
     </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="5dp"
+        android:layout_height="1dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:background="@color/viewLine"/>
     <LinearLayout
         android:layout_width="match_parent"
@@ -124,7 +136,11 @@
     </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="5dp"
+        android:layout_height="1dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:background="@color/viewLine"/>
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ropop_delete"
@@ -144,5 +160,9 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:background="@color/viewLine"/>
 </LinearLayout>
