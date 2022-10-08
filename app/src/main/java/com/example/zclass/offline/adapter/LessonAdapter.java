@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 
 import com.example.zclass.R;
 import com.example.zclass.offline.dao.CourseDao;
-import com.example.zclass.offline.pojo.Course;
+import com.example.zclass.offline.Entity.Course;
 
 import java.util.List;
 

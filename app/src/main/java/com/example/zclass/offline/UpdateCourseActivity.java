@@ -20,7 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.zclass.R;
 import com.example.zclass.offline.adapter.LessonAdapter;
 import com.example.zclass.offline.dao.CourseDao;
-import com.example.zclass.offline.pojo.Course;
+import com.example.zclass.offline.Entity.Course;
 
 import java.util.Iterator;
 import java.util.List;

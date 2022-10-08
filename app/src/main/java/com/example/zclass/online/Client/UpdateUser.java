@@ -1,11 +1,11 @@
-package com.example.zclass.online.service;
+package com.example.zclass.online.Client;
 
 
 import android.content.Intent;
 import android.util.Log;
 
 import com.example.zclass.MainActivity;
-import com.example.zclass.online.Dao.User;
+import com.example.zclass.online.Entity.User;
 import com.example.zclass.online.tool.BaseActivity;
 
 import org.json.JSONException;

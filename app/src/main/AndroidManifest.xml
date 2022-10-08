@@ -59,7 +59,7 @@
         <activity android:name=".offline.OptionActivity" />
 
         <service
-            android:name=".online.service.JWebSocketClientService"
+            android:name=".online.Client.JWebSocketClientService"
             android:enabled="true"
             android:exported="true" />
     </application>

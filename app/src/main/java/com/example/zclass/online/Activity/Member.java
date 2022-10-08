@@ -16,12 +16,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.zclass.R;
-import com.example.zclass.online.Dao.Cou_Stu;
-import com.example.zclass.online.Dao.Course;
-import com.example.zclass.online.Dao.User;
-import com.example.zclass.online.Dialog.LoadingDialog;
+import com.example.zclass.online.Entity.Cou_Stu;
+import com.example.zclass.online.Entity.Course;
+import com.example.zclass.online.Entity.User;
+import com.example.zclass.online.Activity.Dialog.LoadingDialog;
 import com.example.zclass.online.Adapter.MemAdapter;
-import com.example.zclass.online.service.HttpClientUtils;
+import com.example.zclass.online.Client.HttpClientUtils;
 import com.example.zclass.online.tool.BaseActivity;
 
 import org.json.JSONException;

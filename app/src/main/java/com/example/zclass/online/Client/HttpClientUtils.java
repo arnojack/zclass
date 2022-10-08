@@ -1,4 +1,4 @@
-package com.example.zclass.online.service;
+package com.example.zclass.online.Client;
 
 import android.os.Build;
 import android.os.Environment;
@@ -7,8 +7,8 @@ import android.util.Log;
 import androidx.annotation.RequiresApi;
 
 import com.example.zclass.MainActivity;
-import com.example.zclass.online.Dao.Course;
-import com.example.zclass.online.Dao.User;
+import com.example.zclass.online.Entity.Course;
+import com.example.zclass.online.Entity.User;
 import com.example.zclass.online.tool.BaseActivity;
 
 import java.io.ByteArrayOutputStream;
@@ -31,14 +31,12 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
-import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import okhttp3.ResponseBody;
 
 public class HttpClientUtils {
 

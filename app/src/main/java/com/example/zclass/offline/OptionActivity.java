@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,10 +21,9 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.zclass.MainActivity;
 import com.example.zclass.R;
 import com.example.zclass.offline.dao.CourseDao;
-import com.example.zclass.offline.pojo.Course;
+import com.example.zclass.offline.Entity.Course;
 
 import java.util.Calendar;
 import java.util.Date;

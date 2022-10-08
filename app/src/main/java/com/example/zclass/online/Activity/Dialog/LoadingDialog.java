@@ -1,4 +1,4 @@
-package com.example.zclass.online.Dialog;
+package com.example.zclass.online.Activity.Dialog;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -8,7 +8,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.example.zclass.R;
 

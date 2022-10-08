@@ -1,4 +1,4 @@
-package com.example.zclass.offline.pojo;
+package com.example.zclass.offline.Entity;
 
 import android.os.Build;
 import android.text.TextUtils;

@@ -12,8 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 
 import com.example.zclass.R;
-import com.example.zclass.online.Dao.Course;
-import com.example.zclass.online.Dao.User;
+import com.example.zclass.online.Entity.Course;
+import com.example.zclass.online.Entity.User;
 import com.example.zclass.online.tool.BaseActivity;
 
 import java.util.ArrayList;

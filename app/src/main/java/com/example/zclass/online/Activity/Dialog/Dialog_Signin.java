@@ -1,4 +1,4 @@
-package com.example.zclass.online.Dialog;
+package com.example.zclass.online.Activity.Dialog;
 
 import androidx.annotation.NonNull;
 

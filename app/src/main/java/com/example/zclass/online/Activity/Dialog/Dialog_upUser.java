@@ -1,4 +1,4 @@
-package com.example.zclass.online.Dialog;
+package com.example.zclass.online.Activity.Dialog;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -15,7 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.example.zclass.R;
-import com.example.zclass.online.service.HttpClientUtils;
+import com.example.zclass.online.Client.HttpClientUtils;
 import com.example.zclass.online.tool.BaseActivity;
 
 import java.util.HashMap;

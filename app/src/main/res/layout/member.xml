@@ -21,8 +21,10 @@
     </LinearLayout>
     <TextView
         android:id="@+id/mem_num"
+        android:layout_marginLeft="20dp"
         android:layout_width="match_parent"
         android:layout_height="30dp"
+        android:gravity="center_vertical"
         android:text="成员：1人"/>
     <ListView
         android:id="@+id/mem_lv"

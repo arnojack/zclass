@@ -1,6 +1,6 @@
 package com.example.zclass;
 
-import static com.example.zclass.online.service.UpdateUser.update_onl;
+import static com.example.zclass.online.Client.UpdateUser.update_onl;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,16 +18,16 @@ import android.widget.Toast;
 
 import com.example.zclass.offline.OptionActivity;
 import com.example.zclass.offline.dao.CourseDao;
-import com.example.zclass.offline.pojo.Course;
+import com.example.zclass.offline.Entity.Course;
 import com.example.zclass.offline.view.TimeTableView;
-import com.example.zclass.online.Dao.User;
+import com.example.zclass.online.Entity.User;
 import com.example.zclass.online.Activity.Class_OnlineActivity;
-import com.example.zclass.online.Dialog.Dialog_Signin;
-import com.example.zclass.online.Dialog.Dialog_Signup;
-import com.example.zclass.online.Dialog.LoadingDialog;
+import com.example.zclass.online.Activity.Dialog.Dialog_Signin;
+import com.example.zclass.online.Activity.Dialog.Dialog_Signup;
+import com.example.zclass.online.Activity.Dialog.LoadingDialog;
 import com.example.zclass.online.Activity.MyInfoActivity;
-import com.example.zclass.online.service.HttpClientUtils;
-import com.example.zclass.online.service.UpdateUser;
+import com.example.zclass.online.Client.HttpClientUtils;
+import com.example.zclass.online.Client.UpdateUser;
 import com.example.zclass.online.tool.BaseActivity;
 import com.example.zclass.online.tool.SPUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;

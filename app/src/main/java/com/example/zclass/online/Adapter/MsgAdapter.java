@@ -12,7 +12,7 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.zclass.R;
-import com.example.zclass.online.Dao.Msg;
+import com.example.zclass.online.Entity.Msg;
 import com.example.zclass.online.tool.BaseActivity;
 
 import java.text.SimpleDateFormat;

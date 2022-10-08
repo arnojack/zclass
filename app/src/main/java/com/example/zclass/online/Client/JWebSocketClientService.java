@@ -1,4 +1,4 @@
-package com.example.zclass.online.service;
+package com.example.zclass.online.Client;
 
 
 
@@ -13,7 +13,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.Build;
-import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
 
@@ -25,17 +24,13 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
 import com.alibaba.fastjson.JSON;
-import com.example.zclass.MainActivity;
 import com.example.zclass.R;
-import com.example.zclass.online.Activity.Chatroom;
-import com.example.zclass.online.Dao.Course;
-import com.example.zclass.online.Dao.Msg;
+import com.example.zclass.online.Entity.Msg;
 import com.example.zclass.online.tool.BaseActivity;
 
 import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
-import java.util.Date;
 
 public class JWebSocketClientService extends Service {
     public static JWebSocketClient client;

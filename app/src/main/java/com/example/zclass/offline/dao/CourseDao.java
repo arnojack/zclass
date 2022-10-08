@@ -11,7 +11,7 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
-import com.example.zclass.offline.pojo.Course;
+import com.example.zclass.offline.Entity.Course;
 
 import java.util.ArrayList;
 import java.util.List;

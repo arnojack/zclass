@@ -1,9 +1,6 @@
-package com.example.zclass.online.Dao;
-
-import android.graphics.Picture;
+package com.example.zclass.online.Entity;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * JavaBean ,存储User上的 信息

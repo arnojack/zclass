@@ -1,4 +1,4 @@
-package com.example.zclass.online.Dialog;
+package com.example.zclass.online.Activity.Dialog;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -6,7 +6,6 @@ import android.content.Context;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;

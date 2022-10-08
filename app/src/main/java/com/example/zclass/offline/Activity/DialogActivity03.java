@@ -1,4 +1,4 @@
-package com.example.zclass.offline.aidltest;
+package com.example.zclass.offline.Activity;
 
 import android.app.Activity;
 import android.os.Bundle;

@@ -18,7 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.example.zclass.R;
-import com.example.zclass.offline.pojo.Course;
+import com.example.zclass.offline.Entity.Course;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

@@ -1,4 +1,4 @@
-package com.example.zclass.online.Dao;
+package com.example.zclass.online.Entity;
 
 import java.io.Serializable;
 

@@ -12,10 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.zclass.MainActivity;
-import com.example.zclass.online.Dao.Course;
-import com.example.zclass.online.Dao.User;
-import com.example.zclass.online.service.HttpClientUtils;
+import com.example.zclass.online.Entity.Course;
+import com.example.zclass.online.Entity.User;
+import com.example.zclass.online.Client.HttpClientUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;

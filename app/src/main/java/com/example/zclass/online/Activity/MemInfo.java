@@ -5,8 +5,6 @@ import static com.example.zclass.online.tool.BaseActivity.BaseUrl;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
-import android.content.Intent;
-import android.media.AudioFocusRequest;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,12 +13,12 @@ import android.widget.Toast;
 
 import com.example.zclass.MainActivity;
 import com.example.zclass.R;
-import com.example.zclass.online.Dao.Cou_Stu;
-import com.example.zclass.online.Dao.Course;
-import com.example.zclass.online.Dao.User;
-import com.example.zclass.online.Dialog.Dialog_Confim;
-import com.example.zclass.online.Dialog.LoadingDialog;
-import com.example.zclass.online.service.HttpClientUtils;
+import com.example.zclass.online.Entity.Cou_Stu;
+import com.example.zclass.online.Entity.Course;
+import com.example.zclass.online.Entity.User;
+import com.example.zclass.online.Activity.Dialog.Dialog_Confim;
+import com.example.zclass.online.Activity.Dialog.LoadingDialog;
+import com.example.zclass.online.Client.HttpClientUtils;
 import com.example.zclass.online.tool.BaseActivity;
 
 import java.util.HashMap;
